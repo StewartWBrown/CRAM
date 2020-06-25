@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
@@ -16,7 +18,7 @@ public class Main {
 		ArrayList<Date> skip_dates = new ArrayList<Date>();
 		
 		Subject CSF = new Subject(
-				18, 
+				27, 
 				new ArrayList<Integer>(Arrays.asList(1, 2, 3)),
 				new GregorianCalendar(2021, Calendar.MAY, 1).getTime(), 
 				new GregorianCalendar(2021, Calendar.MAY, 22).getTime(), 
@@ -50,7 +52,6 @@ public class Main {
 		
 		for(Subject subject : subjects) {
 			long total_days = 1 + TimeUnit.DAYS.convert((subject.endDate.getTime() - subject.startDate.getTime()), TimeUnit.MILLISECONDS);	//1 + (endDate - startDate)
-			
 			//if exam date within startDate & endDate, decrease study time by 1 day
 			for (Date date : skip_dates) {
 				if(date.after(subject.startDate) && date.before(subject.endDate)) {
@@ -59,15 +60,31 @@ public class Main {
 			}
 			
 			//evenly spread remaining workload between available days.
+			double spread = (double)total_days/(double)subject.remainingWork.size();
+			double days_to_add = 0;
+			double skip_days = 0;
+			Date dateToStore = subject.startDate;
+			Map<Date, ArrayList<Integer>> calendar = new HashMap<Date,ArrayList<Integer>>();
 			
-			
-			
+			for(int i=0; i<subject.remainingWork.size(); i++) {
+				dateToStore = incrementDateBy(subject.startDate, Math.floor(days_to_add)+skip_days);
+				if(skip_dates.contains(dateToStore)) {
+					skip_days += 1;
+					dateToStore = incrementDateBy(subject.startDate, Math.floor(days_to_add)+skip_days);
+				}
+				calendar.putIfAbsent(dateToStore, new ArrayList<Integer>());
+				calendar.get(dateToStore).add(subject.remainingWork.get(i));
+				days_to_add += spread;
+			}
+			System.out.println(calendar);
 		}
-		
-
-		
-		
-		
+	}
+	
+	public static Date incrementDateBy(Date currentDate, double dta) {
+		Calendar c = Calendar.getInstance(); 
+		c.setTime(currentDate); 
+		c.add(Calendar.DATE, (int)dta);
+		return c.getTime();
 	}
 	
 }
