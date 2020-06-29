@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class Subject {
 
+	String name;
 	int workloads;
 	ArrayList<Integer> workCompleted;
 	Date startDate;
@@ -12,7 +13,8 @@ public class Subject {
 	Date examDate;
 	ArrayList<Integer> remainingWork;
 	
-	public Subject(int _workloads, ArrayList<Integer> _workCompleted, Date _startDate, Date _endDate, Date _examDate) {
+	public Subject(String _name, int _workloads, ArrayList<Integer> _workCompleted, Date _startDate, Date _endDate, Date _examDate) {
+		this.name = _name;
 		this.workloads = _workloads;
 		this.workCompleted = _workCompleted;
 		this.startDate = _startDate;
