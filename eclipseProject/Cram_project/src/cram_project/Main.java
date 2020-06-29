@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
@@ -50,9 +51,11 @@ public class Main {
 			}
 		}
 		
+		//spreading out workload process
 		for(Subject subject : subjects) {
-			long total_days = 1 + TimeUnit.DAYS.convert((subject.endDate.getTime() - subject.startDate.getTime()), TimeUnit.MILLISECONDS);	//1 + (endDate - startDate)
-			//if exam date within startDate & endDate, decrease study time by 1 day
+			long total_days = TimeUnit.DAYS.convert((subject.endDate.getTime() - subject.startDate.getTime()), TimeUnit.MILLISECONDS);	//1 + (endDate - startDate)
+			
+			//if exam date within startDate & endDate, decrease study time (days) by 1 day
 			for (Date date : skip_dates) {
 				if(date.after(subject.startDate) && date.before(subject.endDate)) {
 					total_days -= 1;
@@ -60,26 +63,36 @@ public class Main {
 			}
 			
 			//evenly spread remaining workload between available days.
-			double spread = (double)total_days/(double)subject.remainingWork.size();
-			double days_to_add = 0;
-			double skip_days = 0;
+			int workPosition = 0;
 			Date dateToStore = subject.startDate;
 			Map<Date, ArrayList<Integer>> calendar = new HashMap<Date,ArrayList<Integer>>();
+			double skipValue = 0.0;
+			ArrayList<Double> spread = new ArrayList<>();
+			double remainingSize = (double)subject.remainingWork.size()-1;
 			
-			for(int i=0; i<subject.remainingWork.size(); i++) {
-				dateToStore = incrementDateBy(subject.startDate, Math.floor(days_to_add)+skip_days);
+			for(double i=0.0; i<=total_days+0.1; i += total_days/remainingSize) {
+				spread.add(i);
+				dateToStore = incrementDateBy(subject.startDate, Math.floor(i)+skipValue);
 				if(skip_dates.contains(dateToStore)) {
-					skip_days += 1;
-					dateToStore = incrementDateBy(subject.startDate, Math.floor(days_to_add)+skip_days);
+					skipValue += 1.0;
+					dateToStore = incrementDateBy(subject.startDate, Math.floor(i)+skipValue);
 				}
 				calendar.putIfAbsent(dateToStore, new ArrayList<Integer>());
-				calendar.get(dateToStore).add(subject.remainingWork.get(i));
-				days_to_add += spread;
+				calendar.get(dateToStore).add(subject.remainingWork.get(workPosition));
+				workPosition += 1;
+			}				
+
+			//print the results for testing purposes
+			Map<Date, ArrayList<Integer>> sortedMap = new TreeMap<Date, ArrayList<Integer>>(calendar);
+			for(Date key : sortedMap.keySet()) {
+				System.out.println(key + " " + calendar.get(key));
 			}
-			System.out.println(calendar);
+			System.out.println();
+			
 		}
 	}
 	
+	//helper method to increment a date by a number of days
 	public static Date incrementDateBy(Date currentDate, double dta) {
 		Calendar c = Calendar.getInstance(); 
 		c.setTime(currentDate); 
