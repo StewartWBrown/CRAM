@@ -12,6 +12,14 @@ import java.util.concurrent.TimeUnit;
 
 public class Main {
 	
+	/*
+	______________________________________________________________________________________________________________
+	|NEXT ISSUE:																								  |
+	|	- ENSURE THAT WHEN MOVING WORKLOADS FORWARD A DATE, THE WORKLOAD ISN'T SURPASSING IT'S SUBJECT'S END DATE |
+	|_____________________________________________________________________________________________________________|
+	*/
+	
+	
 	//MAIN METHOD 
 	public static void main(String[] args) {
 		
@@ -54,8 +62,8 @@ public class Main {
 			}
 		}
 		
-		Map<Date, HashMap<String, ArrayList<Integer>>> calendar = new HashMap<Date, HashMap<String, ArrayList<Integer>>>();
 		//spreading out workload process
+		Map<Date, HashMap<String, ArrayList<Integer>>> calendar = new HashMap<Date, HashMap<String, ArrayList<Integer>>>();
 		for(Subject subject : subjects) {
 			long total_days = TimeUnit.DAYS.convert((subject.endDate.getTime() - subject.startDate.getTime()), TimeUnit.MILLISECONDS);	//1 + (endDate - startDate)
 			
@@ -83,11 +91,36 @@ public class Main {
 				calendar.get(dateToStore).get(subject.name).add(subject.remainingWork.get(workPosition));
 				workPosition += 1;
 			}	
+		}
+		
+		//if previous date contains 2 or more workloads than current day, take away 1 workload from previous and add to current
+		Map<Date, HashMap<String, ArrayList<Integer>>> sortedMap = new TreeMap<Date, HashMap<String, ArrayList<Integer>>>(calendar);
+		
+		int previous = -99999;
+		Date prevDate = null;
+		for(Date date : sortedMap.keySet()) {
+			int current = 0;
+			for(String subject : sortedMap.get(date).keySet()) {
+				current += sortedMap.get(date).get(subject).size();
+			}
 			
+			if(previous-current>1) {
+				String subjToChange = (String) (sortedMap.get(prevDate).keySet().toArray()[sortedMap.get(prevDate).keySet().toArray().length-1]);
+				Integer workloadToChange = (Integer) sortedMap.get(prevDate).get(subjToChange).toArray()[sortedMap.get(prevDate).get(subjToChange).toArray().length-1];
+				
+				sortedMap.get(date).putIfAbsent(subjToChange, new ArrayList<>());
+				sortedMap.get(date).get(subjToChange).add(workloadToChange);
+				sortedMap.get(prevDate).get(subjToChange).remove(workloadToChange);
+				
+				if(sortedMap.get(prevDate).get(subjToChange).isEmpty()) {
+					sortedMap.get(prevDate).remove(subjToChange);
+				}
+			}
+			previous = current;
+			prevDate = date;
 		}
 		
 		//print the results for testing purposes
-		Map<Date, HashMap<String, ArrayList<Integer>>> sortedMap = new TreeMap<Date, HashMap<String, ArrayList<Integer>>>(calendar);
 		for(Date key : sortedMap.keySet()) {
 			System.out.println(key + " " + calendar.get(key));
 		}
