@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Cram_project</string>
+    <string name="startDate">Start Date</string>
+    <string name="endDate">End Date</string>
+    <string name="examDate">Exam Date</string>
+    <string name="subjectName">Subject Name</string>
+    <string name="noOfWorkloads">Number of Workloads</string>
+    <string name="workloadsCompleted">Workloads Completed</string>
+    <string name="enterSubject">Enter Subject</string>
+    <string name="done">DONE</string>
 </resources>
