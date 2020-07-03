@@ -3,17 +3,17 @@ package com.example.cram_project;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Subject {
+class Subject {
 
     String name;
-    int workloads;
-    ArrayList<Integer> workCompleted;
+    private int workloads;
+    private ArrayList<Integer> workCompleted;
     Date startDate;
     Date endDate;
     Date examDate;
     ArrayList<Integer> remainingWork;
 
-    public Subject(String _name, int _workloads, ArrayList<Integer> _workCompleted, Date _startDate, Date _endDate, Date _examDate) {
+    Subject(String _name, int _workloads, ArrayList<Integer> _workCompleted, Date _startDate, Date _endDate, Date _examDate) {
         this.name = _name;
         this.workloads = _workloads;
         this.workCompleted = _workCompleted;
@@ -23,7 +23,7 @@ public class Subject {
         this.remainingWork = find_workload();
     }
 
-    public ArrayList<Integer> find_workload() {
+    private ArrayList<Integer> find_workload() {
         ArrayList<Integer> workLoad = new ArrayList<>();
         for(int i=1; i<workloads+1; i++) {
             if(!workCompleted.contains(i)) {

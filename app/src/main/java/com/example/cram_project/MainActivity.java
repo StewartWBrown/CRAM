@@ -64,18 +64,9 @@ public class MainActivity extends AppCompatActivity {
 
                 try{
                     startDate = df.parse(startDateInput.getText().toString());
-                } catch(ParseException e){
-                    e.printStackTrace();
-                }
-
-                try{
                     endDate = df.parse(endDateInput.getText().toString());
-                } catch(ParseException e){
-                    e.printStackTrace();
-                }
-
-                try{
                     examDate = df.parse(examDateInput.getText().toString());
+
                 } catch(ParseException e){
                     e.printStackTrace();
                 }

@@ -12,8 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Spread {
 
-	/*
-	______________________________________________________________________________________________________________
+	/*______________________________________________________________________________________________________________
 	|NEXT ISSUE:																								  |
 	|	- ENSURE THAT WHEN MOVING WORKLOADS FORWARD A DATE, THE WORKLOAD ISN'T SURPASSING IT'S SUBJECT'S END DATE |
 	|_____________________________________________________________________________________________________________|
@@ -47,7 +46,7 @@ public class Spread {
 
             //evenly spread remaining workload between available days.
             int workPosition = 0;
-            Date dateToStore = subject.startDate;
+            Date dateToStore;
             double skipValue = 0.0;
             double remainingSize = (double)subject.remainingWork.size()-1;
 
