@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     Date examDate;
     ArrayList<Subject> subjects = new ArrayList<>();
     Subject subj;
-    Map<Date, HashMap<String, ArrayList<Integer>>> calendar;
+    Map<Date, HashMap<String, ArrayList<Workload>>> calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
