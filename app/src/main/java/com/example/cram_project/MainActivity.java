@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     Date examDate;
     ArrayList<Subject> subjects = new ArrayList<>();
     Subject subj;
-    Map<Date, HashMap<String, ArrayList<Integer>>> calendar;
+    Map<Date, HashMap<String, ArrayList<Workload>>> calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,7 +175,6 @@ public class MainActivity extends AppCompatActivity {
                 for(String s : wlCompleted){
                     wlc.add(Integer.parseInt(s.trim()));
                 }
-
 
                 subj = new Subject(subjectName, noOfWorkloads, wlc, startDate, endDate, examDate);
                 subjects.add(subj);
