@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     Date examDate;
     ArrayList<Subject> subjects = new ArrayList<>();
     Subject subj;
-    Map<Date, HashMap<String, ArrayList<Integer>>> calendar;
+    Map<Date, HashMap<String, ArrayList<Workload>>> calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,18 +64,9 @@ public class MainActivity extends AppCompatActivity {
 
                 try{
                     startDate = df.parse(startDateInput.getText().toString());
-                } catch(ParseException e){
-                    e.printStackTrace();
-                }
-
-                try{
                     endDate = df.parse(endDateInput.getText().toString());
-                } catch(ParseException e){
-                    e.printStackTrace();
-                }
-
-                try{
                     examDate = df.parse(examDateInput.getText().toString());
+
                 } catch(ParseException e){
                     e.printStackTrace();
                 }
