@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 calendar = Spread.spread(subjects);
-                Log.i("Calender: ", calendar.keySet().toString());
+                Log.i("Calendar ", calendar.keySet().toString());
                 Log.i("Subjects on date", calendar.values().toString());
             }
         });
