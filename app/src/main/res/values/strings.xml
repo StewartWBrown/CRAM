@@ -8,4 +8,8 @@
     <string name="workloadsCompleted">Workloads Completed</string>
     <string name="enterSubject">Enter Subject</string>
     <string name="done">DONE</string>
+    <string name="wlDifficulty">Workload Difficulty</string>
+    <string name="startDateNew">Select date to BEGIN studying</string>
+    <string name="endDateNew">Select date to FINISH studying</string>
+    <string name="examDateNew">Select EXAM date</string>
 </resources>

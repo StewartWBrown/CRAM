@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    
+
     <EditText
         android:id="@+id/subjectNameID"
         android:layout_width="wrap_content"
@@ -27,10 +27,10 @@
         android:layout_marginTop="88dp"
         android:ems="10"
         android:hint="@string/subjectName"
+        android:importantForAutofill="no"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/noOfWorkloadsID"
@@ -41,10 +41,10 @@
         android:layout_marginTop="160dp"
         android:ems="10"
         android:hint="@string/noOfWorkloads"
+        android:importantForAutofill="no"
         android:inputType="number"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/workloadsCompletedID"
@@ -55,10 +55,10 @@
         android:layout_marginTop="228dp"
         android:ems="10"
         android:hint="@string/workloadsCompleted"
+        android:importantForAutofill="no"
         android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <Button
@@ -66,9 +66,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginStart="224dp"
-        android:layout_marginLeft="224dp"
-        android:layout_marginTop="636dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginLeft="76dp"
+        android:layout_marginTop="544dp"
 
         android:text="@string/enterSubject"
         app:layout_constraintStart_toStartOf="parent"
@@ -79,9 +79,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginStart="244dp"
-        android:layout_marginLeft="244dp"
-        android:layout_marginTop="500dp"
+        android:layout_marginStart="248dp"
+        android:layout_marginLeft="248dp"
+        android:layout_marginTop="544dp"
 
         android:text="@string/done"
         app:layout_constraintStart_toStartOf="parent"
@@ -89,12 +89,12 @@
 
     <TextView
         android:id="@+id/startDate"
-        android:layout_width="362dp"
-        android:layout_height="50dp"
+        android:layout_width="320dp"
+        android:layout_height="41dp"
         android:layout_marginStart="56dp"
         android:layout_marginLeft="56dp"
         android:layout_marginTop="388dp"
-        android:hint="Select date to start studying"
+        android:hint="@string/startDateNew"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -106,7 +106,7 @@
         android:layout_marginStart="56dp"
         android:layout_marginLeft="56dp"
         android:layout_marginTop="440dp"
-        android:hint="Select date to stop studying"
+        android:hint="@string/endDateNew"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -118,9 +118,23 @@
         android:layout_marginStart="88dp"
         android:layout_marginLeft="88dp"
         android:layout_marginTop="496dp"
-        android:hint="Select date of the exam"
+        android:hint="@string/examDateNew"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/wlDifficultyID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="97dp"
+        android:layout_marginLeft="97dp"
+        android:layout_marginTop="305dp"
+        android:ems="10"
+        android:hint="@string/wlDifficulty"
+        android:inputType="number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:importantForAutofill="no" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

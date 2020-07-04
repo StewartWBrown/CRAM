@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     EditText subjectNameInput;
     EditText noOfWorkloadsInput;
     EditText wlCompletedInput;
+    EditText difficultyInput;
 
     private TextView mStartDisplayDate;
     private DatePickerDialog.OnDateSetListener mStartDateSetListener;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     String subjectName;
     Integer noOfWorkloads;
     String[] wlCompleted;
+    Integer difficulty;
     SimpleDateFormat df;
     Date startDate;
     Date endDate;
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         subjectNameInput = findViewById(R.id.subjectNameID);
         noOfWorkloadsInput = findViewById(R.id.noOfWorkloadsID);
         wlCompletedInput = findViewById(R.id.workloadsCompletedID);
+        difficultyInput = findViewById(R.id.wlDifficultyID);
         Button submitButton = findViewById(R.id.enterSubjectID);
 
         // Dates chosen to display
@@ -176,12 +179,15 @@ public class MainActivity extends AppCompatActivity {
                     wlc.add(Integer.parseInt(s.trim()));
                 }
 
-                subj = new Subject(subjectName, noOfWorkloads, wlc, startDate, endDate, examDate);
+                difficulty = Integer.parseInt(difficultyInput.getText().toString());
+
+                subj = new Subject(subjectName, noOfWorkloads, wlc, difficulty, startDate, endDate, examDate);
                 subjects.add(subj);
 
                 subjectNameInput.setText("");
                 noOfWorkloadsInput.setText("");
                 wlCompletedInput.setText("");
+                difficultyInput.setText("");
                 mStartDisplayDate.setText("");
                 mEndDisplayDate.setText("");
                 mExamDisplayDate.setText("");
