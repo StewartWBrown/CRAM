@@ -12,14 +12,7 @@ import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 public class Spread {
-
-	/*______________________________________________________________________________________________________________
-	|NEXT ISSUE:																								  |
-	|	- ENSURE THAT WHEN MOVING WORKLOADS FORWARD A DATE, THE WORKLOAD ISN'T SURPASSING IT'S SUBJECT'S END DATE |
-	|_____________________________________________________________________________________________________________|
-	*/
-
-
+    
     //MAIN METHOD
     @TargetApi(24)
     public static Map<Date, HashMap<String, ArrayList<Workload>>> spread(ArrayList<Subject> subjects) {
@@ -66,8 +59,8 @@ public class Spread {
             }
         }
 
-        //if previous date contains 2 or more workloads than current day, take away 1 workload from previous and add to current
-        Map<Date, HashMap<String, ArrayList<Workload>>> sortedMap = new TreeMap<Date, HashMap<String, ArrayList<Workload>>>(calendar);
+        //secondary spreading - taking difficulty weightings into account
+        Map<Date, HashMap<String, ArrayList<Workload>>> sortedMap = new TreeMap<Date, HashMap<String, ArrayList<Workload>>>(calendar);      //sorts dictionary into ascending order of dates
 
         int prevDifficulty = -99999;
         Date prevDate = null;
@@ -78,10 +71,10 @@ public class Spread {
                     currentDifficulty += wl.difficulty;
                 }
             }
-            //if previous date has 2 or more workloads than current date, use wlToMove method to decide which workloads in the
+            //if previous date is weighted 2 or more in difficulty than current date, use wlToMove method to decide which workloads in the
             //previous date to move forward to the current date.
             if(prevDifficulty-currentDifficulty>1) {
-                HashMap<String, ArrayList<Workload>> wlToMove = findWlToMove(sortedMap.get(prevDate), prevDifficulty-currentDifficulty);
+                HashMap<String, ArrayList<Workload>> wlToMove = findWlToMove(sortedMap.get(prevDate), prevDifficulty-currentDifficulty, date, subjects);
 
                 for(String subj : wlToMove.keySet()) {
                     for(Workload wl : wlToMove.get(subj)) {
@@ -110,32 +103,43 @@ public class Spread {
     }
 
     //helper method to find out which workloads to move from previous date to current date for equal spreading purposes.
-    public static HashMap<String, ArrayList<Workload>> findWlToMove(HashMap<String, ArrayList<Workload>> workload, Integer difficulty) {
+    public static HashMap<String, ArrayList<Workload>> findWlToMove(HashMap<String, ArrayList<Workload>> workload, Integer difficulty, Date currentDate, ArrayList<Subject> subjects) {
         HashMap<String, ArrayList<Workload>> wlToMove = new HashMap<>();
         ArrayList<Workload> finalWl;
         Integer currentDifficultyTotal = 0;
+
         for(String subject : workload.keySet()) {
-            for(Workload wl : workload.get(subject)) {
-                if(wl.difficulty == difficulty) {
-                    finalWl = new ArrayList<>(Arrays.asList(wl));
-                    wlToMove = new HashMap<>();
-                    wlToMove.put(subject, finalWl);
-                    return wlToMove;
-                }
-                else if(wl.difficulty <= difficulty-1 && currentDifficultyTotal < difficulty-wl.difficulty) {
-                    if(wlToMove.containsKey(subject)) {
-                        wlToMove.get(subject).add(wl);
+            //check if current subject being checked's end date comes AFTER the date workloads are being moved to
+            boolean beforeEnd = false;
+            for(Subject s : subjects){
+                if (s.name == subject){
+                    if(s.endDate == currentDate || s.endDate.after(currentDate)){
+                        beforeEnd = true;
+                        break;
                     }
-                    else {
-                        finalWl = new ArrayList<>(Arrays.asList(wl));
-                        wlToMove.put(subject, finalWl);
-                    }
-                    currentDifficultyTotal += wl.difficulty;
                 }
             }
-        }
-        if(wlToMove.isEmpty()) {
-            return null;
+            if(beforeEnd) {
+                //find the correct workloads to move forward
+                for (Workload wl : workload.get(subject)) {
+                    //if this workload is the exact difficulty weighting we're looking for, return that workload and we're done
+                    if (wl.difficulty == difficulty) {
+                        finalWl = new ArrayList<>(Arrays.asList(wl));
+                        wlToMove = new HashMap<>();
+                        wlToMove.put(subject, finalWl);
+                        return wlToMove;
+                    //if tis workload is less than the difficulty we're looking for AND less than current found difficulty weighting -> add to workloads to be added list
+                    } else if (wl.difficulty <= difficulty - 1 && currentDifficultyTotal < difficulty - wl.difficulty) {
+                        if (wlToMove.containsKey(subject)) {
+                            wlToMove.get(subject).add(wl);
+                        } else {
+                            finalWl = new ArrayList<>(Arrays.asList(wl));
+                            wlToMove.put(subject, finalWl);
+                        }
+                        currentDifficultyTotal += wl.difficulty;
+                    }
+                }
+            }
         }
         return wlToMove;
     }
