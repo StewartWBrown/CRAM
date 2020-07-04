@@ -175,8 +175,10 @@ public class MainActivity extends AppCompatActivity {
 
                 wlCompleted = wlCompletedInput.getText().toString().split(",");
                 ArrayList<Integer> wlc = new ArrayList<>();
-                for(String s : wlCompleted){
-                    wlc.add(Integer.parseInt(s.trim()));
+                if(!wlc.isEmpty()) {
+                    for (String s : wlCompleted) {
+                        wlc.add(Integer.parseInt(s.trim()));
+                    }
                 }
 
                 difficulty = Integer.parseInt(difficultyInput.getText().toString());
