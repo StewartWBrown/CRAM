@@ -1,6 +1,7 @@
 package com.example.cram_project;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -60,7 +61,9 @@ public class MainActivity extends AppCompatActivity {
         noOfWorkloadsInput = findViewById(R.id.noOfWorkloadsID);
         wlCompletedInput = findViewById(R.id.workloadsCompletedID);
         difficultyInput = findViewById(R.id.wlDifficultyID);
+        Button daysOffButton = findViewById(R.id.daysOffID);
         Button submitButton = findViewById(R.id.enterSubjectID);
+        Button doneButton = findViewById(R.id.doneButtonID);
 
         // Dates chosen to display
         mStartDisplayDate = findViewById(R.id.startDateID);
@@ -164,6 +167,15 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+        // days off button
+        daysOffButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, daysOff.class));
+            }
+        });
+
+
         // submit subject button
         submitButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -226,7 +238,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // done button
-        Button doneButton = findViewById(R.id.doneButtonID);
         doneButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){

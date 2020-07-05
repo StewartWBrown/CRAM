@@ -12,4 +12,6 @@
     <string name="startDateNew">Select date to BEGIN studying</string>
     <string name="endDateNew">Select date to FINISH studying</string>
     <string name="examDateNew">Select EXAM date</string>
+    <string name="daysOff">Days off</string>
+    <string name="test">TEST</string>
 </resources>
