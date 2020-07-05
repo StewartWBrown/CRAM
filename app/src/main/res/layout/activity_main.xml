@@ -115,9 +115,9 @@
         android:id="@+id/examDateID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="88dp"
-        android:layout_marginLeft="88dp"
-        android:layout_marginTop="496dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginLeft="120dp"
+        android:layout_marginTop="480dp"
         android:hint="@string/examDateNew"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -128,13 +128,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="97dp"
-        android:layout_marginLeft="97dp"
+        android:layout_marginLeft="96dp"
         android:layout_marginTop="305dp"
         android:ems="10"
         android:hint="@string/wlDifficulty"
+        android:importantForAutofill="no"
         android:inputType="number"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/daysOffID"
+        android:layout_width="68dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="318dp"
+        android:layout_marginLeft="318dp"
+        android:layout_marginTop="158dp"
+        android:text="@string/daysOff"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
