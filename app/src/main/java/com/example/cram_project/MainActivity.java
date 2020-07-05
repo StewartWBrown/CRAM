@@ -63,9 +63,9 @@ public class MainActivity extends AppCompatActivity {
         Button submitButton = findViewById(R.id.enterSubjectID);
 
         // Dates chosen to display
-        mStartDisplayDate = findViewById(R.id.startDate);
-        mEndDisplayDate = findViewById(R.id.endDate);
-        mExamDisplayDate = findViewById(R.id.examDate);
+        mStartDisplayDate = findViewById(R.id.startDateID);
+        mEndDisplayDate = findViewById(R.id.endDateID);
+        mExamDisplayDate = findViewById(R.id.examDateID);
 
 
         // Enter start date
@@ -99,8 +99,6 @@ public class MainActivity extends AppCompatActivity {
                 startDate = toDate(date);
             }
         };
-
-
 
         // Enter End date
         mEndDisplayDate.setOnClickListener(new View.OnClickListener() {
@@ -166,37 +164,68 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-
+        // submit subject button
         submitButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                subjectName = subjectNameInput.getText().toString();
-                noOfWorkloads = Integer.parseInt(noOfWorkloadsInput.getText().toString());
-
                 wlCompleted = wlCompletedInput.getText().toString().split(",");
                 ArrayList<Integer> wlc = new ArrayList<>();
-                if(!wlc.isEmpty()) {
+                if(wlCompleted.length>1) {
                     for (String s : wlCompleted) {
                         wlc.add(Integer.parseInt(s.trim()));
                     }
                 }
 
-                difficulty = Integer.parseInt(difficultyInput.getText().toString());
+                if(subjectNameInput.length()==0) {
+                    subjectNameInput.requestFocus();
+                    subjectNameInput.setError("FIELD CANNOT BE EMPTY");
+                } else{subjectName = subjectNameInput.getText().toString();}
 
-                subj = new Subject(subjectName, noOfWorkloads, wlc, difficulty, startDate, endDate, examDate);
-                subjects.add(subj);
+                if(noOfWorkloadsInput.length()==0) {
+                    noOfWorkloadsInput.requestFocus();
+                    noOfWorkloadsInput.setError("FIELD CANNOT BE EMPTY");
+                } else{noOfWorkloads = Integer.parseInt(noOfWorkloadsInput.getText().toString());}
 
-                subjectNameInput.setText("");
-                noOfWorkloadsInput.setText("");
-                wlCompletedInput.setText("");
-                difficultyInput.setText("");
-                mStartDisplayDate.setText("");
-                mEndDisplayDate.setText("");
-                mExamDisplayDate.setText("");
+                if(difficultyInput.length()==0) {
+                    difficultyInput.requestFocus();
+                    difficultyInput.setError("FIELD CANNOT BE EMPTY");
+                }
+                else{
+                    difficulty = Integer.parseInt(difficultyInput.getText().toString());
+                    if(difficulty<1 || difficulty>3){
+                        difficultyInput.requestFocus();
+                        difficultyInput.setError("DIFFICULTY MUST BE BETWEEN 1 AND 3");
+                    }
+                }
 
+                if(startDate == null){
+                    mStartDisplayDate.requestFocus();
+                    mStartDisplayDate.setError("CHOOSE A START DATE");
+                }
+                if(endDate == null){
+                    mEndDisplayDate.requestFocus();
+                    mEndDisplayDate.setError("CHOOSE AN END DATE");
+                }
+                if(examDate == null){
+                    mExamDisplayDate.requestFocus();
+                    mExamDisplayDate.setError("CHOOSE AN EXAM DATE");
+                }
+                else{
+                    subj = new Subject(subjectName, noOfWorkloads, wlc, difficulty, startDate, endDate, examDate);
+                    subjects.add(subj);
+
+                    subjectNameInput.setText("");
+                    noOfWorkloadsInput.setText("");
+                    wlCompletedInput.setText("");
+                    difficultyInput.setText("");
+                    mStartDisplayDate.setText("");
+                    mEndDisplayDate.setText("");
+                    mExamDisplayDate.setText("");
+                }
             }
         });
 
+        // done button
         Button doneButton = findViewById(R.id.doneButtonID);
         doneButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -211,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
     }
     // Helper method to turn string into a date
     public static Date toDate(String textDate){
-       SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+       SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.UK);
        try {
            Date desiredDate = df.parse(textDate);
            Calendar calender = Calendar.getInstance();
