@@ -19,7 +19,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -50,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Subject> subjects = new ArrayList<>();
     Subject subj;
     Map<Date, HashMap<String, ArrayList<Workload>>> calendar;
+
+    Date earliestDate = new Date(Long.MAX_VALUE);
+    Date latestDate = new Date(Long.MIN_VALUE);
+    ArrayList<Date> skipDates;
 
     static boolean monday;
     static boolean tuesday;
@@ -108,6 +114,10 @@ public class MainActivity extends AppCompatActivity {
                 String date = dayOfMonth + "/" + month + "/" + year;
                 mStartDisplayDate.setText(date);
                 startDate = toDate(date);
+
+                if(startDate.before(earliestDate)){
+                    earliestDate = startDate;
+                }
             }
         };
 
@@ -140,6 +150,10 @@ public class MainActivity extends AppCompatActivity {
                 String date = dayOfMonth + "/" + month + "/" + year;
                 mEndDisplayDate.setText(date);
                 endDate = toDate(date);
+
+                if(endDate.after(latestDate)){
+                    latestDate = endDate;
+                }
             }
         };
 
@@ -249,13 +263,36 @@ public class MainActivity extends AppCompatActivity {
         doneButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                calendar = Spread.spread(subjects);
+                ArrayList<String> daysToSkip = new ArrayList<>();
+
+                if(monday){
+                    daysToSkip.add("Monday");
+                }
+                if(tuesday){
+                    daysToSkip.add("Tuesday");
+                }
+                if(wednesday){
+                    daysToSkip.add("Wednesday");
+                }
+                if(thursday){
+                    daysToSkip.add("Thursday");
+                }
+                if(friday){
+                    daysToSkip.add("Friday");
+                }
+                if(saturday){
+                    daysToSkip.add("Saturday");
+                }
+                if(sunday){
+                    daysToSkip.add("Sunday");
+                }
+
+                skipDates = daysBetweenDates(earliestDate, latestDate, daysToSkip);
+                calendar = Spread.spread(subjects, skipDates);
                 Log.i("Calendar ", calendar.keySet().toString());
                 Log.i("Subjects on date", calendar.values().toString());
             }
         });
-
-
     }
     // Helper method to turn string into a date
     public static Date toDate(String textDate){
@@ -270,7 +307,27 @@ public class MainActivity extends AppCompatActivity {
            System.out.println("Invalid date format");
        }
        return null;
-
-       }
     }
+
+    //find days between dates that are to be skipped
+    public static ArrayList<Date> daysBetweenDates(Date start, Date end, ArrayList<String> daysToSkip)
+    {
+        ArrayList<Date> dates = new ArrayList<>();
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(start);
+        SimpleDateFormat simpleDateformat = new SimpleDateFormat("EEEE", Locale.UK);
+
+        while (calendar.getTime().before(end))
+        {
+            Date result = calendar.getTime();
+            String day = simpleDateformat.format(result);
+
+            if(daysToSkip.contains(day)){
+                dates.add(result);
+            }
+            calendar.add(Calendar.DATE, 1);
+        }
+        return dates;
+    }
+}
 

@@ -1,6 +1,7 @@
 package com.example.cram_project;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.widget.CompoundButton;
@@ -30,6 +31,7 @@ public class DaysOff extends Activity {
 
         // monday
         mondayInput = findViewById(R.id.mondayID);
+        mondayInput.setChecked(MainActivity.monday);
         mondayInput.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -45,6 +47,7 @@ public class DaysOff extends Activity {
 
         // tuesday
         tuesdayInput = findViewById(R.id.tuesdayID);
+        tuesdayInput.setChecked(MainActivity.tuesday);
         tuesdayInput.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -60,6 +63,7 @@ public class DaysOff extends Activity {
 
         // wednesday
         wednesdayInput = findViewById(R.id.wednesdayID);
+        wednesdayInput.setChecked(MainActivity.wednesday);
         wednesdayInput.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -75,6 +79,7 @@ public class DaysOff extends Activity {
 
         // thursday
         thursdayInput = findViewById(R.id.thursdayID);
+        thursdayInput.setChecked(MainActivity.thursday);
         thursdayInput.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -90,6 +95,7 @@ public class DaysOff extends Activity {
 
         // friday
         fridayInput = findViewById(R.id.fridayID);
+        fridayInput.setChecked(MainActivity.friday);
         fridayInput.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -105,6 +111,7 @@ public class DaysOff extends Activity {
 
         // saturday
         saturdayInput = findViewById(R.id.saturdayID);
+        saturdayInput.setChecked(MainActivity.saturday);
         saturdayInput.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -120,6 +127,7 @@ public class DaysOff extends Activity {
 
         // sunday
         sundayInput = findViewById(R.id.sundayID);
+        sundayInput.setChecked(MainActivity.sunday);
         sundayInput.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

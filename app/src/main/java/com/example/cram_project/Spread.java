@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
@@ -15,9 +16,7 @@ public class Spread {
     
     //MAIN METHOD
     @TargetApi(24)
-    public static Map<Date, HashMap<String, ArrayList<Workload>>> spread(ArrayList<Subject> subjects) {
-
-        ArrayList<Date> skip_dates = new ArrayList<>();
+    public static Map<Date, HashMap<String, ArrayList<Workload>>> spread(ArrayList<Subject> subjects, ArrayList<Date> skip_dates) {
 
         //add exam dates to skip_dates list
         for(int i=0; i<subjects.size(); i++) {
