@@ -51,6 +51,14 @@ public class MainActivity extends AppCompatActivity {
     Subject subj;
     Map<Date, HashMap<String, ArrayList<Workload>>> calendar;
 
+    static boolean monday;
+    static boolean tuesday;
+    static boolean wednesday;
+    static boolean thursday;
+    static boolean friday;
+    static boolean saturday;
+    static boolean sunday;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -171,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
         daysOffButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, daysOff.class));
+                startActivity(new Intent(MainActivity.this, DaysOff.class));
             }
         });
 

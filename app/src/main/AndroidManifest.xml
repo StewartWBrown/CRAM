@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".daysOff">
+        <activity android:name=".DaysOff" android:theme="@style/AppTheme.DaysOffTheme">
 
         </activity>
     </application>
