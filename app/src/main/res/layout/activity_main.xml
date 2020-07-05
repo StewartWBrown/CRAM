@@ -88,7 +88,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/startDate"
+        android:id="@+id/startDateID"
         android:layout_width="320dp"
         android:layout_height="41dp"
         android:layout_marginStart="56dp"
@@ -100,7 +100,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/endDate"
+        android:id="@+id/endDateID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="56dp"
@@ -112,7 +112,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/examDate"
+        android:id="@+id/examDateID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="88dp"
