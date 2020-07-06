@@ -336,8 +336,19 @@ public class MainActivity extends AppCompatActivity {
         return dates;
     }
 
-    public static String translateToString(Map planner){
-        return "HELLO TESSTING PLEASSSSE WORK";
+    // The data structure is of format Map<date, hashmap<String, List<Object>>>
+    public String translateToString(Map planner){
+        if (planner.isEmpty()){
+            return "No subjects or workloads have been entered, \n FAT boomer";
+        }
+        int counter = 1;
+        StringBuilder sb = new StringBuilder();
+        // loop through map
+        for(Object k: planner.keySet()){
+            sb.append("Study Day ").append(counter).append(":\n").append(k.toString()).append("\n").append(planner.get(k).toString()).append("\n");
+            counter ++;
+        }
+        return sb.toString();
     }
 
 }

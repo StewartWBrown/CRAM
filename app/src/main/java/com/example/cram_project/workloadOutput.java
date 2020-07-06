@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.text.method.ScrollingMovementMethod;
 
 public class workloadOutput extends AppCompatActivity {
 
@@ -22,11 +23,13 @@ public class workloadOutput extends AppCompatActivity {
                 finish();
             }
         });
-        
+
         String outputText = getIntent().getStringExtra("planner");
 
         TextView textView = (TextView) findViewById(R.id.printedTimetableID);
         textView.setText(outputText);
+        textView.setMovementMethod(new ScrollingMovementMethod());
+
     }
 
 
