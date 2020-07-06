@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Subject> subjects = new ArrayList<>();
     Subject subj;
     Map<Date, HashMap<String, ArrayList<Workload>>> calendar;
+    String outputText;
 
     Date earliestDate = new Date(Long.MAX_VALUE);
     Date latestDate = new Date(Long.MIN_VALUE);
@@ -292,8 +293,11 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("Calendar ", calendar.keySet().toString());
                 Log.i("Subjects on date", calendar.values().toString());
 
-                startActivity(new Intent (MainActivity.this, workloadOutput.class));
-                            }
+                outputText = translateToString(calendar);
+                Intent doneOutput = new Intent(MainActivity.this, workloadOutput.class);
+                doneOutput.putExtra("planner", outputText);
+                startActivity(doneOutput);
+            }
         });
     }
     // Helper method to turn string into a date
@@ -331,5 +335,10 @@ public class MainActivity extends AppCompatActivity {
         }
         return dates;
     }
+
+    public static String translateToString(Map planner){
+        return "HELLO TESSTING PLEASSSSE WORK";
+    }
+
 }
 
