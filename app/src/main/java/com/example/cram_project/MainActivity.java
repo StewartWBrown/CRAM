@@ -291,7 +291,9 @@ public class MainActivity extends AppCompatActivity {
                 calendar = Spread.spread(subjects, skipDates);
                 Log.i("Calendar ", calendar.keySet().toString());
                 Log.i("Subjects on date", calendar.values().toString());
-            }
+
+                startActivity(new Intent (MainActivity.this, workloadOutput.class));
+                            }
         });
     }
     // Helper method to turn string into a date
