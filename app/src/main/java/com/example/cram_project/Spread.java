@@ -59,7 +59,7 @@ public class Spread {
         }
 
         //secondary spreading - taking difficulty weightings into account
-        Map<Date, HashMap<String, ArrayList<Workload>>> sortedMap = new TreeMap<Date, HashMap<String, ArrayList<Workload>>>(calendar);      //sorts dictionary into ascending order of dates
+        Map<Date, HashMap<String, ArrayList<Workload>>> sortedMap = new TreeMap<>(calendar);      //sorts dictionary into ascending order of dates
 
         int prevDifficulty = -99999;
         Date prevDate = null;
@@ -127,8 +127,8 @@ public class Spread {
                         wlToMove = new HashMap<>();
                         wlToMove.put(subject, finalWl);
                         return wlToMove;
-                    //if tis workload is less than the difficulty we're looking for AND less than current found difficulty weighting -> add to workloads to be added list
-                    } else if (wl.difficulty <= difficulty - 1 && currentDifficultyTotal < difficulty - wl.difficulty) {
+                    //if this workload is less than the difficulty we're looking for AND less than current found difficulty weighting -> add to workloads to be added list
+                    } else if (wl.difficulty < difficulty && currentDifficultyTotal < difficulty - wl.difficulty) {
                         if (wlToMove.containsKey(subject)) {
                             wlToMove.get(subject).add(wl);
                         } else {
