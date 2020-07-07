@@ -1,6 +1,5 @@
 package com.example.cram_project;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -16,7 +15,7 @@ public class workloadOutput extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workload_output);
-        Button backButton = (Button) findViewById(R.id.returnID);
+        Button backButton = findViewById(R.id.returnID);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -26,7 +25,7 @@ public class workloadOutput extends AppCompatActivity {
 
         String outputText = getIntent().getStringExtra("planner");
 
-        TextView textView = (TextView) findViewById(R.id.printedTimetableID);
+        TextView textView = findViewById(R.id.printedTimetableID);
         textView.setText(outputText);
         textView.setMovementMethod(new ScrollingMovementMethod());
 

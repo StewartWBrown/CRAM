@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".workloadOutput"></activity>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,9 +17,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".DaysOff"
-            android:theme="@style/AppTheme.DaysOffTheme"></activity>
+            android:theme="@style/AppTheme.DaysOffTheme">
+        </activity>
+
+        <activity android:name=".workloadOutput"></activity>
+
     </application>
 
 </manifest>

@@ -290,8 +290,6 @@ public class MainActivity extends AppCompatActivity {
 
                 skipDates = daysBetweenDates(earliestDate, latestDate, daysToSkip);
                 calendar = Spread.spread(subjects, skipDates);
-                Log.i("Calendar ", calendar.keySet().toString());
-                Log.i("Subjects on date", calendar.values().toString());
 
                 outputText = translateToString(calendar);
                 Intent doneOutput = new Intent(MainActivity.this, workloadOutput.class);
@@ -344,9 +342,19 @@ public class MainActivity extends AppCompatActivity {
         int counter = 1;
         StringBuilder sb = new StringBuilder();
         // loop through map
-        for(Object k: planner.keySet()){
-            sb.append("Study Day ").append(counter).append(":\n").append(k.toString()).append("\n").append(planner.get(k).toString()).append("\n");
-            counter ++;
+
+        //print the results for testing purposes
+        int weight;
+        for(Date date : calendar.keySet()) {
+            weight = 0;
+            sb.append(date + "\n");
+            for(String subject : calendar.get(date).keySet()) {
+                for(Workload wl : calendar.get(date).get(subject)) {
+                    sb.append("Subject: " + subject + "--- Workload: " + wl.workloadNo + "\n");
+                    weight += wl.difficulty;
+                }
+            }
+            sb.append("Weight: " + weight + "\n\n");
         }
         return sb.toString();
     }
