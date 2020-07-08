@@ -1,6 +1,7 @@
 package com.example.cram_project;
 
 import android.annotation.TargetApi;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +25,7 @@ public class Spread {
                 skip_dates.add(subjects.get(i).examDate);
             }
         }
-
+        Log.i("days to skip", Integer.toString(skip_dates.size()));
         //spreading out workload process
         Map<Date, HashMap<String, ArrayList<Workload>>> calendar = new HashMap<>();
         for(Subject subject : subjects) {
@@ -36,6 +37,7 @@ public class Spread {
                     total_days -= 1;
                 }
             }
+            Log.i("total study days left", Long.toString(total_days));
 
             //evenly spread remaining workload between available days.
             int workPosition = 0;
@@ -46,11 +48,13 @@ public class Spread {
             //Finds evenly spread out values between 0.0 and total available days.
             //Start-date + the floor of each value is the date a workload is to be completed.
             for(double i=0.0; i<=total_days+0.0001; i += total_days/remainingSize) {
+
                 dateToStore = incrementDateBy(subject.startDate, Math.floor(i)+skipValue);
-                if(skip_dates.contains(dateToStore)) {
+                while(skip_dates.contains(dateToStore)) {
                     skipValue += 1.0;
-                    dateToStore = incrementDateBy(subject.startDate, Math.floor(i) + skipValue);
+                    dateToStore = incrementDateBy(subject.startDate, Math.floor(i)+skipValue);
                 }
+
                 calendar.putIfAbsent(dateToStore, new HashMap<String, ArrayList<Workload>>());
                 calendar.get(dateToStore).putIfAbsent(subject.name, new ArrayList<Workload>());
                 calendar.get(dateToStore).get(subject.name).add(subject.remainingWork.get(workPosition));
@@ -73,7 +77,8 @@ public class Spread {
             //if previous date is weighted 2 or more in difficulty than current date, use wlToMove method to decide which workloads in the
             //previous date to move forward to the current date.
             if(prevDifficulty-currentDifficulty>1) {
-                HashMap<String, ArrayList<Workload>> wlToMove = findWlToMove(sortedMap.get(prevDate), prevDifficulty-currentDifficulty, date, subjects);
+                Log.i("difficulty difference", Integer.toString(prevDifficulty-currentDifficulty));
+                HashMap<String, ArrayList<Workload>> wlToMove = findWlToMove(sortedMap.get(prevDate), Math.floorDiv(prevDifficulty-currentDifficulty,2), date, subjects);
 
                 for(String subj : wlToMove.keySet()) {
                     for(Workload wl : wlToMove.get(subj)) {
@@ -126,6 +131,7 @@ public class Spread {
                         finalWl = new ArrayList<>(Arrays.asList(wl));
                         wlToMove = new HashMap<>();
                         wlToMove.put(subject, finalWl);
+                        Log.i("wlToMove", Integer.toString(finalWl.size()));
                         return wlToMove;
                     //if this workload is less than the difficulty we're looking for AND less than current found difficulty weighting -> add to workloads to be added list
                     } else if (wl.difficulty < difficulty && currentDifficultyTotal < difficulty - wl.difficulty) {
@@ -134,6 +140,7 @@ public class Spread {
                         } else {
                             finalWl = new ArrayList<>(Arrays.asList(wl));
                             wlToMove.put(subject, finalWl);
+                            Log.i("wlToMove", Integer.toString(finalWl.size()));
                         }
                         currentDifficultyTotal += wl.difficulty;
                     }
@@ -142,5 +149,4 @@ public class Spread {
         }
         return wlToMove;
     }
-
 }

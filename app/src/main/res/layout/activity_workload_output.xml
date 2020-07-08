@@ -6,17 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".workloadOutput">
 
+
     <Button
         android:id="@+id/returnID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="133dp"
-        android:layout_marginLeft="133dp"
-        android:layout_marginTop="39dp"
+        android:layout_marginStart="132dp"
+        android:layout_marginLeft="132dp"
+        android:layout_marginTop="664dp"
         android:text="@string/back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <TextView
         android:id="@+id/printedTimetableID"
@@ -24,10 +24,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="56dp"
         android:layout_marginLeft="56dp"
-        android:layout_marginTop="144dp"
+        android:layout_marginTop="52dp"
+        android:scrollbars="vertical"
         android:text="TextView"
         android:textSize="18sp"
-        android:scrollbars = "vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
