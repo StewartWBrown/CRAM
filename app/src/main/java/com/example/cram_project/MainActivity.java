@@ -290,7 +290,6 @@ public class MainActivity extends AppCompatActivity {
 
                 skipDates = daysBetweenDates(earliestDate, latestDate, daysToSkip);
                 calendar = Spread.spread(subjects, skipDates);
-
                 outputText = translateToString(calendar);
                 Intent doneOutput = new Intent(MainActivity.this, workloadOutput.class);
                 doneOutput.putExtra("planner", outputText);
