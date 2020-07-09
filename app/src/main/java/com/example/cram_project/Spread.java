@@ -65,7 +65,7 @@ public class Spread {
         //secondary spreading - taking difficulty weightings into account
         Map<Date, HashMap<String, ArrayList<Workload>>> sortedMap = new TreeMap<>(calendar);      //sorts dictionary into ascending order of dates
 
-        int prevDifficulty = -99999;
+        int prevDifficulty = 0;
         Date prevDate = null;
         for(Date date : sortedMap.keySet()) {
             int currentDifficulty = 0;
@@ -74,6 +74,26 @@ public class Spread {
                     currentDifficulty += wl.difficulty;
                 }
             }
+
+            //if current date is weighted 2 or more in difficulty than previous date, use wlToMove method to decide which workloads in the
+            //current date to move back to the previous date.
+            if(currentDifficulty-prevDifficulty>1 && prevDate != null) {
+                HashMap<String, ArrayList<Workload>> wlToMove = findWlToMove(sortedMap.get(date), Math.floorDiv(currentDifficulty-prevDifficulty,2), prevDate, subjects);
+
+                for (String subj : wlToMove.keySet()) {
+                    for (Workload wl : wlToMove.get(subj)) {
+                        sortedMap.get(prevDate).putIfAbsent(subj, new ArrayList<Workload>());
+                        sortedMap.get(prevDate).get(subj).add(wl);
+                        sortedMap.get(date).get(subj).remove(wl);
+                        if (sortedMap.get(date).get(subj).isEmpty()) {
+                            sortedMap.get(date).remove(subj);
+                        }
+                        prevDifficulty += wl.difficulty;
+                        currentDifficulty -= wl.difficulty;
+                    }
+                }
+            }
+
             //if previous date is weighted 2 or more in difficulty than current date, use wlToMove method to decide which workloads in the
             //previous date to move forward to the current date.
             if(prevDifficulty-currentDifficulty>1) {
@@ -87,23 +107,8 @@ public class Spread {
                         if(sortedMap.get(prevDate).get(subj).isEmpty()) {
                             sortedMap.get(prevDate).remove(subj);
                         }
-                    }
-                }
-            }
-
-            //if current date is weighted 2 or more in difficulty than previous date, use wlToMove method to decide which workloads in the
-            //current date to move back to the previous date.
-            else if(currentDifficulty-prevDifficulty>1 && prevDate != null) {
-                HashMap<String, ArrayList<Workload>> wlToMove = findWlToMove(sortedMap.get(date), Math.floorDiv(currentDifficulty-prevDifficulty,2), prevDate, subjects);
-
-                for (String subj : wlToMove.keySet()) {
-                    for (Workload wl : wlToMove.get(subj)) {
-                        sortedMap.get(prevDate).putIfAbsent(subj, new ArrayList<Workload>());
-                        sortedMap.get(prevDate).get(subj).add(wl);
-                        sortedMap.get(date).get(subj).remove(wl);
-                        if (sortedMap.get(date).get(subj).isEmpty()) {
-                            sortedMap.get(date).remove(subj);
-                        }
+                        currentDifficulty += wl.difficulty;
+                        prevDifficulty -= wl.difficulty;
                     }
                 }
             }
@@ -123,12 +128,11 @@ public class Spread {
 
     public static Date decrementDateBy1(Date currentDate){
         Calendar cal = Calendar.getInstance();
-        cal.setTime (currentDate); // convert your date to Calendar object
+        cal.setTime (currentDate);
         cal.add(Calendar.DATE, -1);
-        return cal.getTime(); // again get back your date object
+        return cal.getTime();
     }
 
-    //NEXT STEP IS TO CREATE A REVERSE OF THIS METHOD!!!!!!!!!!!!!!!!!!!!!
     //helper method to find out which workloads to move from previous date to current date for equal spreading purposes.
     public static HashMap<String, ArrayList<Workload>> findWlToMove(HashMap<String, ArrayList<Workload>> workload, Integer difficulty, Date currentDate, ArrayList<Subject> subjects) {
         HashMap<String, ArrayList<Workload>> wlToMove = new HashMap<>();
