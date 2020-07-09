@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -17,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -84,6 +84,42 @@ public class MainActivity extends AppCompatActivity {
         mStartDisplayDate = findViewById(R.id.startDateID);
         mEndDisplayDate = findViewById(R.id.endDateID);
         mExamDisplayDate = findViewById(R.id.examDateID);
+
+        //TEST SUBJECTS TO BE REMOVED IN FINAL BUILDDDDDD
+        Subject CSF = new Subject(
+                "CSF",
+                27,
+                new ArrayList<>(Arrays.asList(1, 2, 3)),
+                1,
+                toDate(1 + "/" + 5 + "/" + 2021),
+                toDate(22 + "/" + 5 + "/" + 2021),
+                toDate(23 + "/" + 5 + "/" + 2021)
+        );
+        Subject MHCI = new Subject(
+                "MHCI",
+                11,
+                new ArrayList<>(Arrays.asList(1, 2)),
+                2,
+                toDate(1 + "/" + 5 + "/" + 2021),
+                toDate(20 + "/" + 5 + "/" + 2021),
+                toDate(21 + "/" + 5 + "/" + 2021)
+        );
+        Subject PSD = new Subject(
+                "PSD",
+                12,
+                new ArrayList<>(Arrays.asList(1)),
+                3,
+                toDate(4 + "/" + 5 + "/" + 2021),
+                toDate(26 + "/" + 5 + "/" + 2021),
+                toDate(27 + "/" + 5 + "/" + 2021)
+        );
+
+        subjects.add(CSF);
+        subjects.add(MHCI);
+        subjects.add(PSD);
+
+        earliestDate = toDate(1 + "/" + 5 + "/" + 2021);
+        latestDate = toDate(26 + "/" + 5 + "/" + 2021);
 
 
         // Enter start date
@@ -199,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
         // submit subject button
         submitButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -288,7 +325,7 @@ public class MainActivity extends AppCompatActivity {
                     daysToSkip.add("Sunday");
                 }
 
-                skipDates = daysBetweenDates(earliestDate, latestDate, daysToSkip);
+                skipDates = daysBetweenDates(earliestDate, Spread.incrementDateBy(latestDate, 1), daysToSkip);
                 calendar = Spread.spread(subjects, skipDates);
                 outputText = translateToString(calendar);
                 Intent doneOutput = new Intent(MainActivity.this, workloadOutput.class);
