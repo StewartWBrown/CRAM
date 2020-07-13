@@ -9,7 +9,7 @@ class MainScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text('CRAM STUDYING'),
         ),
-        //body: Center(child: Body()),
+        body: Body(),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
             // Add your onPressed code here!
@@ -24,20 +24,37 @@ class MainScreen extends StatelessWidget {
   }
 }
 
-/*
+
 /// This is the stateless widget that the main application instantiates.
 class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: RaisedButton(
-        onPressed: () {},
-        child: const Text('CLICK TO ADD A SUBJECT', style: TextStyle(fontSize: 20)),
-        color: Colors.blue,
-        textColor: Colors.white,
-        elevation: 5,
+    return Card(
+      margin: EdgeInsets.all(12),
+      elevation: 4,
+      color: Colors.blueGrey,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 16),
+        child: Row(
+          children: <Widget>[
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text("Web Science", style: TextStyle(
+                    fontSize: 20, fontWeight: FontWeight.bold)),
+                SizedBox(height: 4),
+                Text("Total Workloads: 5", style: TextStyle(color: Colors.white70)),
+                Text("Workloads Left: 3", style: TextStyle(color: Colors.white70)),
+                Text("Exam Date: 13/07/2020", style: TextStyle(color: Colors.white70)),
+              ],
+            ),
+            Spacer(),
+            CircleAvatar(backgroundColor: Colors.white),
+          ],
+        ),
       ),
     );
   }
-  */
+}
+
