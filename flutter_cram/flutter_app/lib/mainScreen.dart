@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'home_page_body.dart';
 
 class MainScreen extends StatelessWidget {
   @override
@@ -9,7 +10,12 @@ class MainScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text('CRAM STUDYING'),
         ),
-        body: Body(),
+        body: new Column(
+          children: <Widget>[
+            new HomePageBody(),
+          ],
+
+        ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
             // Add your onPressed code here!
@@ -24,7 +30,7 @@ class MainScreen extends StatelessWidget {
   }
 }
 
-
+/*
 /// This is the stateless widget that the main application instantiates.
 class Body extends StatelessWidget {
   @override
@@ -58,3 +64,9 @@ class Body extends StatelessWidget {
   }
 }
 
+// List of subjects to test for adding subejcts
+
+
+
+]
+*/
