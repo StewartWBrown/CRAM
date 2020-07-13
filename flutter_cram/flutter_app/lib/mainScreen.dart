@@ -9,12 +9,22 @@ class MainScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text('CRAM STUDYING'),
         ),
-        body: Center(child: Body()),
+        //body: Center(child: Body()),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            // Add your onPressed code here!
+          },
+          label: Text('Add Subject'),
+          icon: Icon(Icons.add),
+          backgroundColor: Colors.green,
+        ),
       ),
+
     );
   }
 }
 
+/*
 /// This is the stateless widget that the main application instantiates.
 class Body extends StatelessWidget {
   @override
@@ -30,4 +40,4 @@ class Body extends StatelessWidget {
       ),
     );
   }
-}
+  */
