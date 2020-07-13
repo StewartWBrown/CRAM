@@ -372,7 +372,7 @@ public class MainActivity extends AppCompatActivity {
     // The data structure is of format Map<date, hashmap<String, List<Object>>>
     public String translateToString(Map planner){
         if (planner.isEmpty()){
-            return "No subjects or workloads have been entered, \n FAT boomer";
+            return "No subjects or workloads have been entered, \n";
         }
         int counter = 1;
         StringBuilder sb = new StringBuilder();
