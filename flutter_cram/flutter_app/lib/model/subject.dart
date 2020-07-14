@@ -1,58 +1,88 @@
-class Subject{
-  final int id;
-  final String name;
-  final int workloads;
-  final String startDate;
-  final String endDate;
-  final String examDate;
+import 'package:flutter_app/model/workload.dart';
 
-  const Subject({this.id, this.name, this.workloads, this.startDate, this.endDate, this.examDate});
+class Subject{
+  String name;
+  int workloads;
+  List<int> workCompleted;
+  List<Workload> remainingWork;
+  int difficulty;
+  DateTime startDate;
+  DateTime endDate;
+  DateTime examDate;
+
+  Subject(String _name, int _workloads, List<int> _workCompleted, int _difficulty, DateTime _startDate, DateTime _endDate, DateTime _examDate){
+    this.name = _name;
+    this.workloads = _workloads;
+    this.workCompleted = _workCompleted;
+    this.remainingWork = findWorkload();
+    this.difficulty = _difficulty;
+    this.startDate = _startDate;
+    this.endDate = _endDate;
+    this.examDate = _examDate;
+  }
+
+  List<Workload> findWorkload() {
+    List<Workload> workload = new List();
+
+    for(int i=1; i<workloads+1; i++){
+      if(!workCompleted.contains(i)){
+        workload.add(Workload(i, difficulty));
+      }
+    }
+    return workload;
+  }
 }
 
+
 List<Subject> subjects = [
-  const Subject(
-    id: 1,
-    name: "Algorthms",
-    workloads: 10,
-    startDate: "10/02/20",
-    endDate: "06/03/20",
-    examDate: "08/03/20",
+  Subject(
+    "Algorithms",
+    10,
+    [1,2],
+    1,
+    DateTime(2020, 2, 10),
+    DateTime(2020,3,7),
+    DateTime(2020, 3, 8)
 ),
 
-  const Subject(
-    id: 2,
-    name: "OOSE",
-    workloads: 12,
-    startDate: "14/02/20",
-    endDate: "20/03/20",
-    examDate: "21/03/20",
+  Subject(
+    "OOSE",
+    12,
+    [1],
+    2,
+    DateTime(2020, 2, 14),
+    DateTime(2020, 3, 20),
+    DateTime(2020,3,21)
   ),
 
-    const Subject(
-      id: 3,
-      name: "Networks",
-      workloads: 8,
-      startDate: "10/02/20",
-      endDate: "01/03/20",
-      examDate: "05/03/20",
+    Subject(
+      "Networks",
+      8,
+      [2],
+      2,
+      DateTime(2020,2,10),
+      DateTime(2020,3,1),
+      DateTime(2020,3,2)
 ),
 
-    const Subject(
-      id: 4,
-      name: "Mobile HCI",
-      workloads: 15,
-      startDate: "10/02/20",
-      endDate: "23/02/20",
-      examDate: "28/03/20",
+    Subject(
+      "Mobile HCI",
+      15,
+      [],
+      1,
+      DateTime(2020,2,10),
+      DateTime(2020, 2, 26),
+      DateTime(2020, 2, 28)
     ),
 
-    const Subject(
-      id: 5,
-        name: "Data Fundamentals",
-      workloads: 10,
-      startDate: "10/02/20",
-      endDate: "13/03/20",
-      examDate: "14/03/20",
+    Subject(
+      "Data Fundamentals",
+      10,
+      [1,2],
+      3,
+      DateTime(2020, 10, 2),
+      DateTime(2020,3,13),
+      DateTime(2020, 3, 14),
     ),
 ];
 
