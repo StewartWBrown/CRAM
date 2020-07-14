@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'home_page_body.dart';
+import 'addSubject.dart';
 
 class MainScreen extends StatelessWidget {
   @override
@@ -18,7 +19,10 @@ class MainScreen extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            // Add your onPressed code here!
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AddSubject()),
+            );
           },
           label: Text('Add Subject'),
           icon: Icon(Icons.add),
@@ -30,43 +34,3 @@ class MainScreen extends StatelessWidget {
   }
 }
 
-/*
-/// This is the stateless widget that the main application instantiates.
-class Body extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.all(12),
-      elevation: 4,
-      color: Colors.blueGrey,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 16),
-        child: Row(
-          children: <Widget>[
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text("Web Science", style: TextStyle(
-                    fontSize: 20, fontWeight: FontWeight.bold)),
-                SizedBox(height: 4),
-                Text("Total Workloads: 5", style: TextStyle(color: Colors.white70)),
-                Text("Workloads Left: 3", style: TextStyle(color: Colors.white70)),
-                Text("Exam Date: 13/07/2020", style: TextStyle(color: Colors.white70)),
-              ],
-            ),
-            Spacer(),
-            CircleAvatar(backgroundColor: Colors.white),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// List of subjects to test for adding subejcts
-
-
-
-]
-*/

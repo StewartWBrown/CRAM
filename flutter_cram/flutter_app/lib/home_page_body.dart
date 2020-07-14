@@ -7,8 +7,10 @@ class HomePageBody extends StatelessWidget{
   Widget build(BuildContext context) {
    return new Column(
      children: <Widget>[
+
        // Loop through list of subjects, creating a row for each one
        for(var subject in subjects) new SubjectRow(subject)
+
      ]
    );
   }
