@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'mainScreen.dart';
-import 'model/subject.dart';
 
 void main() {
   runApp(

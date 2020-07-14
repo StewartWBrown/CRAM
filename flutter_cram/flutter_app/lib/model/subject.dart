@@ -80,7 +80,7 @@ List<Subject> subjects = [
       10,
       [1,2],
       3,
-      DateTime(2020, 10, 2),
+      DateTime(2020, 2, 10),
       DateTime(2020,3,13),
       DateTime(2020, 3, 14),
     ),
