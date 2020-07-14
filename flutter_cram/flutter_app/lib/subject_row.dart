@@ -25,7 +25,7 @@ class SubjectRow extends StatelessWidget {
           new Container(height: 4.0),
           new Text(subject.name),
           new Container(height: 10.0),
-          new Text(subject.examDate),
+          new Text(subject.examDate.toString()),
           new Container(
               margin: new EdgeInsets.symmetric(vertical: 8.0),
               height: 2.0,
