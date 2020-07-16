@@ -14,11 +14,11 @@ class Subject{
     this.name = _name;
     this.workloads = _workloads;
     this.workCompleted = _workCompleted;
-    this.remainingWork = findWorkload();
     this.difficulty = _difficulty;
     this.startDate = _startDate;
     this.endDate = _endDate;
     this.examDate = _examDate;
+    this.remainingWork = findWorkload();
   }
 
   List<Workload> findWorkload() {
@@ -80,7 +80,7 @@ List<Subject> subjects = [
       10,
       [1,2],
       3,
-      DateTime(2020, 10, 2),
+      DateTime(2020, 2, 10),
       DateTime(2020,3,13),
       DateTime(2020, 3, 14),
     ),
