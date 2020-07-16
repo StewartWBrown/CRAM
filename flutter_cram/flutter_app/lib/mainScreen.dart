@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/spread.dart';
 import 'home_page_body.dart';
+import 'model/subject.dart';
+import 'spread.dart';
 
 class MainScreen extends StatelessWidget {
   @override
@@ -18,7 +21,7 @@ class MainScreen extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            // Add your onPressed code here!
+            Spread().spread(subjects, List());
           },
           label: Text('Add Subject'),
           icon: Icon(Icons.add),

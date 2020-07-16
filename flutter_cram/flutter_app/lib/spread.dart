@@ -104,19 +104,23 @@ class Spread {
       prevDate = date;
     }
 
-//    PRETTY PRINT
+//    //PRETTY PRINT FOR TESTING ------------------------------------------------------------------------
 //    for(DateTime date in calendar.keys){
 //      int weight=0;
 //      print(date);
 //      for(String subj in calendar[date].keys){
-//        print(subj);
+//        if(subj == "Data Fundamentals"){
+//          print(subj);
+//        }
 //        for(Workload wl in calendar[date][subj]){
-//          print(wl.workloadNo);
-//          weight += 1;
+//          if(subj=="Data Fundamentals"){
+//            print(wl.workloadNo);
+//          }
+//          weight += wl.difficulty;
 //        }
 //      }
 //      print("Weight: " + weight.toString());
-//      print("");
+//      print("_______________________________________________________________________");
 //    }
     return calendar;
   }

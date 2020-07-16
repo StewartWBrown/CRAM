@@ -1,6 +1,9 @@
 class Workload{
-  final int workloadNo;
-  final int difficulty;
+  int workloadNo;
+  int difficulty;
 
-  const Workload(this.workloadNo, this.difficulty);
+  Workload(int _workloadNo, int _difficulty){
+    this.workloadNo = _workloadNo;
+    this.difficulty = _difficulty;
+  }
 }
