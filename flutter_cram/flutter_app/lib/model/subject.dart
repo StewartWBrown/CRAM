@@ -55,15 +55,6 @@ List<Subject> subjects = [
     DateTime(2020,3,21)
   ),
 
-    Subject(
-      "Networks",
-      8,
-      [2],
-      2,
-      DateTime(2020,2,10),
-      DateTime(2020,3,1),
-      DateTime(2020,3,2)
-),
 
     Subject(
       "Mobile HCI",

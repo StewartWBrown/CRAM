@@ -12,9 +12,9 @@ class _AddSubjectState extends State<AddSubject> {
   List<int> tempWorkCompleted;
   int tempDifficulty;
 
-  DateTime startDate = new DateTime.now();
-  DateTime endDate = new DateTime.now();
-  DateTime examDate = new DateTime.now();
+  DateTime startDate = DateTime.now();
+  DateTime endDate = DateTime.now();
+  DateTime examDate = DateTime.now();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -75,12 +75,13 @@ class _AddSubjectState extends State<AddSubject> {
     final DateTime _selDate = await showDatePicker(
         context: context,
         initialDate: startDate,
-        firstDate: DateTime(2001),
+        firstDate: DateTime.now(),
         lastDate: DateTime(2100));
 
         if(_selDate!=null){
           setState((){
             startDate =_selDate;
+
           });
         }
   }
@@ -89,8 +90,8 @@ class _AddSubjectState extends State<AddSubject> {
   Future<Null> _selectEndDate(BuildContext context) async {
     final DateTime _selDate = await showDatePicker(
         context: context,
-        initialDate: endDate,
-        firstDate: DateTime(2001),
+        initialDate: startDate,
+        firstDate: startDate,
         lastDate: DateTime(2100));
 
     if(_selDate!=null){
@@ -104,8 +105,8 @@ class _AddSubjectState extends State<AddSubject> {
   Future<Null> _selectExamDate(BuildContext context) async {
     final DateTime _selDate = await showDatePicker(
         context: context,
-        initialDate: examDate,
-        firstDate: DateTime(2001),
+        initialDate: endDate,
+        firstDate: endDate,
         lastDate: DateTime(2100));
 
     if(_selDate!=null){
@@ -115,13 +116,13 @@ class _AddSubjectState extends State<AddSubject> {
     }
   }
 
-
-
+  
   @override
   Widget build(BuildContext context) {
-    String formattedStartDate = new DateFormat.yMMMd().format(startDate);
-    String formattedEndDate = new DateFormat.yMMMd().format(endDate);
-    String formattedExamDate = new DateFormat.yMMMd().format(examDate);
+
+   String formattedStartDate = new DateFormat.yMMMd().format(startDate);
+   String formattedEndDate = new DateFormat.yMMMd().format(endDate);
+   String formattedExamDate = new DateFormat.yMMMd().format(examDate);
 
     return MaterialApp(
       title: 'CRAM',
@@ -181,6 +182,7 @@ class _AddSubjectState extends State<AddSubject> {
 
                             _formKey.currentState.save();
                             print(tempName);
+
                           })
                     ]))),
         floatingActionButton: FloatingActionButton.extended(
