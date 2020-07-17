@@ -116,7 +116,7 @@ class _AddSubjectState extends State<AddSubject> {
     }
   }
 
-  
+
   @override
   Widget build(BuildContext context) {
 
