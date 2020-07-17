@@ -5,7 +5,7 @@ import 'subject_row.dart';
 class HomePageBody extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-   return new Column(
+   return new ListView(
      children: <Widget>[
        new SubjectRow(subjects[0]),
        new SubjectRow(subjects[1]),
