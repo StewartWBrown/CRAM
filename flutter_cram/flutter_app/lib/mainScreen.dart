@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/addSubject.dart';
 import 'package:flutter_app/spread.dart';
 import 'home_page_body.dart';
 import 'model/subject.dart';
@@ -42,6 +43,10 @@ class MainScreen extends StatelessWidget {
             ),
             floatingActionButton: FloatingActionButton.extended(
               onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AddSubject()),
+                );
               },
               label: Text('Add Subject'),
               icon: Icon(Icons.add),
