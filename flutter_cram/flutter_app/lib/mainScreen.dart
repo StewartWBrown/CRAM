@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/spread.dart';
 import 'home_page_body.dart';
+import 'addSubject.dart';
 import 'model/subject.dart';
 import 'spread.dart';
-
 
 class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
         home: DefaultTabController(
           length: 2,
           child: Scaffold(
@@ -50,3 +51,4 @@ class MainScreen extends StatelessWidget {
     );
   }
 }
+
