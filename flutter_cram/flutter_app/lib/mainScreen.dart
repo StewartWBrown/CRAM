@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/spread.dart';
 import 'home_page_body.dart';
-import 'addSubject.dart';
 import 'model/subject.dart';
+import 'model/workload.dart';
 import 'spread.dart';
+import 'calendar.dart';
+
 
 class MainScreen extends StatelessWidget {
+  Map<DateTime, Map<String, List<Workload>>>calendar1 = Spread().spread(subjects, List());
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-
         home: DefaultTabController(
           length: 2,
           child: Scaffold(
@@ -34,13 +36,12 @@ class MainScreen extends StatelessWidget {
               body: new TabBarView(
                 children: <Widget>[
                   new HomePageBody(),
-                  new HomePageBody(),
+                  new Calendar(),
                 ],
               ),
             ),
             floatingActionButton: FloatingActionButton.extended(
               onPressed: () {
-                Spread().spread(subjects, List());
               },
               label: Text('Add Subject'),
               icon: Icon(Icons.add),
@@ -51,4 +52,3 @@ class MainScreen extends StatelessWidget {
     );
   }
 }
-
