@@ -1,87 +1,128 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/model/subject.dart';
+import 'package:intl/intl.dart';
 
-class AddSubject extends StatelessWidget {
+class AddSubject extends StatefulWidget {
+  _AddSubjectState createState() => _AddSubjectState();
+}
 
+class _AddSubjectState extends State<AddSubject> {
   String tempName;
   int tempWorkloads;
   List<int> tempWorkCompleted;
   int tempDifficulty;
-  DateTime tempStartDate;
-  DateTime tempEndDate;
-  DateTime tempExamDate;
+
+  DateTime startDate = new DateTime.now();
+  DateTime endDate = new DateTime.now();
+  DateTime examDate = new DateTime.now();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  Widget _buildName(){
+  Widget _buildName() {
     return TextFormField(
       decoration: InputDecoration(labelText: 'Subject Name'),
       // ignore: missing_return
-      validator: (String value){
-        if(value.isEmpty){
+      validator: (String value) {
+        if (value.isEmpty) {
           return 'Subject name is required';
         }
       },
-      onSaved: (String value){
+      onSaved: (String value) {
         tempName = value;
       },
     );
   }
 
-  Widget _buildWorkloads(){
+  Widget _buildWorkloads() {
     return TextFormField(
       decoration: InputDecoration(labelText: 'Number of workloads'),
       keyboardType: TextInputType.number,
       // ignore: missing_return
-      validator: (String value){
-
+      validator: (String value) {
         int wl = int.tryParse(value);
 
-        if(wl == null || wl <= 0){
+        if (wl == null || wl <= 0) {
           return 'Workload number must in fact be... a number. loser.';
         }
       },
 
-      onSaved: (String value){
+      onSaved: (String value) {
         tempWorkloads = int.tryParse(value);
       },
     );
   }
 
-  Widget _buildDifficulty(){
+  Widget _buildDifficulty() {
     return TextFormField(
-      decoration: InputDecoration(labelText: 'Difficulty of subject (1 being easy, 3 being hard)'),
+      decoration: InputDecoration(
+          labelText: 'Difficulty of subject (1 being easy, 3 being hard)'),
       keyboardType: TextInputType.number,
       // ignore: missing_return
-      validator: (String value){
-
+      validator: (String value) {
         int dif = int.tryParse(value);
 
-        if(dif == null || dif < 1 || dif > 3){
+        if (dif == null || dif < 1 || dif > 3) {
           return 'Difficulty must be either 1, 2 or 3';
         }
       },
-      onSaved: (String value){
+      onSaved: (String value) {
         tempDifficulty = int.tryParse(value);
       },
-    );;
+    );
   }
 
-  Widget _buildStart(){
+  Future<Null> _selectStartDate(BuildContext context) async {
+    final DateTime _selDate = await showDatePicker(
+        context: context,
+        initialDate: startDate,
+        firstDate: DateTime(2001),
+        lastDate: DateTime(2100));
 
+        if(_selDate!=null){
+          setState((){
+            startDate =_selDate;
+          });
+        }
   }
 
-  Widget _buildEnd(){
-    return null;
+
+  Future<Null> _selectEndDate(BuildContext context) async {
+    final DateTime _selDate = await showDatePicker(
+        context: context,
+        initialDate: endDate,
+        firstDate: DateTime(2001),
+        lastDate: DateTime(2100));
+
+    if(_selDate!=null){
+      setState((){
+        endDate =_selDate;
+      });
+    }
   }
 
-  Widget _buildExam(){
-    return null;
+
+  Future<Null> _selectExamDate(BuildContext context) async {
+    final DateTime _selDate = await showDatePicker(
+        context: context,
+        initialDate: examDate,
+        firstDate: DateTime(2001),
+        lastDate: DateTime(2100));
+
+    if(_selDate!=null){
+      setState((){
+        examDate =_selDate;
+      });
+    }
   }
+
 
 
   @override
   Widget build(BuildContext context) {
+    String formattedStartDate = new DateFormat.yMMMd().format(startDate);
+    String formattedEndDate = new DateFormat.yMMMd().format(endDate);
+    String formattedExamDate = new DateFormat.yMMMd().format(examDate);
+
     return MaterialApp(
       title: 'CRAM',
       home: Scaffold(
@@ -89,34 +130,59 @@ class AddSubject extends StatelessWidget {
           title: Text("Add a subject"),
         ),
         body: Container(
-          margin: EdgeInsets.all(24),
-          child: Form(
-            key: _formKey,
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              _buildName(),
-              _buildWorkloads(),
-              _buildDifficulty(),
-              // _buildStart(),
-              //_buildEnd(),
-              //_buildExam(),
-              SizedBox(height: 100),
-              RaisedButton(
-                child: Text('Add Subject'),
-                onPressed: () {
-                  if(!_formKey.currentState.validate()){
-                    return;
-                  }
+            margin: EdgeInsets.all(24),
+            child: Form(
+                key: _formKey,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      _buildName(),
+                      _buildWorkloads(),
+                      _buildDifficulty(),
+                      SizedBox(height: 20),
+                      Row(children: <Widget>[
+                        Text('Date to start studying: $formattedStartDate'),
+                        SizedBox(width: 55),
+                        IconButton(
+                            onPressed: () {
+                              _selectStartDate(context);
+                            },
+                            icon: Icon(Icons.calendar_today))
+                      ]),
+                      SizedBox(height: 20),
+                      Row(children: <Widget>[
+                        Text('Date to finish studying: $formattedEndDate'),
+                        SizedBox(width: 50),
+                        IconButton(
+                            onPressed: () {
+                              _selectEndDate(context);
+                            },
+                            icon: Icon(Icons.calendar_today))
+                      ]),
 
-                  _formKey.currentState.save();
-                  print(tempName);
-                }
-                )
-            ]
-          ))
-        ),
+                      SizedBox(height: 20),
+                      Row(children: <Widget>[
+                        Text('Exam date: $formattedExamDate'),
+                        SizedBox(width: 112),
+                        IconButton(
+                            onPressed: () {
+                              _selectExamDate(context);
+                            },
+                            icon: Icon(Icons.calendar_today))
+                      ]),
 
+                      SizedBox(height: 100),
+                      RaisedButton(
+                          child: Text('Add Subject'),
+                          onPressed: () {
+                            if (!_formKey.currentState.validate()) {
+                              return;
+                            }
+
+                            _formKey.currentState.save();
+                            print(tempName);
+                          })
+                    ]))),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
             Navigator.pop(context);
@@ -126,8 +192,6 @@ class AddSubject extends StatelessWidget {
           backgroundColor: Colors.green,
         ),
       ),
-
     );
   }
 }
-
