@@ -23,9 +23,10 @@ class _AddSubjectState extends State<AddSubject> {
   int tempWorkloads;
   List<int> tempWorkCompleted;
   int tempDifficulty;
-  DateTime startDate = DateTime.now();
-  DateTime endDate = DateTime.now();
-  DateTime examDate = DateTime.now();
+  DateTime now = DateTime.now();
+  DateTime startDate;
+  DateTime endDate;
+  DateTime examDate;
 
   @override
   void initState() {
@@ -37,6 +38,11 @@ class _AddSubjectState extends State<AddSubject> {
       startDate = subject.startDate;
       endDate = subject.endDate;
       examDate = subject.examDate;
+    }
+    else{
+      startDate = DateTime(now.year, now.month, now.day);
+      endDate = DateTime(now.year, now.month, now.day);
+      examDate = DateTime(now.year, now.month, now.day);
     }
   }
 
@@ -219,7 +225,7 @@ class _AddSubjectState extends State<AddSubject> {
                             subjects.add(Subject(
                                 tempName,
                                 tempWorkloads,
-                                [1,2],
+                                [],
                                 tempDifficulty,
                                 startDate,
                                 endDate,
