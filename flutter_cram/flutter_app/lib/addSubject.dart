@@ -3,24 +3,52 @@ import 'package:flutter_app/model/subject.dart';
 import 'package:intl/intl.dart';
 
 class AddSubject extends StatefulWidget {
-  _AddSubjectState createState() => _AddSubjectState();
+  Subject subject;
+  AddSubject([this.subject]);
+
+  _AddSubjectState createState() => _AddSubjectState(subject);
+
 }
 
 class _AddSubjectState extends State<AddSubject> {
+  Subject subject;
+  _AddSubjectState(this.subject);
+
+  String initialName = "";
+  String initialWorkloads = "";
+  String initialWorkCompleted = "";
+  String initialDifficulty = "";
+
   String tempName;
   int tempWorkloads;
   List<int> tempWorkCompleted;
   int tempDifficulty;
-
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
   DateTime examDate = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+    if(subject != null){
+      initialName = subject.name;
+      initialWorkloads = subject.workloads.toString();
+      initialDifficulty = subject.difficulty.toString();
+      startDate = subject.startDate;
+      endDate = subject.endDate;
+      examDate = subject.examDate;
+    }
+  }
+
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Widget _buildName() {
     return TextFormField(
-      decoration: InputDecoration(labelText: 'Subject Name'),
+      decoration: InputDecoration(
+        labelText: 'Subject Name',
+      ),
+      initialValue: initialName,
       // ignore: missing_return
       validator: (String value) {
         if (value.isEmpty) {
@@ -35,7 +63,10 @@ class _AddSubjectState extends State<AddSubject> {
 
   Widget _buildWorkloads() {
     return TextFormField(
-      decoration: InputDecoration(labelText: 'Number of workloads'),
+      decoration: InputDecoration(
+        labelText: 'Number of workloads',
+      ),
+      initialValue: initialWorkloads,
       keyboardType: TextInputType.number,
       // ignore: missing_return
       validator: (String value) {
@@ -55,7 +86,9 @@ class _AddSubjectState extends State<AddSubject> {
   Widget _buildDifficulty() {
     return TextFormField(
       decoration: InputDecoration(
-          labelText: 'Difficulty of subject (1 being easy, 3 being hard)'),
+        labelText: 'Difficulty of subject (1 being easy, 3 being hard)',
+      ),
+      initialValue: initialDifficulty,
       keyboardType: TextInputType.number,
       // ignore: missing_return
       validator: (String value) {
@@ -172,7 +205,7 @@ class _AddSubjectState extends State<AddSubject> {
                             icon: Icon(Icons.calendar_today))
                       ]),
 
-                      SizedBox(height: 100),
+                      //SizedBox(height: 100),
                       RaisedButton(
                           child: Text('Add Subject'),
                           onPressed: () {
