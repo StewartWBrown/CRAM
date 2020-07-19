@@ -40,9 +40,9 @@ List<Subject> subjects = [
     10,
     [1,2],
     1,
-    DateTime(2020, 2, 10),
-    DateTime(2020,3,7),
-    DateTime(2020, 3, 8)
+    DateTime(2020, 7, 10),
+    DateTime(2020,8,7),
+    DateTime(2020, 8, 8)
 ),
 
   Subject(
@@ -50,9 +50,9 @@ List<Subject> subjects = [
     12,
     [1],
     2,
-    DateTime(2020, 2, 14),
-    DateTime(2020, 3, 20),
-    DateTime(2020,3,21)
+    DateTime(2020, 7, 14),
+    DateTime(2020, 8, 20),
+    DateTime(2020,8,21)
   ),
 
 
@@ -61,9 +61,9 @@ List<Subject> subjects = [
       15,
       [],
       1,
-      DateTime(2020,2,10),
-      DateTime(2020, 2, 26),
-      DateTime(2020, 2, 28)
+      DateTime(2020,7,10),
+      DateTime(2020, 7, 26),
+      DateTime(2020, 7, 28)
     ),
 
     Subject(
@@ -71,9 +71,9 @@ List<Subject> subjects = [
       10,
       [1,2],
       3,
-      DateTime(2020, 2, 10),
-      DateTime(2020,3,13),
-      DateTime(2020, 3, 14),
+      DateTime(2020, 7, 10),
+      DateTime(2020,8,13),
+      DateTime(2020, 8, 14),
     ),
 ];
 
