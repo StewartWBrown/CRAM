@@ -216,6 +216,16 @@ class _AddSubjectState extends State<AddSubject> {
                             _formKey.currentState.save();
                             print(tempName);
 
+                            subjects.add(Subject(
+                                tempName,
+                                tempWorkloads,
+                                [1,2],
+                                tempDifficulty,
+                                startDate,
+                                endDate,
+                                examDate
+                            ));
+
                           })
                     ]))),
         floatingActionButton: FloatingActionButton.extended(
