@@ -41,7 +41,7 @@ class SubjectRow extends StatelessWidget {
 
     final subjectCard = new GestureDetector(
       onTap: (){
-        var expandSubject = ExpandSubjectCard().expand(subject);
+        var expandSubject = ExpandSubjectCard(subject);
 
         showDialog(
           context: context,
