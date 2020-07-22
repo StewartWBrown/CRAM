@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/model/subject.dart';
 import 'package:intl/intl.dart';
+import 'databaseHelper.dart';
 
 class AddSubject extends StatefulWidget {
   Subject subject;
@@ -214,23 +215,26 @@ class _AddSubjectState extends State<AddSubject> {
                       //SizedBox(height: 100),
                       RaisedButton(
                           child: Text('Add Subject'),
-                          onPressed: () {
+                          onPressed: () async{
                             if (!_formKey.currentState.validate()) {
                               return;
                             }
 
                             _formKey.currentState.save();
                             print(tempName);
+                          var newSubject = Subject(
+                            name: tempName,
+                            workloads: tempWorkloads,
+                            difficulty: tempDifficulty,
+                            startDate: startDate,
+                            endDate: endDate,
+                            examDate: examDate,
+                          );
 
-                            subjects.add(Subject(
-                                tempName,
-                                tempWorkloads,
-                                [],
-                                tempDifficulty,
-                                startDate,
-                                endDate,
-                                examDate
-                            ));
+                        await DatabaseHelper.instance.insertSubject(newSubject);
+
+                        print("ADDED SUBJECT");
+                        print(DatabaseHelper.instance.queryAll());
 
                           })
                     ]))),

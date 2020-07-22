@@ -1,4 +1,5 @@
 import 'package:flutter_app/model/workload.dart';
+import 'package:flutter_app/databaseHelper.dart';
 
 class Subject {
   final String name;
@@ -23,6 +24,11 @@ class Subject {
   }
 }
 
+Future<List<Subject>> updateList()async{
+  var tempList = DatabaseHelper.instance.queryAll();
+  return tempList;
+}
+
 /*
   List<Workload> findWorkload() {
     List<Workload> workload = new List();
@@ -34,7 +40,9 @@ class Subject {
     }
     return workload;
   }
-}
+
+
+
 
 
 List<Subject> subjects = [
@@ -81,6 +89,3 @@ List<Subject> subjects = [
 ];
 
 */
-
-
-

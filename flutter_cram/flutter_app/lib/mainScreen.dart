@@ -9,7 +9,9 @@ import 'calendar.dart';
 
 
 class MainScreen extends StatelessWidget {
-  Map<DateTime, Map<String, List<Workload>>>calendar1 = Spread().spread(subjects, List());
+  Future<List<Subject>> subjects = updateList();
+  //Map<DateTime, Map<String, List<Workload>>>calendar1 = Spread().spread(subjects, List());
+  var calendar1 = new Map<DateTime, Map<String, List<Workload>>>();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -37,7 +39,8 @@ class MainScreen extends StatelessWidget {
               body: new TabBarView(
                 children: <Widget>[
                   new HomePageBody(),
-                  new Calendar(),
+                  // NO CALENDAR
+                  new HomePageBody(),
                 ],
               ),
             ),
