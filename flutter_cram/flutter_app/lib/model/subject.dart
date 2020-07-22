@@ -1,26 +1,29 @@
 import 'package:flutter_app/model/workload.dart';
 
-class Subject{
-  String name;
-  int workloads;
-  List<int> workCompleted;
-  List<Workload> remainingWork;
-  int difficulty;
-  DateTime startDate;
-  DateTime endDate;
-  DateTime examDate;
+class Subject {
+  final String name;
+  final int workloads;
+  final int difficulty;
+  final DateTime startDate;
+  final DateTime endDate;
+  final DateTime examDate;
 
-  Subject(String _name, int _workloads, List<int> _workCompleted, int _difficulty, DateTime _startDate, DateTime _endDate, DateTime _examDate){
-    this.name = _name;
-    this.workloads = _workloads;
-    this.workCompleted = _workCompleted;
-    this.difficulty = _difficulty;
-    this.startDate = _startDate;
-    this.endDate = _endDate;
-    this.examDate = _examDate;
-    this.remainingWork = findWorkload();
+  Subject(
+      {this.name, this.workloads, this.difficulty, this.startDate, this.endDate, this.examDate});
+
+  Map<String, dynamic> toMap(){
+    return{
+      'name': name,
+      'workloads':workloads,
+      'difficulty' : difficulty,
+      'startDate' : startDate,
+      'endDate': endDate,
+      'examDate': examDate,
+    };
   }
+}
 
+/*
   List<Workload> findWorkload() {
     List<Workload> workload = new List();
 
@@ -77,7 +80,7 @@ List<Subject> subjects = [
     ),
 ];
 
-
+*/
 
 
 

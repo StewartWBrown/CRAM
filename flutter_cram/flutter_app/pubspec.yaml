@@ -26,6 +26,8 @@ dependencies:
   table_calendar: ^2.2.3
   shared_preferences: ^0.5.4+5
   intl:
+  sqflite:
+  path_provider:
 
 
 
@@ -36,6 +38,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
