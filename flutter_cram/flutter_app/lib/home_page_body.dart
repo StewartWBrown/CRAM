@@ -7,11 +7,35 @@ class HomePageBody extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-        someFunc() async{
-          for(Subject subject in subjects){
-            new SubjectRow(subject);
-          }
-        };
+    return new ListView(
+      children: <Widget>[
+          FutureBuilder<List<Subject>>(
+            future: subjects,
+            builder: (context, snapshot) {
+              if(snapshot.connectionState != ConnectionState.done){
+               // return loading state
+              }
+              if(snapshot.hasError){
+                // return error widget
+              }
+              List<Subject> subjects = snapshot.data ?? [];
+              if (subjects == null){
+                return Text("Enter a subject bitch");
+              }
+
+              for(Subject subject in subjects){
+                new SubjectRow(subject);
+              }
+              return Container(width: 0.0, height: 0.0);
+            }
+
+          )
+
+
+
+
+      ]
+    );
 }
 
 }

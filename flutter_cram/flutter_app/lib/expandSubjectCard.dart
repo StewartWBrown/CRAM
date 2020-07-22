@@ -11,7 +11,7 @@ class ExpandSubjectCard extends StatelessWidget{
   Widget build(BuildContext context) {
     return AlertDialog(
         title: Text(subject.name),
-        content: Text("Start Date: " + subject.startDate.day.toString() + '/' +
+        content: Text("Start Date: " /* + subject.startDate.day.toString() + '/' +
             subject.startDate.month.toString() + '/' +
             subject.startDate.year.toString() + '\n' +
             "End Date: " + subject.endDate.day.toString() + '/' +
@@ -19,7 +19,7 @@ class ExpandSubjectCard extends StatelessWidget{
             subject.endDate.year.toString() + '\n' +
             "Exam Date: " + subject.examDate.day.toString() + '/' +
             subject.examDate.month.toString() + '/' +
-            subject.examDate.year.toString()
+            subject.examDate.year.toString() */
         ),
         actions: <Widget>[
           IconButton(

@@ -5,18 +5,18 @@ class Subject {
   final String name;
   final int workloads;
   final int difficulty;
-  final DateTime startDate;
-  final DateTime endDate;
-  final DateTime examDate;
+  final String startDate;
+  final String endDate;
+  final String examDate;
 
   Subject(
       {this.name, this.workloads, this.difficulty, this.startDate, this.endDate, this.examDate});
 
   Map<String, dynamic> toMap(){
     return{
-      'name': name,
-      'workloads':workloads,
-      'difficulty' : difficulty,
+      'SubjectName': name,
+      'NumberOfWorkloads':workloads,
+      'Difficulty' : difficulty,
       'startDate' : startDate,
       'endDate': endDate,
       'examDate': examDate,
