@@ -2,40 +2,55 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/model/subject.dart';
 import 'subject_row.dart';
 
-class HomePageBody extends StatelessWidget{
-  Future<List<Subject>> subjects = updateList();
-
+class HomePageBody extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return new ListView(
-      children: <Widget>[
-          FutureBuilder<List<Subject>>(
-            future: subjects,
-            builder: (context, snapshot) {
-              if(snapshot.connectionState != ConnectionState.done){
-               // return loading state
-              }
-              if(snapshot.hasError){
-                // return error widget
-              }
-              List<Subject> subjects = snapshot.data ?? [];
-              if (subjects.isEmpty){
-                return Text("Enter a subject bitch");
-              }
-              for(Subject subject in subjects){
-                new SubjectRow(subject);
-              }
-
-              return Container(width: 0.0, height: 0.0);
-            }
-
-          )
-
-
-
-
-      ]
-    );
+  _HomePageBodyState createState() => _HomePageBodyState();
 }
 
+class _HomePageBodyState extends State<HomePageBody> {
+  Future<List<Subject>> subjects = updateList();
+  @override
+  Widget build(BuildContext context) {
+    FutureBuilder<List<Subject>>(
+        future: subjects,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return Text("YUCK");
+          }
+          if (snapshot.hasError) {
+            return Text("ERROR");
+          }
+          List<Subject> subjects = snapshot.data ?? [];
+          if (subjects.isEmpty) {
+            return Text("Enter a subject bitch");
+          }
+          return Row(
+              children: [
+                Expanded(
+                  child: new Container(
+                    color: new Color(0xFF0c6f96),
+                    child: new CustomScrollView(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: false,
+                      slivers: <Widget>[
+                        new SliverPadding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 24.0),
+                          sliver: new SliverList(
+                            delegate: new SliverChildBuilderDelegate(
+                                  (context, index) =>
+                              new SubjectRow(subjects[index]),
+                              childCount: subjects.length,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ]);
+        }
+
+    );
+  }
 }
