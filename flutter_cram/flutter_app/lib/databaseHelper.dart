@@ -45,7 +45,7 @@ class DatabaseHelper{
   _initiateDatabase() async{
     Directory docDirectory = await getApplicationDocumentsDirectory();
     String path = join(docDirectory.path,_dbName);
-    print(path);
+    print("CREATING DATABASE");
     var myOwnDB = await openDatabase(path, version: _dbVersion, onCreate: _onCreate);
     return myOwnDB;
   }
@@ -120,4 +120,5 @@ class DatabaseHelper{
       whereArgs: [name],
     );
   }
+
 }

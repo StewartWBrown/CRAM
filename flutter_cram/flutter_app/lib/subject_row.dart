@@ -8,6 +8,7 @@ class SubjectRow extends StatelessWidget {
 
   SubjectRow(this.subject);
 
+
   @override
   Widget build(BuildContext context) {
 

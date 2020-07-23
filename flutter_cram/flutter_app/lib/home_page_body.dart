@@ -19,13 +19,13 @@ class HomePageBody extends StatelessWidget{
                 // return error widget
               }
               List<Subject> subjects = snapshot.data ?? [];
-              if (subjects == null){
+              if (subjects.isEmpty){
                 return Text("Enter a subject bitch");
               }
-
               for(Subject subject in subjects){
                 new SubjectRow(subject);
               }
+
               return Container(width: 0.0, height: 0.0);
             }
 
