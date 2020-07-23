@@ -26,7 +26,7 @@ class SubjectRow extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           new Container(height: 4.0),
-          new Text(subject.name),
+          new Text(subject.name.toString()),
           new Container(height: 10.0),
           new Text(subject.examDate),
           new Container(
