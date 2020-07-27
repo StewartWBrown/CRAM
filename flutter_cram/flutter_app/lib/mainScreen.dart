@@ -9,12 +9,7 @@ import 'calendar.dart';
 
 var calendar1 = new Map<DateTime, Map<String, List<Workload>>>();
 
-class MainScreen extends StatefulWidget {
-  @override
-  _MainScreenState createState() => _MainScreenState();
-}
-
-class _MainScreenState extends State<MainScreen> {
+class MainScreen extends StatelessWidget {
   Future<List<Subject>> subjects = updateList();
 
   @override
@@ -54,13 +49,6 @@ class _MainScreenState extends State<MainScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => AddSubject()),
-              );
-              subjects = updateList();
-              TabBarView(
-                children: <Widget>[
-                  new HomePageBody(),
-                  new HomePageBody(),
-                ],
               );
             },
             label: Text('Add Subject'),
