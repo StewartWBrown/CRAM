@@ -10,7 +10,6 @@ class HomePageBody extends StatefulWidget {
 class _HomePageBodyState extends State<HomePageBody> {
   Future<List<Subject>> subjects = updateList();
   @override
-  // ignore: missing_return
   Widget build(BuildContext context) {
     return Container(
       child: FutureBuilder<List<Subject>>(

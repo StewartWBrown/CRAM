@@ -83,9 +83,9 @@ class DatabaseHelper{
 
     return List.generate(maps.length, (i){
       return Subject(
-        name: maps[i]['name'],
-        workloads: maps[i]['workloads'],
-        difficulty: maps[i]['difficulty'],
+        name: maps[i]['SubjectName'],
+        workloads: maps[i]['NumberOfWorkloads'],
+        difficulty: maps[i]['Difficulty'],
         startDate: maps[i]['startDate'],
         endDate: maps[i]['endDate'],
         examDate: maps[i]['examDate'],
