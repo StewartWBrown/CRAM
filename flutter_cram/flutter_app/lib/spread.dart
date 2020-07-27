@@ -5,7 +5,8 @@ import 'package:flutter_app/model/workload.dart';
 
 class Spread {
 
-  Map<DateTime, Map<String, List<Workload>>> spread(List<Subject> subjects, List<DateTime> skipDates){
+ /*
+  Map<DateTime, Map<String, List<Workload>>> spread(List<Subject> subjects, List<DateTime> skipDates){}
 
     //add exam dates to skipDates list
     for(int i=0; i<subjects.length; i++){
@@ -164,5 +165,6 @@ class Spread {
     }
     return wlToMove;
   }
-
+*/
 }
+

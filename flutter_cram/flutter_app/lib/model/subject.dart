@@ -1,26 +1,35 @@
 import 'package:flutter_app/model/workload.dart';
+import 'package:flutter_app/databaseHelper.dart';
 
-class Subject{
-  String name;
-  int workloads;
-  List<int> workCompleted;
-  List<Workload> remainingWork;
-  int difficulty;
-  DateTime startDate;
-  DateTime endDate;
-  DateTime examDate;
+class Subject {
+  final String name;
+  final int workloads;
+  final int difficulty;
+  final String startDate;
+  final String endDate;
+  final String examDate;
 
-  Subject(String _name, int _workloads, List<int> _workCompleted, int _difficulty, DateTime _startDate, DateTime _endDate, DateTime _examDate){
-    this.name = _name;
-    this.workloads = _workloads;
-    this.workCompleted = _workCompleted;
-    this.difficulty = _difficulty;
-    this.startDate = _startDate;
-    this.endDate = _endDate;
-    this.examDate = _examDate;
-    this.remainingWork = findWorkload();
+  Subject(
+      {this.name, this.workloads, this.difficulty, this.startDate, this.endDate, this.examDate});
+
+  Map<String, dynamic> toMap(){
+    return{
+      'SubjectName': name,
+      'NumberOfWorkloads':workloads,
+      'Difficulty' : difficulty,
+      'startDate' : startDate,
+      'endDate': endDate,
+      'examDate': examDate,
+    };
   }
+}
 
+Future<List<Subject>> updateList()async{
+  var tempList = DatabaseHelper.instance.queryAll();
+  return tempList;
+}
+
+/*
   List<Workload> findWorkload() {
     List<Workload> workload = new List();
 
@@ -31,7 +40,9 @@ class Subject{
     }
     return workload;
   }
-}
+
+
+
 
 
 List<Subject> subjects = [
@@ -77,7 +88,4 @@ List<Subject> subjects = [
     ),
 ];
 
-
-
-
-
+*/

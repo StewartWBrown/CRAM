@@ -8,6 +8,7 @@ class SubjectRow extends StatelessWidget {
 
   SubjectRow(this.subject);
 
+
   @override
   Widget build(BuildContext context) {
 
@@ -25,9 +26,9 @@ class SubjectRow extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           new Container(height: 4.0),
-          new Text(subject.name),
+          new Text(subject.name.toString()),
           new Container(height: 10.0),
-          new Text(subject.examDate.toString()),
+          new Text(subject.examDate),
           new Container(
               margin: new EdgeInsets.symmetric(vertical: 8.0),
               height: 2.0,

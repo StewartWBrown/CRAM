@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/model/subject.dart';
 import 'package:intl/intl.dart';
+import 'databaseHelper.dart';
 
 class AddSubject extends StatefulWidget {
   Subject subject;
@@ -24,9 +25,13 @@ class _AddSubjectState extends State<AddSubject> {
   List<int> tempWorkCompleted;
   int tempDifficulty;
   DateTime now = DateTime.now();
-  DateTime startDate;
-  DateTime endDate;
-  DateTime examDate;
+  String startDate;
+  String endDate;
+  String examDate;
+
+  DateTime startPicker;
+  DateTime endPicker;
+  DateTime examPicker;
 
   @override
   void initState() {
@@ -40,9 +45,9 @@ class _AddSubjectState extends State<AddSubject> {
       examDate = subject.examDate;
     }
     else{
-      startDate = DateTime(now.year, now.month, now.day);
-      endDate = DateTime(now.year, now.month, now.day);
-      examDate = DateTime(now.year, now.month, now.day);
+      startPicker = DateTime(now.year, now.month, now.day);
+      endPicker = DateTime(now.year, now.month, now.day);
+      examPicker = DateTime(now.year, now.month, now.day);
     }
   }
 
@@ -113,13 +118,13 @@ class _AddSubjectState extends State<AddSubject> {
   Future<Null> _selectStartDate(BuildContext context) async {
     final DateTime _selDate = await showDatePicker(
         context: context,
-        initialDate: startDate,
+        initialDate: startPicker,
         firstDate: DateTime.now(),
         lastDate: DateTime(2100));
 
         if(_selDate!=null){
           setState((){
-            startDate =_selDate;
+            startPicker =_selDate;
 
           });
         }
@@ -129,13 +134,13 @@ class _AddSubjectState extends State<AddSubject> {
   Future<Null> _selectEndDate(BuildContext context) async {
     final DateTime _selDate = await showDatePicker(
         context: context,
-        initialDate: startDate,
-        firstDate: startDate,
+        initialDate: startPicker,
+        firstDate: startPicker,
         lastDate: DateTime(2100));
 
     if(_selDate!=null){
       setState((){
-        endDate =_selDate;
+        endPicker =_selDate;
       });
     }
   }
@@ -144,13 +149,13 @@ class _AddSubjectState extends State<AddSubject> {
   Future<Null> _selectExamDate(BuildContext context) async {
     final DateTime _selDate = await showDatePicker(
         context: context,
-        initialDate: endDate,
-        firstDate: endDate,
+        initialDate: endPicker,
+        firstDate: endPicker,
         lastDate: DateTime(2100));
 
     if(_selDate!=null){
       setState((){
-        examDate =_selDate;
+        examPicker =_selDate;
       });
     }
   }
@@ -159,9 +164,9 @@ class _AddSubjectState extends State<AddSubject> {
   @override
   Widget build(BuildContext context) {
 
-   String formattedStartDate = new DateFormat.yMMMd().format(startDate);
-   String formattedEndDate = new DateFormat.yMMMd().format(endDate);
-   String formattedExamDate = new DateFormat.yMMMd().format(examDate);
+   String formattedStartDate = new DateFormat.yMMMd().format(startPicker);
+   String formattedEndDate = new DateFormat.yMMMd().format(endPicker);
+   String formattedExamDate = new DateFormat.yMMMd().format(examPicker);
 
     return MaterialApp(
       title: 'CRAM',
@@ -214,7 +219,7 @@ class _AddSubjectState extends State<AddSubject> {
                       //SizedBox(height: 100),
                       RaisedButton(
                           child: Text('Add Subject'),
-                          onPressed: () {
+                          onPressed: () async{
                             if (!_formKey.currentState.validate()) {
                               return;
                             }
@@ -222,15 +227,19 @@ class _AddSubjectState extends State<AddSubject> {
                             _formKey.currentState.save();
                             print(tempName);
 
-                            subjects.add(Subject(
-                                tempName,
-                                tempWorkloads,
-                                [],
-                                tempDifficulty,
-                                startDate,
-                                endDate,
-                                examDate
-                            ));
+                          var newSubject = Subject(
+                            name: tempName,
+                            workloads: tempWorkloads,
+                            difficulty: tempDifficulty,
+                            startDate: formattedStartDate,
+                            endDate: formattedEndDate,
+                            examDate: formattedExamDate,
+                          );
+
+                        await DatabaseHelper.instance.insertSubject(newSubject);
+
+                        print("ADDED SUBJECT");
+                        print(await DatabaseHelper.instance.queryAll());
 
                           })
                     ]))),
