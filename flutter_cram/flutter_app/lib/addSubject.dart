@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/home_page_body.dart';
+import 'package:flutter_app/mainScreen.dart';
 import 'package:flutter_app/model/subject.dart';
 import 'package:intl/intl.dart';
 import 'databaseHelper.dart';
@@ -247,7 +249,7 @@ class _AddSubjectState extends State<AddSubject> {
                     ]))),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            RestartWidget.restartApp(context);
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => CramApp()));
           },
           label: Text('Done'),
           icon: Icon(Icons.done),
