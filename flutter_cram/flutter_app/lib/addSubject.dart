@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/model/subject.dart';
 import 'package:intl/intl.dart';
 import 'databaseHelper.dart';
+import 'globals.dart';
+import 'main.dart';
 
 class AddSubject extends StatefulWidget {
   Subject subject;
@@ -245,7 +247,7 @@ class _AddSubjectState extends State<AddSubject> {
                     ]))),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            Navigator.pop(context);
+            RestartWidget.restartApp(context);
           },
           label: Text('Done'),
           icon: Icon(Icons.done),

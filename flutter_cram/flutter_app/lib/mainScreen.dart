@@ -20,55 +20,55 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: DefaultTabController(
-          length: 2,
-          child: Scaffold(
-            resizeToAvoidBottomPadding: false,
-            body: new NestedScrollView(
-              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-                return <Widget>[
-                  new SliverAppBar(
-                    title: new Text("CRAM APP"),
-                    pinned: true,
-                    floating: true,
-                    forceElevated: innerBoxIsScrolled,
-                    bottom: new TabBar(
-                      tabs: <Tab>[
-                        new Tab(text: "SUBJECTS"),
-                        new Tab(text: "CALENDAR"),
-                      ],
-                    ),
+      home: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          resizeToAvoidBottomPadding: false,
+          body: new NestedScrollView(
+            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                new SliverAppBar(
+                  title: new Text("CRAM APP"),
+                  pinned: true,
+                  floating: true,
+                  forceElevated: innerBoxIsScrolled,
+                  bottom: new TabBar(
+                    tabs: <Tab>[
+                      new Tab(text: "SUBJECTS"),
+                      new Tab(text: "CALENDAR"),
+                    ],
                   ),
-                ];
-              },
-              body: new TabBarView(
-                children: <Widget>[
-                  new HomePageBody(),
-                  // NO CALENDAR
-                  new HomePageBody(),
-                ],
-              ),
-            ),
-            floatingActionButton: FloatingActionButton.extended(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AddSubject()),
-                );
-                subjects = updateList();
-                TabBarView(
-                  children: <Widget>[
-                    new HomePageBody(),
-                    new HomePageBody(),
-                  ],
-                );
-              },
-              label: Text('Add Subject'),
-              icon: Icon(Icons.add),
-              backgroundColor: Colors.green,
+                ),
+              ];
+            },
+            body: new TabBarView(
+              children: <Widget>[
+                new HomePageBody(),
+                // NO CALENDAR
+                new HomePageBody(),
+              ],
             ),
           ),
+          floatingActionButton: FloatingActionButton.extended(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AddSubject()),
+              );
+              subjects = updateList();
+              TabBarView(
+                children: <Widget>[
+                  new HomePageBody(),
+                  new HomePageBody(),
+                ],
+              );
+            },
+            label: Text('Add Subject'),
+            icon: Icon(Icons.add),
+            backgroundColor: Colors.green,
+          ),
         ),
+      ),
     );
   }
 }
