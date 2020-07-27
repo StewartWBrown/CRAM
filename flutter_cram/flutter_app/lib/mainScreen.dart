@@ -7,11 +7,16 @@ import 'model/workload.dart';
 import 'spread.dart';
 import 'calendar.dart';
 
+var calendar1 = new Map<DateTime, Map<String, List<Workload>>>();
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
+  @override
+  _MainScreenState createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
   Future<List<Subject>> subjects = updateList();
-  //Map<DateTime, Map<String, List<Workload>>>calendar1 = Spread().spread(subjects, List());
-  var calendar1 = new Map<DateTime, Map<String, List<Workload>>>();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -49,6 +54,13 @@ class MainScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => AddSubject()),
+                );
+                subjects = updateList();
+                TabBarView(
+                  children: <Widget>[
+                    new HomePageBody(),
+                    new HomePageBody(),
+                  ],
                 );
               },
               label: Text('Add Subject'),
