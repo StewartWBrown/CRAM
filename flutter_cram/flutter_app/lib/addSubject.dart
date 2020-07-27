@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/model/subject.dart';
 import 'package:intl/intl.dart';
 import 'databaseHelper.dart';
-import 'globals.dart';
+
 import 'main.dart';
 
 class AddSubject extends StatefulWidget {

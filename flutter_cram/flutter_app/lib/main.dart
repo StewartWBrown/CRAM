@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'mainScreen.dart';
-import 'globals.dart';
 
 void main(){
 
@@ -9,7 +8,6 @@ void main(){
       child:CramApp()
     )
   );
-  print(listVersion);
 }
 
 class CramApp extends StatelessWidget{
