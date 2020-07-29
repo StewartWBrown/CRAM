@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/addSubject.dart';
-import 'package:flutter_app/spread.dart';
-import 'home_page_body.dart';
-import 'model/subject.dart';
-import 'model/workload.dart';
+import '../subjectCards/addSubject.dart';
 import 'spread.dart';
-import 'calendar.dart';
+import '../subjectCards/homePageBody.dart';
+import '../model/subject.dart';
+import '../model/workload.dart';
+import '../calendarDisplay/calendar.dart';
 
 var calendar1 = new Map<DateTime, Map<String, List<Workload>>>();
 

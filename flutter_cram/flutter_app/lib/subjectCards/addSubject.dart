@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/home_page_body.dart';
-import 'package:flutter_app/mainScreen.dart';
+import '../subjectCards/homePageBody.dart';
+import '../main/mainScreen.dart';
 import 'package:flutter_app/model/subject.dart';
 import 'package:intl/intl.dart';
-import 'databaseHelper.dart';
+import 'package:flutter_app/database/databaseHelper.dart';
 
-import 'main.dart';
+import '../main/main.dart';
 
 class AddSubject extends StatefulWidget {
   Subject subject;

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/delete_subject.dart';
+import 'deleteSubject.dart';
 import 'addSubject.dart';
-import 'model/subject.dart';
+import '../model/subject.dart';
 
 class ExpandSubjectCard extends StatelessWidget{
   final Subject subject;

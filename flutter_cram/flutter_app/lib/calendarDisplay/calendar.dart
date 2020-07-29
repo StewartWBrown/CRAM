@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'addSubject.dart';
-import 'mainScreen.dart';
-import 'model/subject.dart';
-import 'model/workload.dart';
+import '../subjectCards/addSubject.dart';
+import '../main/mainScreen.dart';
+import '../model/subject.dart';
+import '../model/workload.dart';
 
 
 class Calendar extends StatefulWidget{

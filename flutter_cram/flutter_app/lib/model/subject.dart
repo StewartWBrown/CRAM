@@ -1,5 +1,5 @@
 import 'package:flutter_app/model/workload.dart';
-import 'package:flutter_app/databaseHelper.dart';
+import 'package:flutter_app/database/databaseHelper.dart';
 
 class Subject {
   final String name;

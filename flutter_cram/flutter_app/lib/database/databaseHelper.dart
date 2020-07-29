@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 
-import 'model/subject.dart';
+import '../model/subject.dart';
 
 class DatabaseHelper{
 

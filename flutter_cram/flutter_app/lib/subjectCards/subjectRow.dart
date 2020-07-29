@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/expandSubjectCard.dart';
+import 'expandSubjectCard.dart';
 import 'package:flutter_app/model/subject.dart';
 
 class SubjectRow extends StatelessWidget {

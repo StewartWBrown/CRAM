@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/model/subject.dart';
 import 'addSubject.dart';
-import 'subject_row.dart';
+import 'subjectRow.dart';
 
 class HomePageBody extends StatefulWidget {
   @override

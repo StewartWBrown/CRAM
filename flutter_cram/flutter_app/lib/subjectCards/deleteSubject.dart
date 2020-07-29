@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'addSubject.dart';
-import 'model/subject.dart';
+import '../model/subject.dart';
 import 'expandSubjectCard.dart';
-import 'databaseHelper.dart';
-import 'main.dart';
+import 'package:flutter_app/database/databaseHelper.dart';
+import '../main/main.dart';
 
 class DeleteSubject extends ExpandSubjectCard{
 
