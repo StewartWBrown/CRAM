@@ -235,15 +235,12 @@ class _AddSubjectState extends State<AddSubject> {
                             name: tempName,
                             workloads: tempWorkloads,
                             difficulty: tempDifficulty,
-                            startDate: formattedStartDate,
-                            endDate: formattedEndDate,
-                            examDate: formattedExamDate,
+                            startDate: startPicker.toString(),
+                            endDate: endPicker.toString(),
+                            examDate: examPicker.toString(),
                           );
 
                         await DatabaseHelper.instance.insertSubject(newSubject);
-
-                        print("ADDED SUBJECT");
-                        print(await DatabaseHelper.instance.queryAll());
 
                           })
                     ]))),

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/subjectCards/editSubject.dart';
+import 'package:intl/intl.dart';
 import 'deleteSubject.dart';
 import 'addSubject.dart';
 import '../model/subject.dart';
@@ -12,6 +13,10 @@ class ExpandSubjectCard extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    var formattedStartDate = DateTime.parse(subject.startDate);
+    var formattedEndDate = DateTime.parse(subject.endDate);
+    var formattedExamDate = DateTime.parse(subject.examDate);
+
     return AlertDialog(
         title: Text(subject.name),
 
@@ -21,9 +26,9 @@ class ExpandSubjectCard extends StatelessWidget{
           children: <Widget>[
             Text("Number of workloads: " + subject.workloads.toString()),
             Text("\nSubject Difficulty: " + subject.difficulty.toString()),
-            Text("\n \nDate to begin studying: " + subject.startDate),
-            Text("\nDate to finish studying: " + subject.endDate),
-            Text("\nExam Date: " + subject.examDate),
+            Text("\n \nDate to begin studying: " + new DateFormat.yMMMd().format(formattedStartDate)),
+            Text("\nDate to finish studying: " + new DateFormat.yMMMd().format(formattedEndDate)),
+            Text("\nExam Date: " + new DateFormat.yMMMd().format(formattedExamDate)),
           ],
         ),
 

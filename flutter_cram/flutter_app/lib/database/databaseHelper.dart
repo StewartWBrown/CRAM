@@ -99,12 +99,10 @@ class DatabaseHelper{
     // get a reference to the database
     final db = await instance.database;
 
-    // update the given subject
-    // MIGHT NEED TO CHANGE TO ID IM NOT SURE
    await db.update(
      _tableName,
    subject.toMap(),
-   where: "name = ?",
+   where: "SubjectName = ?",
    whereArgs: [subject.name],
     );
   }
