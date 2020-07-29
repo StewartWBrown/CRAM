@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/delete_subject.dart';
 import 'addSubject.dart';
@@ -13,10 +14,27 @@ class ExpandSubjectCard extends StatelessWidget{
     return AlertDialog(
         title: Text(subject.name),
 
-        content: Column(),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
 
+                                                                               
+        ),
 
-
+      actions: <Widget>[
+        // Line to redirect to subject half full idk if that works
+        // MaterialPageRoute(builder: (context) => AddSubject(subject)
+        IconButton(
+          icon: Icon(Icons.delete_forever),
+          onPressed: () {
+            print("BUTTON PRESSED");
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DeleteSubject(subject)),
+            );
+          },
+        )
+      ],
         elevation: 24.0,
         backgroundColor: Colors.blue,
         shape: RoundedRectangleBorder(
