@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'expandSubjectCard.dart';
 import 'package:flutter_app/model/subject.dart';
 
@@ -11,6 +12,8 @@ class SubjectRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    var dateFormExamDate = DateTime.parse(subject.examDate);
 
     final subjectThumbnail = new Container(
       margin: new EdgeInsets.symmetric(
@@ -26,9 +29,9 @@ class SubjectRow extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           new Container(height: 4.0),
-          new Text(subject.name.toString()),
+          new Text(subject.name),
           new Container(height: 10.0),
-          new Text(subject.examDate),
+          new Text(new DateFormat.yMMMd().format(dateFormExamDate)),
           new Container(
               margin: new EdgeInsets.symmetric(vertical: 8.0),
               height: 2.0,

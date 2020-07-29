@@ -51,6 +51,9 @@ class _EditSubjectState extends State<EditSubject> {
       initialName = subject.name;
       initialWorkloads = subject.workloads.toString();
       initialDifficulty = subject.difficulty.toString();
+      tempName = subject.name;
+      tempWorkloads = subject.workloads;
+      tempDifficulty = subject.difficulty;
 
       startPicker = DateTime.parse(subject.startDate);
       endPicker = DateTime.parse(subject.endDate);
@@ -67,7 +70,7 @@ class _EditSubjectState extends State<EditSubject> {
     }
   }
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _EditformKey = GlobalKey<FormState>();
 
   Widget _rebuildName() {
     return TextFormField(
@@ -81,6 +84,7 @@ class _EditSubjectState extends State<EditSubject> {
           return 'Subject name is required';
         }
       },
+
       onSaved: (String value) {
         tempName = value;
         if(value != initialName){
@@ -97,10 +101,10 @@ class _EditSubjectState extends State<EditSubject> {
       ),
       initialValue: initialWorkloads,
       keyboardType: TextInputType.number,
+
       // ignore: missing_return
       validator: (String value) {
         int wl = int.tryParse(value);
-
         if (wl == null || wl <= 0) {
           return 'Workload number must in fact be... a number. loser.';
         }
@@ -108,9 +112,6 @@ class _EditSubjectState extends State<EditSubject> {
 
       onSaved: (String value) {
         tempWorkloads = int.tryParse(value);
-        if(value != initialWorkloads){
-          // workloadChange = true;
-        }
       },
     );
   }
@@ -149,11 +150,6 @@ class _EditSubjectState extends State<EditSubject> {
     if(_selDate!=null){
       setState((){
         startPicker =_selDate;
-        String formattedStartDate = new DateFormat.yMMMd().format(startPicker);
-        tempStartDate = formattedStartDate;
-        if(formattedStartDate != startDate){
-          // startDateChange = true;
-        }
       });
     }
   }
@@ -168,16 +164,10 @@ class _EditSubjectState extends State<EditSubject> {
     if(_selDate!=null){
       setState((){
         endPicker =_selDate;
-        String formattedEndDate = new DateFormat.yMMMd().format(endPicker);
-        tempEndDate = formattedEndDate;
-        if(formattedEndDate != endDate){
-          // endDateChange = true;
-        }
 
       });
     }
   }
-
   Future<Null> _reselectExamDate(BuildContext context) async {
     final DateTime _selDate = await showDatePicker(
         context: context,
@@ -188,63 +178,64 @@ class _EditSubjectState extends State<EditSubject> {
     if(_selDate!=null){
       setState((){
         examPicker =_selDate;
-        String formattedExamDate = new DateFormat.yMMMd().format(examPicker);
-        tempExamDate = formattedExamDate;
-        if(formattedExamDate != examDate){
-          // examDateChange = true;
-        }
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-
+    String tempStartDate = new DateFormat.yMMMd().format(startPicker);
+    String tempEndDate = new DateFormat.yMMMd().format(endPicker);
+    String tempExamDate = new DateFormat.yMMMd().format(examPicker);
 
     return AlertDialog(
       title: Text("Editing " + subject.name),
 
-      content: Column(
+      content: Container(
+    child: Form(
+    key: _EditformKey,
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        _rebuildName(),
+        _rebuildWorkloads(),
+        _rebuildDifficulty(),
+        SizedBox(height: 20),
+        Row(children: <Widget>[
+          Text('Date to start studying: $tempStartDate'),
+          SizedBox(width: 10),
+          IconButton(
+              onPressed: () {
+                _reselectStartDate(context);
+              },
+              icon: Icon(Icons.calendar_today))
+        ]),
+        SizedBox(height: 20),
+        Row(children: <Widget>[
+          Text('Date to finish studying: $tempEndDate'),
+          SizedBox(width: 10),
+          IconButton(
+              onPressed: () {
+                _reselectEndDate(context);
+              },
+              icon: Icon(Icons.calendar_today))
+        ]),
 
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          _rebuildName(),
-          _rebuildWorkloads(),
-          _rebuildDifficulty(),
-          SizedBox(height: 20),
-          Row(children: <Widget>[
-            Text('Date to start studying: $tempStartDate'),
-            SizedBox(width: 10),
-            IconButton(
-                onPressed: () {
-                  _reselectStartDate(context);
-                },
-                icon: Icon(Icons.calendar_today))
-          ]),
-          SizedBox(height: 20),
-          Row(children: <Widget>[
-            Text('Date to finish studying: $tempEndDate'),
-            SizedBox(width: 10),
-            IconButton(
-                onPressed: () {
-                  _reselectEndDate(context);
-                },
-                icon: Icon(Icons.calendar_today))
-          ]),
+        SizedBox(height: 20),
+        Row(children: <Widget>[
+          Text('Exam date: $tempExamDate'),
+          SizedBox(width: 40),
+          IconButton(
+              onPressed: () {
+                _reselectExamDate(context);
+              },
+              icon: Icon(Icons.calendar_today))
+        ]),
+      ],
+    )
+    )),
 
-          SizedBox(height: 20),
-          Row(children: <Widget>[
-            Text('Exam date: $tempExamDate'),
-            SizedBox(width: 40),
-            IconButton(
-                onPressed: () {
-                  _reselectExamDate(context);
-                },
-                icon: Icon(Icons.calendar_today))
-          ]),
-        ],
-      ),
 
       actions: <Widget>[
         // Line to redirect to subject half full idk if that works
@@ -263,23 +254,32 @@ class _EditSubjectState extends State<EditSubject> {
             "Save Changes",
             style: TextStyle(color: Colors.white),
           ),
-          onPressed: (){
+          onPressed: () async{
+            if (!_EditformKey.currentState.validate()) {
+              return;
+            }
+
+            _EditformKey.currentState.save();
+
             var updatedSubject = Subject(
               name: tempName,
               workloads: tempWorkloads,
               difficulty: tempDifficulty,
-              startDate: tempStartDate,
-              endDate: tempEndDate,
-              examDate: tempExamDate,
+              startDate: startPicker.toString(),
+              endDate: endPicker.toString(),
+              examDate: examPicker.toString(),
             );
-            if(nameChange == false){
-              DatabaseHelper.instance.updateSubject(updatedSubject);
+
+            if(tempName == subject.name){
+              print("Went this way");
+              await DatabaseHelper.instance.updateSubject(updatedSubject);
               Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => CramApp()));
             }
-            else{
-              DatabaseHelper.instance.deleteSubject(subject.name);
-              DatabaseHelper.instance.insertSubject(updatedSubject);
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => CramApp()));
+            else {
+              await DatabaseHelper.instance.deleteSubject(subject.name);
+              await DatabaseHelper.instance.insertSubject(updatedSubject);
+              Navigator.pushReplacement(context, MaterialPageRoute(
+                  builder: (BuildContext context) => CramApp()));
             }
           },
         )

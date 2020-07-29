@@ -70,6 +70,8 @@ class _AddSubjectState extends State<AddSubject> {
           return 'Subject name is required';
         }
       },
+
+
       onSaved: (String value) {
         tempName = value;
       },
@@ -229,8 +231,6 @@ class _AddSubjectState extends State<AddSubject> {
                             }
 
                             _formKey.currentState.save();
-                            print(tempName);
-
                           var newSubject = Subject(
                             name: tempName,
                             workloads: tempWorkloads,
