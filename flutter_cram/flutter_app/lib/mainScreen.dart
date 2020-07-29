@@ -39,21 +39,9 @@ class MainScreen extends StatelessWidget {
             body: new TabBarView(
               children: <Widget>[
                 new HomePageBody(),
-                // NO CALENDAR
-                new HomePageBody(),
+                new Calendar(),
               ],
             ),
-          ),
-          floatingActionButton: FloatingActionButton.extended(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AddSubject()),
-              );
-            },
-            label: Text('Add Subject'),
-            icon: Icon(Icons.add),
-            backgroundColor: Colors.green,
           ),
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'addSubject.dart';
 import 'mainScreen.dart';
 import 'model/subject.dart';
 import 'model/workload.dart';
@@ -29,6 +30,17 @@ class _CalendarState extends State<Calendar> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+//            Navigator.push(
+//              context,
+//              MaterialPageRoute(builder: (context) => AddSubject()),
+//            );
+          },
+          label: Text('Manage study'),
+          icon: Icon(Icons.edit_attributes),
+          backgroundColor: Colors.orange,
+        ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
