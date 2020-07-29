@@ -39,8 +39,7 @@ class MainScreen extends StatelessWidget {
             body: new TabBarView(
               children: <Widget>[
                 new HomePageBody(),
-                // NO CALENDAR
-                new HomePageBody(),
+                new Calendar(),
               ],
             ),
           ),
