@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/subjectCards/editSubject.dart';
 import 'deleteSubject.dart';
 import 'addSubject.dart';
 import '../model/subject.dart';
@@ -17,20 +18,43 @@ class ExpandSubjectCard extends StatelessWidget{
         content: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
-
-                                                                               
+          children: <Widget>[
+            Text("Number of workloads: " + subject.workloads.toString()),
+            Text("\nSubject Difficulty: " + subject.difficulty.toString()),
+            Text("\n \nDate to begin studying: " + subject.startDate),
+            Text("\nDate to finish studying: " + subject.endDate),
+            Text("\nExam Date: " + subject.examDate),
+          ],
         ),
 
       actions: <Widget>[
         // Line to redirect to subject half full idk if that works
         // MaterialPageRoute(builder: (context) => AddSubject(subject)
         IconButton(
+          icon: Icon(Icons.edit),
+          onPressed: () {
+            var editInstance = EditSubject(subject);
+
+            showDialog(context: context,
+              barrierDismissible: true,
+              builder: (BuildContext context) {
+                return editInstance;
+              },
+            );
+          },
+
+        ),
+
+        IconButton(
           icon: Icon(Icons.delete_forever),
           onPressed: () {
-            print("BUTTON PRESSED");
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => DeleteSubject(subject)),
+            var deleteInstance = DeleteSubject(subject);
+
+            showDialog(context: context,
+              barrierDismissible: true,
+              builder: (BuildContext context) {
+                return deleteInstance;
+              },
             );
           },
         )

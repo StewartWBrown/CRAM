@@ -5,9 +5,11 @@ import 'expandSubjectCard.dart';
 import 'package:flutter_app/database/databaseHelper.dart';
 import '../main/main.dart';
 
-class DeleteSubject extends ExpandSubjectCard{
+class DeleteSubject extends StatelessWidget{
+  final Subject subject;
 
-  DeleteSubject(Subject subject) : super(subject);
+  DeleteSubject(this.subject);
+
 
   @override
   Widget build(BuildContext context){
