@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/delete_subject.dart';
 import 'addSubject.dart';
 import 'model/subject.dart';
 
@@ -11,28 +13,28 @@ class ExpandSubjectCard extends StatelessWidget{
   Widget build(BuildContext context) {
     return AlertDialog(
         title: Text(subject.name),
-        content: Text("Start Date: " /* + subject.startDate.day.toString() + '/' +
-            subject.startDate.month.toString() + '/' +
-            subject.startDate.year.toString() + '\n' +
-            "End Date: " + subject.endDate.day.toString() + '/' +
-            subject.endDate.month.toString() + '/' +
-            subject.endDate.year.toString() + '\n' +
-            "Exam Date: " + subject.examDate.day.toString() + '/' +
-            subject.examDate.month.toString() + '/' +
-            subject.examDate.year.toString() */
+
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+
+                                                                               
         ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.edit),
-            onPressed: () {
-              print("BUTTON PRESSED");
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AddSubject(subject)),
-              );
-            },
-          )
-        ],
+
+      actions: <Widget>[
+        // Line to redirect to subject half full idk if that works
+        // MaterialPageRoute(builder: (context) => AddSubject(subject)
+        IconButton(
+          icon: Icon(Icons.delete_forever),
+          onPressed: () {
+            print("BUTTON PRESSED");
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DeleteSubject(subject)),
+            );
+          },
+        )
+      ],
         elevation: 24.0,
         backgroundColor: Colors.blue,
         shape: RoundedRectangleBorder(
@@ -42,5 +44,27 @@ class ExpandSubjectCard extends StatelessWidget{
 
   }
 
+
 }
+
+/*
+content: Text("Start Date: " + subject.startDate + '\n' +
+            "End Date: " + subject.endDate + '\n' +
+            "Exam Date: " + subject.examDate
+        ),
+        actions: <Widget>[
+          // Line to redirect to subject half full idk if that works
+          // MaterialPageRoute(builder: (context) => AddSubject(subject)
+          IconButton(
+            icon: Icon(Icons.delete_forever),
+            onPressed: () {
+              print("BUTTON PRESSED");
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => DeleteSubject(subject)),
+              );
+            },
+          )
+        ],
+ */
 

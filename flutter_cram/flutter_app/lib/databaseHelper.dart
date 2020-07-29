@@ -116,7 +116,7 @@ class DatabaseHelper{
 
     await db.delete(
       _tableName,
-      where: "name = ?",
+      where: "SubjectName = ?",
       whereArgs: [name],
     );
   }
