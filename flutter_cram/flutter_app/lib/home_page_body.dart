@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/model/subject.dart';
+import 'addSubject.dart';
 import 'subject_row.dart';
 
 class HomePageBody extends StatefulWidget {
@@ -12,8 +13,19 @@ class _HomePageBodyState extends State<HomePageBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: FutureBuilder<List<Subject>>(
+    return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddSubject()),
+          );
+        },
+        label: Text('Add Subject'),
+        icon: Icon(Icons.add),
+        backgroundColor: Colors.green,
+      ),
+      body: FutureBuilder<List<Subject>>(
           future: subjects,
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {

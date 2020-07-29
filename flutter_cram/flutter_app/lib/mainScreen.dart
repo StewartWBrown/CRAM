@@ -44,17 +44,6 @@ class MainScreen extends StatelessWidget {
               ],
             ),
           ),
-          floatingActionButton: FloatingActionButton.extended(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AddSubject()),
-              );
-            },
-            label: Text('Add Subject'),
-            icon: Icon(Icons.add),
-            backgroundColor: Colors.green,
-          ),
         ),
       ),
     );
