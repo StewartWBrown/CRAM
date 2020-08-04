@@ -6,12 +6,14 @@ import 'package:path/path.dart';
 
 
 import '../model/subject.dart';
+import '../model/workload.dart';
 
 class DatabaseHelper{
 
   static final _dbName = 'subjectDatabase.db';
   static final _dbVersion = 1;
-  static final _tableName = 'subjects';
+  static final _subjectTableName = 'subjects';
+  static final _workloadTableName = 'workloads';
 
   // Column names of Subjects table
   static final columnSubjectName= 'SubjectName';
@@ -22,11 +24,11 @@ class DatabaseHelper{
   static final columnExamDate = 'examDate';
 
   // column names of workloads table
-  static final columnWorkloadID= '_workload ID';
-  static final columnSubID= 'Subject ID';
-  static final columnWorkloadName = 'workload name';
-  static final columnWorkloadNumber ='workload number';
-  static final columnCompleted = 'Completed?';
+  static final columnWorkloadID= '_workloadID';
+  static final columnSubName= 'subject';
+  static final columnWorkloadName = 'workloadName';
+  static final columnWorkloadNumber ='workloadNumber';
+  static final columnCompleted = 'complete';
 
 
   // Making a singleton class
@@ -53,7 +55,7 @@ class DatabaseHelper{
   Future _onCreate(Database db, int version) async{
     await db.execute(
         '''
-      CREATE TABLE $_tableName(
+      CREATE TABLE $_subjectTableName(
       $columnSubjectName TEXT PRIMARY KEY , 
       $columnWorkloads INTEGER , 
       $columnDifficulty INTEGER , 
@@ -62,24 +64,50 @@ class DatabaseHelper{
       $columnExamDate TEXT)
       '''
     );
+
+    await db.execute(
+        '''
+      CREATE TABLE $_workloadTableName(
+      $columnWorkloadID INTEGER PRIMARY KEY, 
+      $columnSubName TEXT, 
+      $columnWorkloadName TEXT , 
+      $columnWorkloadNumber INTEGER , 
+      $columnCompleted INTEGER,
+      FOREIGN KEY($columnSubName) REFERENCES $_subjectTableName($columnSubjectName)
+      )
+      '''
+    );
   }
 
-  // Insert
+  // Insert a row into each table
+
+  // Inserting into the subject database
   Future<int> insertSubject(Subject subject) async{
     final Database db = await instance.database;
 
     return await db.insert(
-      _tableName,
+      _subjectTableName,
       subject.toMap(),
     );
   }
 
-  // Query
-  Future<List<Subject>> queryAll() async{
+  // Inserting into the workload database
+  Future<int> insertWorkload(Workload workload) async{
+    final Database db = await instance.database;
+
+    return await db.insert(
+      _workloadTableName,
+      workload.toMap(),
+    );
+  }
+
+
+  // Query tables to return list of table contents
+  Future<List<Subject>> queryAllSubjects() async{
     final Database db = await instance.database;
 
     // Query the table for all the subjects
-    final List<Map<String, dynamic>> maps = await db.query(_tableName);
+    final List<Map<String, dynamic>> maps = await db.query(_subjectTableName);
 
     return List.generate(maps.length, (i){
       return Subject(
@@ -94,28 +122,75 @@ class DatabaseHelper{
     });
   }
 
-  // Update row
+  // Query the workloads table for all the workloads
+  Future<List<Workload>> queryAllWorkloads() async{
+    final Database db = await instance.database;
+
+    // Query the table for all the subjects
+    final List<Map<String, dynamic>> maps = await db.query(_workloadTableName);
+
+    return List.generate(maps.length, (i){
+      return Workload(
+        workloadID: maps[i]['_workloadID'],
+        subject: maps[i]['subject'],
+        workloadName: maps[i]['workloadName'],
+        workloadNumber: maps[i]['workloadNumber'],
+        complete: maps[i]['complete'],
+      );
+    });
+  }
+
+  // Update row in the database
+
+  // Update row in the subject table
   Future<void> updateSubject(Subject subject) async{
     // get a reference to the database
     final db = await instance.database;
 
    await db.update(
-     _tableName,
+     _subjectTableName,
    subject.toMap(),
    where: "SubjectName = ?",
    whereArgs: [subject.name],
     );
   }
 
-  // Delete subject
+  // Update row in the workload table
+  Future<void> updateWorkload(Workload workload) async{
+    // get a reference to the database
+    final db = await instance.database;
+
+    await db.update(
+      _workloadTableName,
+      workload.toMap(),
+      where: "_workloadID = ?",
+      whereArgs: [workload.workloadID],
+    );
+  }
+
+  // Delete Item from the database
+
+  // Delete subject form the subject table
   Future<void> deleteSubject(String name) async{
     // Get a reference to the database
     Database db = await instance.database;
 
     await db.delete(
-      _tableName,
+      _subjectTableName,
       where: "SubjectName = ?",
       whereArgs: [name],
+    );
+  }
+
+  // Delete workload from the workload table
+  Future<void> deleteWorkload(int Id) async{
+    // Get a reference to the database
+    Database db = await instance.database;
+
+    await db.delete(
+      _workloadTableName,
+      where: "_workloadID = ?",
+      whereArgs: [Id],
     );
   }
 

@@ -81,7 +81,7 @@ class _CalendarState extends State<Calendar> {
       for(String subj in _calendar[date].keys){
         for(Workload wl in _calendar[date][subj]){
           events.putIfAbsent(date, () => List());
-          events[date].add(subj + ": " + wl.workloadNo.toString());
+          events[date].add(subj + ": " + wl.workloadNumber.toString());
         }
       }
     }

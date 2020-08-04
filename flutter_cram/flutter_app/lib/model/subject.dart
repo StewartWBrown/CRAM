@@ -1,4 +1,3 @@
-import 'package:flutter_app/model/workload.dart';
 import 'package:flutter_app/database/databaseHelper.dart';
 
 class Subject {
@@ -25,7 +24,7 @@ class Subject {
 }
 
 Future<List<Subject>> updateList()async{
-  var tempList = DatabaseHelper.instance.queryAll();
+  var tempList = DatabaseHelper.instance.queryAllSubjects();
   return tempList;
 }
 
