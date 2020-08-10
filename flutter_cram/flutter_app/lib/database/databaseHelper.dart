@@ -68,7 +68,7 @@ class DatabaseHelper{
     await db.execute(
         '''
       CREATE TABLE $_workloadTableName(
-      $columnWorkloadID INTEGER PRIMARY KEY, 
+      $columnWorkloadID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
       $columnSubName TEXT, 
       $columnWorkloadName TEXT , 
       $columnWorkloadNumber INTEGER , 
