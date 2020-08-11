@@ -117,7 +117,6 @@ class DatabaseHelper{
         startDate: maps[i]['startDate'],
         endDate: maps[i]['endDate'],
         examDate: maps[i]['examDate'],
-
       );
     });
   }

@@ -21,3 +21,8 @@ class Workload {
   }
 
 }
+
+Future<List<Workload>> updateWorkloadList()async{
+  var tempList = DatabaseHelper.instance.queryAllWorkloads();
+  return tempList;
+}

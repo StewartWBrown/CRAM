@@ -9,7 +9,7 @@ class HomePageBody extends StatefulWidget {
 }
 
 class _HomePageBodyState extends State<HomePageBody> {
-  Future<List<Subject>> subjects = updateList();
+  Future<List<Subject>> subjects = updateSubjectList();
 
   @override
   Widget build(BuildContext context) {

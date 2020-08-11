@@ -3,7 +3,6 @@ import 'package:flutter_app/model/subject.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_app/database/databaseHelper.dart';
 import '../model/workload.dart';
-
 import '../main/main.dart';
 
 class AddSubject extends StatefulWidget {
@@ -35,6 +34,8 @@ class _AddSubjectState extends State<AddSubject> {
   DateTime startPicker;
   DateTime endPicker;
   DateTime examPicker;
+  Future<List<Workload>> workloads = updateWorkloadList();
+
 
   @override
   void initState() {

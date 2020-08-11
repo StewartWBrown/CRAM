@@ -23,7 +23,7 @@ class Subject {
   }
 }
 
-Future<List<Subject>> updateList()async{
+Future<List<Subject>> updateSubjectList()async{
   var tempList = DatabaseHelper.instance.queryAllSubjects();
   return tempList;
 }

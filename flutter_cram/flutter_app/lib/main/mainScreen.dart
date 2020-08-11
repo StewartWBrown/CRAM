@@ -9,9 +9,11 @@ import '../calendarDisplay/calendar.dart';
 var calendar1 = new Map<DateTime, Map<String, List<Workload>>>();
 
 class MainScreen extends StatelessWidget {
-  Future<List<Subject>> subjects = updateList();
+  Future<List<Subject>> subjects = updateSubjectList();
+  Future<List<Workload>> workloads = updateWorkloadList();
 
-  @override
+
+
   Widget build(BuildContext context) {
     return MaterialApp(
       home: DefaultTabController(
