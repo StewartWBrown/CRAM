@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import '../subjectCards/homePageBody.dart';
-import '../main/mainScreen.dart';
 import 'package:flutter_app/model/subject.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_app/database/databaseHelper.dart';
-
+import '../model/workload.dart';
 import '../main/main.dart';
 
 class AddSubject extends StatefulWidget {
@@ -36,6 +34,8 @@ class _AddSubjectState extends State<AddSubject> {
   DateTime startPicker;
   DateTime endPicker;
   DateTime examPicker;
+  Future<List<Workload>> workloads = updateWorkloadList();
+
 
   @override
   void initState() {
@@ -231,6 +231,8 @@ class _AddSubjectState extends State<AddSubject> {
                             }
 
                             _formKey.currentState.save();
+
+                            // Create subject object
                           var newSubject = Subject(
                             name: tempName,
                             workloads: tempWorkloads,
@@ -240,13 +242,31 @@ class _AddSubjectState extends State<AddSubject> {
                             examDate: examPicker.toString(),
                           );
 
-                        await DatabaseHelper.instance.insertSubject(newSubject);
+                          // Add subject object to database
+                          await DatabaseHelper.instance.insertSubject(newSubject);
+
+                          // Create workload object for each workload to be created
+                            // the for loop is ugly here (starting at 1 instead of 0) because the workload number should start from 1
+                          for( var counter = 1 ; counter < tempWorkloads+1; counter++ ) {
+                            var newWorkload = Workload(
+                              workloadID: null,
+                              subject: tempName,
+                              workloadName: "$tempName workload $counter",
+                              workloadNumber: counter,
+                              complete: 0,
+                            );
+
+                            // Add workload instance to database
+                            await DatabaseHelper.instance.insertWorkload(newWorkload);
+                          }
+
 
                           })
                     ]))),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => CramApp()));
+
           },
           label: Text('Done'),
           icon: Icon(Icons.done),
