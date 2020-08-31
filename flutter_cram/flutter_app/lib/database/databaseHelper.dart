@@ -28,6 +28,8 @@ class DatabaseHelper{
   static final columnSubName= 'subject';
   static final columnWorkloadName = 'workloadName';
   static final columnWorkloadNumber ='workloadNumber';
+  static final columnWorkloadDate ='workloadDate';
+  static final columnWorkloadDifficulty ='workloadDifficulty';
   static final columnCompleted = 'complete';
 
 
@@ -71,7 +73,9 @@ class DatabaseHelper{
       $columnWorkloadID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
       $columnSubName TEXT, 
       $columnWorkloadName TEXT , 
-      $columnWorkloadNumber INTEGER , 
+      $columnWorkloadNumber INTEGER ,
+      $columnWorkloadDate TEXT ,
+      $columnWorkloadDifficulty INTEGER , 
       $columnCompleted INTEGER,
       FOREIGN KEY($columnSubName) REFERENCES $_subjectTableName($columnSubjectName)
       )
@@ -134,6 +138,8 @@ class DatabaseHelper{
         subject: maps[i]['subject'],
         workloadName: maps[i]['workloadName'],
         workloadNumber: maps[i]['workloadNumber'],
+        workloadDate: maps[i]['workloadDate'],
+        workloadDifficulty: maps[i]['workloadDifficulty'],
         complete: maps[i]['complete'],
       );
     });

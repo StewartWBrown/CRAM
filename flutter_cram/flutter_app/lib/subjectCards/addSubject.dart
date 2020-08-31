@@ -253,6 +253,8 @@ class _AddSubjectState extends State<AddSubject> {
                               subject: tempName,
                               workloadName: "$tempName workload $counter",
                               workloadNumber: counter,
+                              workloadDifficulty: tempDifficulty,
+                              workloadDate: null,
                               complete: 0,
                             );
 
