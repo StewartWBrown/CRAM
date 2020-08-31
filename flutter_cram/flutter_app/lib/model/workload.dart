@@ -21,7 +21,7 @@ class Workload {
       'workloadName' : workloadName,
       'workloadNumber' : workloadNumber,
       'workloadDate' : workloadDate,
-      'difficulty' : workloadDifficulty,
+      'workloadDifficulty' : workloadDifficulty,
       'complete': complete,
     };
   }

@@ -110,7 +110,7 @@ class Spread {
 
         for (String subj in wlToMove.keys) {
           for (Workload wl in wlToMove[subj]) {
-            //update the dates workloads list FEATURE_TO_ADD - this is only temp solution will be nicer with SQL
+            //update the dates in workloads list FEATURE_TO_ADD - this is only temp solution will be nicer with SQL
             for (Workload wl1 in workloads) {
               if (wl1.workloadID == wl.workloadID) {
                 wl1.workloadDate = prevDate.toString();
