@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/main/spread.dart';
 import 'package:flutter_app/model/subject.dart';
+import 'package:flutter_app/model/workload.dart';
+import 'package:flutter_app/main/mainScreen.dart';
 import 'addSubject.dart';
 import 'subjectRow.dart';
 
@@ -9,7 +12,19 @@ class HomePageBody extends StatefulWidget {
 }
 
 class _HomePageBodyState extends State<HomePageBody> {
+
+  Future<List<Subject>> fetchSubjects(){
+    Future<List<Subject>> subjects = updateSubjectList();
+    return subjects;
+  }
+
+  Future<List<Workload>> fetchWorkloads(){
+    Future<List<Workload>> workloads = updateWorkloadList();
+    return workloads;
+  }
+
   Future<List<Subject>> subjects = updateSubjectList();
+  Future<List<Workload>> workloads = updateWorkloadList();
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +40,8 @@ class _HomePageBodyState extends State<HomePageBody> {
         icon: Icon(Icons.add),
         backgroundColor: Colors.green,
       ),
-      body: FutureBuilder<List<Subject>>(
-          future: subjects,
+      body: FutureBuilder(
+          future: Future.wait([subjects, workloads]),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.none:
@@ -35,36 +50,55 @@ class _HomePageBodyState extends State<HomePageBody> {
                     child: CircularProgressIndicator()
                 );
               default:
-                List<Subject> subjects = snapshot.data ?? [];
+                List<Subject> subjects = snapshot.data[0] ??  [];
+                List<Workload> workloads = snapshot.data[1] ??  [];
+                //MainScreen().subjects = subjects;
+                //MainScreen().workloads = workloads;
+
+                print("HERE ARE THE SUBJECTS");
+                print(subjects);
+                print("HERE ARE THE WORKLOADS");
+                print(workloads);
                 if (subjects.isEmpty) {
                   return Text("Enter a subject bitch");
                 }
                 else {
-                  return Row(
-                      children: [
-                        Expanded(
-                          child: new Container(
-                            color: new Color(0xFF0c6f96),
-                            child: new CustomScrollView(
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: false,
-                              slivers: <Widget>[
-                                new SliverPadding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 24.0),
-                                  sliver: new SliverList(
-                                    delegate: new SliverChildBuilderDelegate(
-                                          (context, index) =>
-                                      new SubjectRow(subjects[index]),
-                                      childCount: subjects.length,
+                  return Scaffold(
+                    body: Row(
+                        children: [
+                          Expanded(
+                            child: new Container(
+                              color: new Color(0xFF0c6f96),
+                              child: new CustomScrollView(
+                                scrollDirection: Axis.vertical,
+                                shrinkWrap: false,
+                                slivers: <Widget>[
+                                  new SliverPadding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 24.0),
+                                    sliver: new SliverList(
+                                      delegate: new SliverChildBuilderDelegate(
+                                            (context, index) =>
+                                        new SubjectRow(subjects[index]),
+                                        childCount: subjects.length,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        )
-                      ]);
+                          RaisedButton(
+                            onPressed: () {
+                              print("hello spread");
+                              calendar1 = Spread().spread(subjects, workloads, List());
+                            },
+                            child: const Text('SPREAD', style: TextStyle(fontSize: 20)),
+                          ),
+                        ])
+                  );
+
+
                 }
             }
           }

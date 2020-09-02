@@ -37,11 +37,16 @@ class Spread {
       double skipValue = 0.0;
       double remainingWlNo = (subject.workloads - 1).toDouble(); //FEATURE_TO_ADD - this integer should be calculated by using database to find out which workloads have already been completed
 
+      //Populate calendar with every day between start date and end date of subject
+      dateToStore = startDate;
+      while(dateToStore.isBefore(endDate) || dateToStore == endDate){
+        calendar.putIfAbsent(dateToStore, () => Map<String, List<Workload>>());
+        dateToStore = dateToStore.add(Duration(days: 1));
+      }
+
       //Finds evenly spread out values between 0.0 and total available days.
       //startDate + the floor of each value is the date a workload is to be completed
-      for (double i = 0.0;
-      i <= totalDays + 0.001;
-      i += totalDays / remainingWlNo) {
+      for (double i = 0.0; i <= totalDays + 0.001; i += totalDays / remainingWlNo) {
         dateToStore = startDate.add(new Duration(days: (i + skipValue).floor()));
         while (skipDates.contains(dateToStore)) {
           skipValue += 1.0;

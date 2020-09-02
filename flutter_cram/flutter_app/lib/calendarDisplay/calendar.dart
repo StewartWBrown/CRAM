@@ -22,7 +22,7 @@ class _CalendarState extends State<Calendar> {
   void initState() {
     super.initState();
     _controller = CalendarController();
-    _calendar = MainScreen().calendar1;
+    _calendar = calendar1;
     _events = createEvents(_calendar);
     _selectedEvents = [];
   }
