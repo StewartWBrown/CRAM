@@ -4,8 +4,7 @@ import 'package:flutter_app/model/subject.dart';
 import 'package:flutter_app/model/workload.dart';
 import 'mainScreen.dart';
 
-class Spread {
-  Map<DateTime, Map<String, List<Workload>>> spread(List<Subject> subjects, List<Workload> workloads, List<DateTime> skipDates) {
+class Spread {Map<DateTime, Map<String, List<Workload>>> spread(List<Subject> subjects, List<Workload> workloads, List<DateTime> skipDates) {
 
     //add exam dates to skipDates list
     for (int i = 0; i < subjects.length; i++) {
@@ -21,11 +20,13 @@ class Spread {
       DateTime startDate = DateTime.parse(subject.startDate);
       DateTime endDate = DateTime.parse(subject.endDate);
 
-      // FEATURE_TO_ADD - add in check to see if todays date is after start date here, if so make startDate today's date
+      //add in check to see if today's date is after start date here, if so make startDate today's date
+      DateTime now = DateTime.now();
+      if(startDate.isBefore(DateTime.now())){
+        startDate = DateTime(now.year, now.month, now.day);
+      }
 
-      int totalDays = endDate.difference(startDate).inDays;
-
-      //if skip date within startDate and endDate, decrease studyTime (days) by 1 day
+      int totalDays = endDate.difference(startDate).inDays;//if skip date within startDate and endDate, decrease studyTime (days) by 1 day
       for (DateTime date in skipDates) {
         if (date.isAfter(startDate) && date.isBefore(endDate)) {
           totalDays -= 1;
@@ -35,11 +36,15 @@ class Spread {
       //evenly spread remaining workload between available days
       DateTime dateToStore;
       double skipValue = 0.0;
-      double remainingWlNo = (subject.workloads - 1).toDouble(); //FEATURE_TO_ADD - this integer should be calculated by using database to find out which workloads have already been completed
+      double remainingWlNo = findRemainingWlNo(workloads, subject); //this integer should be calculated by using workloads database to find out which workloads have already been completed
 
-      //Populate calendar with every day between start date and end date of subject
+      //Populate calendar with every day between start date and end date of subject EXCEPT SKIP DATES
       dateToStore = startDate;
-      while(dateToStore.isBefore(endDate) || dateToStore == endDate){
+      while((dateToStore.isBefore(endDate) || dateToStore == endDate)){
+        if(skipDates.contains(dateToStore)){
+          dateToStore = dateToStore.add(Duration(days: 1));
+          continue;
+        }
         calendar.putIfAbsent(dateToStore, () => Map<String, List<Workload>>());
         dateToStore = dateToStore.add(Duration(days: 1));
       }
@@ -115,12 +120,8 @@ class Spread {
 
         for (String subj in wlToMove.keys) {
           for (Workload wl in wlToMove[subj]) {
-            //update the dates in workloads list FEATURE_TO_ADD - this is only temp solution will be nicer with SQL
-            for (Workload wl1 in workloads) {
-              if (wl1.workloadID == wl.workloadID) {
-                wl1.workloadDate = prevDate.toString();
-              }
-            }
+            //update the dates in workloads database here
+
             //update calendar
             calendar[prevDate].putIfAbsent(subj, () => List<Workload>());
             calendar[prevDate][subj].add(wl);
@@ -139,12 +140,8 @@ class Spread {
 
         for (String subj in wlToMove.keys) {
           for (Workload wl in wlToMove[subj]) {
-            //update the dates workloads list FEATURE_TO_ADD - this is only temp solution will be nicer with SQL
-            for (Workload wl1 in workloads) {
-              if (wl1.workloadID == wl.workloadID) {
-                wl1.workloadDate = date.toString();
-              }
-            }
+            //update the dates in workloads database here
+
             //update calendar
             calendar[date].putIfAbsent(subj, () => List<Workload>());
             calendar[date][subj].add(wl);
@@ -174,9 +171,15 @@ class Spread {
       for (Subject s in subjects) {
         DateTime startDate = DateTime.parse(s.startDate);
         DateTime endDate = DateTime.parse(s.endDate);
+
+        //add in check to see if today's date is after start date here, if so make startDate today's date
+        DateTime now = DateTime.now();
+        if(startDate.isBefore(DateTime.now())){
+          startDate = DateTime(now.year, now.month, now.day);
+        }
+
         if (s.name == subject) {
-          if ((endDate == currentDate || endDate.isAfter(currentDate)) &&
-              (s.startDate == currentDate || startDate.isBefore(currentDate))) {
+          if ((endDate == currentDate || endDate.isAfter(currentDate)) && (startDate == currentDate || startDate.isBefore(currentDate))) {
             beforeEndAndAfterStart = true;
             break;
           }
@@ -205,5 +208,15 @@ class Spread {
       }
     }
     return wlToMove;
+  }
+
+  double findRemainingWlNo(workloads, Subject subject){
+    double i = 0.0;
+    for(Workload wl in workloads){
+      if(wl.complete == 0 && wl.subject == subject.name){
+        i += 1.0;
+      }
+    }
+    return i-1.0;
   }
 }
