@@ -2,7 +2,6 @@ import 'dart:collection';
 
 import 'package:flutter_app/model/subject.dart';
 import 'package:flutter_app/model/workload.dart';
-import 'mainScreen.dart';
 
 class Spread {Map<DateTime, Map<String, List<Workload>>> spread(List<Subject> subjects, List<Workload> workloads, List<DateTime> skipDates) {
 
@@ -41,11 +40,9 @@ class Spread {Map<DateTime, Map<String, List<Workload>>> spread(List<Subject> su
       //Populate calendar with every day between start date and end date of subject EXCEPT SKIP DATES
       dateToStore = startDate;
       while((dateToStore.isBefore(endDate) || dateToStore == endDate)){
-        if(skipDates.contains(dateToStore)){
-          dateToStore = dateToStore.add(Duration(days: 1));
-          continue;
+        if(!skipDates.contains(dateToStore)){
+          calendar.putIfAbsent(dateToStore, () => Map<String, List<Workload>>());
         }
-        calendar.putIfAbsent(dateToStore, () => Map<String, List<Workload>>());
         dateToStore = dateToStore.add(Duration(days: 1));
       }
 
@@ -58,12 +55,13 @@ class Spread {Map<DateTime, Map<String, List<Workload>>> spread(List<Subject> su
           dateToStore = startDate.add(new Duration(days: (i + skipValue).floor()));
         }
         if (dateToStore.isAfter(endDate)) {
-          while (
-          skipDates.contains(dateToStore) || dateToStore.isAfter(endDate)) {
+          while (skipDates.contains(dateToStore) || dateToStore.isAfter(endDate)) {
             dateToStore = startDate.subtract(new Duration(days: 1));
           }
         }
 
+        print(subject.name + " " + workloads[workPosition].workloadName);
+        //UPDATE DATE INTO WORKLOADS TABLE HERE
         workloads[workPosition].workloadDate = dateToStore.toString();
 
         calendar.putIfAbsent(dateToStore, () => Map<String, List<Workload>>());
@@ -84,7 +82,7 @@ class Spread {Map<DateTime, Map<String, List<Workload>>> spread(List<Subject> su
       print(date);
       for (String subj in calendar[date].keys) {
         for (Workload wl in calendar[date][subj]) {
-          print(subj + ": " + wl.workloadName);
+          print(subj + ": " + wl.workloadName + wl.workloadDate);
           weight += wl.workloadDifficulty;
         }
       }
@@ -112,15 +110,14 @@ class Spread {Map<DateTime, Map<String, List<Workload>>> spread(List<Subject> su
       //if current date is weighted 2 or more in difficulty than previous date, use wlToMove method to decide which
       //workloads in the current date to move back to previous date
       if (currentDifficulty - prevDifficulty > 1 && prevDate != null) {
-        Map<String, List<Workload>> wlToMove = findWlToMove(
-            calendar[date],
-            ((currentDifficulty - prevDifficulty) / 2).floor(),
-            prevDate,
-            subjects);
+        Map<String, List<Workload>> wlToMove = findWlToMove(calendar[date], ((currentDifficulty - prevDifficulty) / 2).floor(), prevDate, subjects);
 
         for (String subj in wlToMove.keys) {
           for (Workload wl in wlToMove[subj]) {
-            //update the dates in workloads database here
+            //UPDATE DATE INTO WORKLOADS TABLE HERE
+
+            //update workload date before adding to calendar
+            wl.workloadDate = prevDate.toString();
 
             //update calendar
             calendar[prevDate].putIfAbsent(subj, () => List<Workload>());
@@ -140,7 +137,10 @@ class Spread {Map<DateTime, Map<String, List<Workload>>> spread(List<Subject> su
 
         for (String subj in wlToMove.keys) {
           for (Workload wl in wlToMove[subj]) {
-            //update the dates in workloads database here
+            //UPDATE DATE INTO WORKLOADS TABLE HERE
+
+            //update workload date before adding to calendar
+            wl.workloadDate = date.toString();
 
             //update calendar
             calendar[date].putIfAbsent(subj, () => List<Workload>());
