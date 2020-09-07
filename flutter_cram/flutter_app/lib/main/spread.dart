@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:flutter_app/database/databaseHelper.dart';
 import 'package:flutter_app/model/subject.dart';
 import 'package:flutter_app/model/workload.dart';
 
@@ -60,9 +61,10 @@ class Spread {Map<DateTime, Map<String, List<Workload>>> spread(List<Subject> su
           }
         }
 
-        print(subject.name + " " + workloads[workPosition].workloadName);
-        //UPDATE DATE INTO WORKLOADS TABLE HERE
         workloads[workPosition].workloadDate = dateToStore.toString();
+
+        //UPDATE DATE INTO WORKLOADS TABLE HERE
+        updateWl(workloads[workPosition], DateTime.parse(workloads[workPosition].workloadDate));
 
         calendar.putIfAbsent(dateToStore, () => Map<String, List<Workload>>());
         calendar[dateToStore].putIfAbsent(subject.name, () => List<Workload>());
@@ -76,20 +78,20 @@ class Spread {Map<DateTime, Map<String, List<Workload>>> spread(List<Subject> su
     calendar = secondarySpread(calendar, subjects, workloads);
     calendar = secondarySpread(calendar, subjects, workloads);
 
-    //PRETTY PRINT FOR TESTING ------------------------------------------------------------------------
-    for (DateTime date in calendar.keys) {
-      int weight = 0;
-      print(date);
-      for (String subj in calendar[date].keys) {
-        for (Workload wl in calendar[date][subj]) {
-          print(subj + ": " + wl.workloadName + wl.workloadDate);
-          weight += wl.workloadDifficulty;
-        }
-      }
-      print("Weight: " + weight.toString());
-      print(
-          "_______________________________________________________________________");
-    }
+//    //PRETTY PRINT FOR TESTING ------------------------------------------------------------------------
+//    for (DateTime date in calendar.keys) {
+//      int weight = 0;
+//      print(date);
+//      for (String subj in calendar[date].keys) {
+//        for (Workload wl in calendar[date][subj]) {
+//          print(subj + ": " + wl.workloadName + wl.workloadDate);
+//          weight += wl.workloadDifficulty;
+//        }
+//      }
+//      print("Weight: " + weight.toString());
+//      print(
+//          "_______________________________________________________________________");
+//    }
 
     return calendar;
   }
@@ -114,7 +116,9 @@ class Spread {Map<DateTime, Map<String, List<Workload>>> spread(List<Subject> su
 
         for (String subj in wlToMove.keys) {
           for (Workload wl in wlToMove[subj]) {
-            //UPDATE DATE INTO WORKLOADS TABLE HERE
+
+            //UPDATE WORKLOAD DATABASE WITH DATE
+            updateWl(wl, prevDate);
 
             //update workload date before adding to calendar
             wl.workloadDate = prevDate.toString();
@@ -138,6 +142,7 @@ class Spread {Map<DateTime, Map<String, List<Workload>>> spread(List<Subject> su
         for (String subj in wlToMove.keys) {
           for (Workload wl in wlToMove[subj]) {
             //UPDATE DATE INTO WORKLOADS TABLE HERE
+            updateWl(wl, date);
 
             //update workload date before adding to calendar
             wl.workloadDate = date.toString();
@@ -218,5 +223,20 @@ class Spread {Map<DateTime, Map<String, List<Workload>>> spread(List<Subject> su
       }
     }
     return i-1.0;
+  }
+
+  updateWl(Workload wl, DateTime date) {
+    //UPDATE DATE INTO WORKLOADS TABLE HERE
+    print("hi " + date.toString());
+    var updatedWorkload = Workload(
+      workloadID : wl.workloadID,
+      subject : wl.subject,
+      workloadName : wl.workloadName,
+      workloadNumber : wl.workloadNumber,
+      workloadDate : date.toString(),
+      workloadDifficulty : wl.workloadDifficulty,
+      complete : wl.complete,
+    );
+    DatabaseHelper.instance.updateWorkload(updatedWorkload);
   }
 }
