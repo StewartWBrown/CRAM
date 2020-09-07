@@ -118,7 +118,7 @@ Map<DateTime, Map<String, List<Workload>>> downloadCalendar(List<Workload> workl
   print("HERE ARE THE WORKLOADS");
   Map<DateTime, Map<String, List<Workload>>> calendar = Map();
   for(Workload wl in workloads){
-    print(wl.workloadDate);
+//    print(wl.workloadDate);
     if (wl.workloadDate != null){
       DateTime date = DateTime.parse(wl.workloadDate);
       calendar.putIfAbsent(date, () => Map<String, List<Workload>>());

@@ -61,8 +61,10 @@ class Spread {Map<DateTime, Map<String, List<Workload>>> spread(List<Subject> su
           }
         }
 
-        //UPDATE DATE INTO WORKLOADS TABLE HERE
         workloads[workPosition].workloadDate = dateToStore.toString();
+
+        //UPDATE DATE INTO WORKLOADS TABLE HERE
+        updateWl(workloads[workPosition], DateTime.parse(workloads[workPosition].workloadDate));
 
         calendar.putIfAbsent(dateToStore, () => Map<String, List<Workload>>());
         calendar[dateToStore].putIfAbsent(subject.name, () => List<Workload>());
@@ -223,7 +225,7 @@ class Spread {Map<DateTime, Map<String, List<Workload>>> spread(List<Subject> su
     return i-1.0;
   }
 
-  updateWl(Workload wl, DateTime date) async {
+  updateWl(Workload wl, DateTime date) {
     //UPDATE DATE INTO WORKLOADS TABLE HERE
     print("hi " + date.toString());
     var updatedWorkload = Workload(
@@ -235,6 +237,6 @@ class Spread {Map<DateTime, Map<String, List<Workload>>> spread(List<Subject> su
       workloadDifficulty : wl.workloadDifficulty,
       complete : wl.complete,
     );
-    await DatabaseHelper.instance.updateWorkload(updatedWorkload);
+    DatabaseHelper.instance.updateWorkload(updatedWorkload);
   }
 }
