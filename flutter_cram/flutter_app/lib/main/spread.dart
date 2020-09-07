@@ -4,7 +4,8 @@ import 'package:flutter_app/database/databaseHelper.dart';
 import 'package:flutter_app/model/subject.dart';
 import 'package:flutter_app/model/workload.dart';
 
-class Spread {Map<DateTime, Map<String, List<Workload>>> spread(List<Subject> subjects, List<Workload> workloads, List<DateTime> skipDates) {
+class Spread {
+  spread(List<Subject> subjects, List<Workload> workloads, List<DateTime> skipDates) {
 
     //add exam dates to skipDates list
     for (int i = 0; i < subjects.length; i++) {
@@ -93,7 +94,6 @@ class Spread {Map<DateTime, Map<String, List<Workload>>> spread(List<Subject> su
 //          "_______________________________________________________________________");
 //    }
 
-    return calendar;
   }
 
   Map<DateTime, Map<String, List<Workload>>> secondarySpread(Map<DateTime, Map<String, List<Workload>>> calendar, List<Subject> subjects, List<Workload> workloads) {
@@ -227,7 +227,6 @@ class Spread {Map<DateTime, Map<String, List<Workload>>> spread(List<Subject> su
 
   updateWl(Workload wl, DateTime date) {
     //UPDATE DATE INTO WORKLOADS TABLE HERE
-    print("hi " + date.toString());
     var updatedWorkload = Workload(
       workloadID : wl.workloadID,
       subject : wl.subject,

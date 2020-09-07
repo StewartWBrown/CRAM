@@ -6,8 +6,6 @@ import '../model/subject.dart';
 import '../model/workload.dart';
 import '../calendarDisplay/calendar.dart';
 
-Map<DateTime, Map<String, List<Workload>>> calendar1;
-
 class MainScreen extends StatelessWidget {
 
   Widget build(BuildContext context) {

@@ -79,8 +79,7 @@ class _HomePageBodyState extends State<HomePageBody> {
                           ),
                           RaisedButton(
                             onPressed: () {
-                              print("hello spread");
-                              calendar1 = Spread().spread(subjects, workloads, List());
+                              Spread().spread(subjects, workloads, List());
                             },
                             child: const Text('SPREAD', style: TextStyle(fontSize: 20)),
                           ),
