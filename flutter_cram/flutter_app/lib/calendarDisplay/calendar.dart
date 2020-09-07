@@ -5,6 +5,7 @@ import '../subjectCards/addSubject.dart';
 import '../main/mainScreen.dart';
 import '../model/subject.dart';
 import '../model/workload.dart';
+import 'expandWorkload.dart';
 
 
 class Calendar extends StatefulWidget{
@@ -15,9 +16,10 @@ class Calendar extends StatefulWidget{
 class _CalendarState extends State<Calendar> {
   CalendarController _controller;
   Map<DateTime, Map<String, List<Workload>>> _calendar;
-  Map<DateTime, List<dynamic>> _events;
-  List<dynamic> _selectedEvents;
+  Map<DateTime, List<Workload>> _events;
+  List<Workload> _selectedEvents;
   Future<List<Workload>> _workloads;
+  ExpandWorkload _expandWorkload;
 
   @override
   void initState() {
@@ -56,7 +58,7 @@ class _CalendarState extends State<Calendar> {
               List<Workload> workloads = snapshot.data ??  [];
 
               _calendar = downloadCalendar(workloads);
-              _events = createEvents(_calendar);
+              _events = createEvents();
 
               return Scaffold(
                   body: SingleChildScrollView(
@@ -84,7 +86,16 @@ class _CalendarState extends State<Calendar> {
                             ),
                           ),
                           ... _selectedEvents.map((event) => ListTile(
-                            title: Text(event),
+                            title: Text(event.workloadName),
+                            onTap: (){
+                              _expandWorkload = ExpandWorkload(event);
+                              showDialog(context: context,
+                                barrierDismissible: true,
+                                builder: (BuildContext context) {
+                                  return _expandWorkload;
+                                },
+                              );
+                            },
                           )),
                         ],
                       )
@@ -98,13 +109,13 @@ class _CalendarState extends State<Calendar> {
 
   }
 
-  Map<DateTime, List<dynamic>> createEvents(Map<DateTime, Map<String, List<Workload>>> calendar){
-    Map<DateTime, List<dynamic>> events = Map();
+  Map<DateTime, List<Workload>> createEvents(){
+    Map<DateTime, List<Workload>> events = Map();
     for(DateTime date in _calendar.keys){
       for(String subj in _calendar[date].keys){
         for(Workload wl in _calendar[date][subj]){
           events.putIfAbsent(date, () => List());
-          events[date].add(wl.workloadName);
+          events[date].add(wl);
         }
       }
     }
