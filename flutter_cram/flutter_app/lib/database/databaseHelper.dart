@@ -188,14 +188,14 @@ class DatabaseHelper{
   }
 
   // Delete workload from the workload table
-  Future<void> deleteWorkload(int Id) async{
+  Future<void> deleteWorkloadBySubject(String subjectToDelete) async{
     // Get a reference to the database
     Database db = await instance.database;
 
     await db.delete(
       _workloadTableName,
-      where: "_workloadID = ?",
-      whereArgs: [Id],
+      where: "subject = ?",
+      whereArgs: [subjectToDelete],
     );
   }
 
