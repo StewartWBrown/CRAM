@@ -10,7 +10,6 @@ class DeleteSubject extends StatelessWidget{
 
   DeleteSubject(this.subject);
 
-
   @override
   Widget build(BuildContext context){
     return AlertDialog(
@@ -34,6 +33,7 @@ class DeleteSubject extends StatelessWidget{
           ),
           onPressed: (){
             DatabaseHelper.instance.deleteSubject(subject.name);
+            DatabaseHelper.instance.deleteWorkloadBySubject(subject.name);
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => CramApp()));
           },
         )
