@@ -44,10 +44,10 @@ class _HomePageBodyState extends State<HomePageBody> {
                 List<Subject> subjects = snapshot.data[0] ??  [];
                 List<Workload> workloads = snapshot.data[1] ??  [];
 
-                print("HERE ARE THE SUBJECTS");
-                print(subjects);
-                print("HERE ARE THE WORKLOADS");
-                print(workloads);
+//                print("HERE ARE THE SUBJECTS");
+//                print(subjects);
+//                print("HERE ARE THE WORKLOADS");
+//                print(workloads);
                 if (subjects.isEmpty) {
                   return Text("Enter a subject bitch");
                 }

@@ -54,6 +54,7 @@ class _CalendarState extends State<Calendar> {
               );
             default:
               List<Workload> workloads = snapshot.data ??  [];
+
               _calendar = downloadCalendar(workloads);
               print(_calendar);
               _events = createEvents(_calendar);
@@ -96,13 +97,6 @@ class _CalendarState extends State<Calendar> {
     );
 
 
-
-
-
-
-
-
-
   }
 
   Map<DateTime, List<dynamic>> createEvents(Map<DateTime, Map<String, List<Workload>>> calendar){
@@ -120,18 +114,11 @@ class _CalendarState extends State<Calendar> {
 
 }
 
-//'_workloadID': workloadID,
-//'subject':subject,
-//'workloadName' : workloadName,
-//'workloadNumber' : workloadNumber,
-//'workloadDate' : workloadDate,
-//'workloadDifficulty' : workloadDifficulty,
-//'complete': complete,
-
 Map<DateTime, Map<String, List<Workload>>> downloadCalendar(List<Workload> workloads){
-
+  print("HERE ARE THE WORKLOADS");
   Map<DateTime, Map<String, List<Workload>>> calendar = Map();
   for(Workload wl in workloads){
+    print(wl.workloadDate);
     if (wl.workloadDate != null){
       DateTime date = DateTime.parse(wl.workloadDate);
       calendar.putIfAbsent(date, () => Map<String, List<Workload>>());

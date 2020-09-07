@@ -61,7 +61,6 @@ class Spread {Map<DateTime, Map<String, List<Workload>>> spread(List<Subject> su
           }
         }
 
-        print(subject.name + " " + workloads[workPosition].workloadName);
         //UPDATE DATE INTO WORKLOADS TABLE HERE
         workloads[workPosition].workloadDate = dateToStore.toString();
 
@@ -77,20 +76,20 @@ class Spread {Map<DateTime, Map<String, List<Workload>>> spread(List<Subject> su
     calendar = secondarySpread(calendar, subjects, workloads);
     calendar = secondarySpread(calendar, subjects, workloads);
 
-    //PRETTY PRINT FOR TESTING ------------------------------------------------------------------------
-    for (DateTime date in calendar.keys) {
-      int weight = 0;
-      print(date);
-      for (String subj in calendar[date].keys) {
-        for (Workload wl in calendar[date][subj]) {
-          print(subj + ": " + wl.workloadName + wl.workloadDate);
-          weight += wl.workloadDifficulty;
-        }
-      }
-      print("Weight: " + weight.toString());
-      print(
-          "_______________________________________________________________________");
-    }
+//    //PRETTY PRINT FOR TESTING ------------------------------------------------------------------------
+//    for (DateTime date in calendar.keys) {
+//      int weight = 0;
+//      print(date);
+//      for (String subj in calendar[date].keys) {
+//        for (Workload wl in calendar[date][subj]) {
+//          print(subj + ": " + wl.workloadName + wl.workloadDate);
+//          weight += wl.workloadDifficulty;
+//        }
+//      }
+//      print("Weight: " + weight.toString());
+//      print(
+//          "_______________________________________________________________________");
+//    }
 
     return calendar;
   }
@@ -226,6 +225,7 @@ class Spread {Map<DateTime, Map<String, List<Workload>>> spread(List<Subject> su
 
   updateWl(Workload wl, DateTime date) async {
     //UPDATE DATE INTO WORKLOADS TABLE HERE
+    print("hi " + date.toString());
     var updatedWorkload = Workload(
       workloadID : wl.workloadID,
       subject : wl.subject,
