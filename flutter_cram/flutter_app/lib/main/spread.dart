@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:flutter_app/database/databaseHelper.dart';
 import 'package:flutter_app/model/subject.dart';
 import 'package:flutter_app/model/workload.dart';
 
@@ -114,7 +115,9 @@ class Spread {Map<DateTime, Map<String, List<Workload>>> spread(List<Subject> su
 
         for (String subj in wlToMove.keys) {
           for (Workload wl in wlToMove[subj]) {
-            //UPDATE DATE INTO WORKLOADS TABLE HERE
+
+            //UPDATE WORKLOAD DATABASE WITH DATE
+            updateWl(wl, prevDate);
 
             //update workload date before adding to calendar
             wl.workloadDate = prevDate.toString();
@@ -138,6 +141,7 @@ class Spread {Map<DateTime, Map<String, List<Workload>>> spread(List<Subject> su
         for (String subj in wlToMove.keys) {
           for (Workload wl in wlToMove[subj]) {
             //UPDATE DATE INTO WORKLOADS TABLE HERE
+            updateWl(wl, date);
 
             //update workload date before adding to calendar
             wl.workloadDate = date.toString();
@@ -218,5 +222,19 @@ class Spread {Map<DateTime, Map<String, List<Workload>>> spread(List<Subject> su
       }
     }
     return i-1.0;
+  }
+
+  updateWl(Workload wl, DateTime date) async {
+    //UPDATE DATE INTO WORKLOADS TABLE HERE
+    var updatedWorkload = Workload(
+      workloadID : wl.workloadID,
+      subject : wl.subject,
+      workloadName : wl.workloadName,
+      workloadNumber : wl.workloadNumber,
+      workloadDate : date.toString(),
+      workloadDifficulty : wl.workloadDifficulty,
+      complete : wl.complete,
+    );
+    await DatabaseHelper.instance.updateWorkload(updatedWorkload);
   }
 }

@@ -13,16 +13,6 @@ class HomePageBody extends StatefulWidget {
 
 class _HomePageBodyState extends State<HomePageBody> {
 
-  Future<List<Subject>> fetchSubjects(){
-    Future<List<Subject>> subjects = updateSubjectList();
-    return subjects;
-  }
-
-  Future<List<Workload>> fetchWorkloads(){
-    Future<List<Workload>> workloads = updateWorkloadList();
-    return workloads;
-  }
-
   Future<List<Subject>> subjects = updateSubjectList();
   Future<List<Workload>> workloads = updateWorkloadList();
 
@@ -40,6 +30,7 @@ class _HomePageBodyState extends State<HomePageBody> {
         icon: Icon(Icons.add),
         backgroundColor: Colors.green,
       ),
+
       body: FutureBuilder(
           future: Future.wait([subjects, workloads]),
           builder: (context, snapshot) {
@@ -52,8 +43,6 @@ class _HomePageBodyState extends State<HomePageBody> {
               default:
                 List<Subject> subjects = snapshot.data[0] ??  [];
                 List<Workload> workloads = snapshot.data[1] ??  [];
-                //MainScreen().subjects = subjects;
-                //MainScreen().workloads = workloads;
 
                 print("HERE ARE THE SUBJECTS");
                 print(subjects);
@@ -97,7 +86,6 @@ class _HomePageBodyState extends State<HomePageBody> {
                           ),
                         ])
                   );
-
 
                 }
             }
