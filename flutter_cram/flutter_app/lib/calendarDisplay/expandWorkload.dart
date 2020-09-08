@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/calendarDisplay/calendar.dart';
 import 'package:flutter_app/database/databaseHelper.dart';
+import 'package:flutter_app/main/mainScreen.dart';
 import 'package:flutter_app/model/workload.dart';
 
 class ExpandWorkload extends StatefulWidget{
@@ -49,7 +51,6 @@ class _ExpandWorkloadState extends State<ExpandWorkload> {
                   setState(() {
                     isComplete = value;
                   });
-                  updateWl(widget.workload, isComplete);
                 },
               ),
             ],
@@ -57,6 +58,18 @@ class _ExpandWorkloadState extends State<ExpandWorkload> {
           ),
         ],
       ),
+
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.done_outline),
+          onPressed: () {
+            updateWl(widget.workload, isComplete);
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => MainScreen(1)));
+          },
+        )
+      ],
+
       elevation: 24.0,
       backgroundColor: Colors.blue,
       shape: RoundedRectangleBorder(

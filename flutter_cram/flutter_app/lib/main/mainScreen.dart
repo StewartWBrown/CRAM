@@ -6,11 +6,17 @@ import '../model/subject.dart';
 import '../model/workload.dart';
 import '../calendarDisplay/calendar.dart';
 
+DateTime mostRecentlyVisitedDay = DateTime.now();
+
 class MainScreen extends StatelessWidget {
+
+  int selectedPage;
+  MainScreen(this.selectedPage);
 
   Widget build(BuildContext context) {
     return MaterialApp(
       home: DefaultTabController(
+        initialIndex: selectedPage,
         length: 2,
         child: Scaffold(
           resizeToAvoidBottomPadding: false,

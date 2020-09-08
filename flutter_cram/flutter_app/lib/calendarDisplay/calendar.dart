@@ -9,6 +9,7 @@ import 'expandWorkload.dart';
 
 
 class Calendar extends StatefulWidget{
+
   @override
   _CalendarState createState() => _CalendarState();
 }
@@ -31,7 +32,6 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context){
-
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
@@ -66,6 +66,7 @@ class _CalendarState extends State<Calendar> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           TableCalendar (
+                            initialSelectedDay: mostRecentlyVisitedDay,
                             startingDayOfWeek: StartingDayOfWeek.monday,
                             initialCalendarFormat: CalendarFormat.week,
                             events: _events,
@@ -77,10 +78,12 @@ class _CalendarState extends State<Calendar> {
                               formatButtonVisible: false,
                             ),
                             onDaySelected: (date, events){
-                              setState(() {
-                                _selectedEvents = events;
-                              });
-
+                              mostRecentlyVisitedDay = date;
+                              if(events.isNotEmpty) {
+                                setState(() {
+                                  _selectedEvents = events;
+                                });
+                              }
                             },
                             builders: CalendarBuilders(
                             ),
