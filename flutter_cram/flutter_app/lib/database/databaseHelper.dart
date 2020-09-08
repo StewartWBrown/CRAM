@@ -188,15 +188,28 @@ class DatabaseHelper{
   }
 
   // Delete workload from the workload table
-  Future<void> deleteWorkload(int Id) async{
+  Future<void> deleteWorkloadBySubject(String subjectToDelete) async{
     // Get a reference to the database
     Database db = await instance.database;
 
     await db.delete(
       _workloadTableName,
-      where: "_workloadID = ?",
-      whereArgs: [Id],
+      where: "subject = ?",
+      whereArgs: [subjectToDelete],
     );
   }
 
+  // Check if the subject is in the database already (used before addition of suject to table)
+  Future<bool> isDuplicate(String subjectToFind) async{
+    // get a reference to the database
+    Database db = await instance.database;
+
+    // make a list of any subjects being asked for in the database
+    List queryResult = await db.rawQuery('SELECT * FROM $_subjectTableName WHERE $columnSubjectName="$subjectToFind"');
+    print("ahhhhhhhhhhhh");
+    // Check if query list result is empty. if yes then return false if not then return to true
+    bool result = queryResult.isEmpty ? false : true ;
+    print(result);
+    return result;
+  }
 }

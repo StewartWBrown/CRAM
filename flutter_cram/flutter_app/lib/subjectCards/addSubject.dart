@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter_app/database/databaseHelper.dart';
 import '../model/workload.dart';
 import '../main/main.dart';
+import 'duplicateSubject.dart';
 
 class AddSubject extends StatefulWidget {
   Subject subject;
@@ -35,6 +36,8 @@ class _AddSubjectState extends State<AddSubject> {
   DateTime endPicker;
   DateTime examPicker;
   Future<List<Workload>> workloads = updateWorkloadList();
+
+  int isDuplicate;
 
 
   @override
@@ -229,7 +232,6 @@ class _AddSubjectState extends State<AddSubject> {
                             if (!_formKey.currentState.validate()) {
                               return;
                             }
-
                             _formKey.currentState.save();
 
                             // Create subject object
@@ -242,33 +244,45 @@ class _AddSubjectState extends State<AddSubject> {
                             examDate: examPicker.toString(),
                           );
 
-                          // Add subject object to database
-                          await DatabaseHelper.instance.insertSubject(newSubject);
+                          if(await DatabaseHelper.instance.isDuplicate(tempName)){
+                            var duplicateInstance = DuplicateSubject(newSubject);
 
-                          // Create workload object for each workload to be created
-                            // the for loop is ugly here (starting at 1 instead of 0) because the workload number should start from 1
-                          for( var counter = 1 ; counter < tempWorkloads+1; counter++ ) {
-                            var newWorkload = Workload(
-                              workloadID: null,
-                              subject: tempName,
-                              workloadName: "$tempName workload $counter",
-                              workloadNumber: counter,
-                              workloadDifficulty: tempDifficulty,
-                              workloadDate: "NONE",
-                              complete: 0,
+                            showDialog(context: context,
+                              barrierDismissible: true,
+                              builder: (BuildContext context) {
+                                return duplicateInstance;
+                              },
                             );
-
-                            // Add workload instance to database
-                            await DatabaseHelper.instance.insertWorkload(newWorkload);
+                            return;
                           }
+                          else {
+                            // Add subject object to database
+                            await DatabaseHelper.instance.insertSubject(
+                                newSubject);
 
+                            // Create workload object for each workload to be created
+                            // the for loop is ugly here (starting at 1 instead of 0) because the workload number should start from 1
+                            for (var counter = 1; counter <
+                                tempWorkloads + 1; counter++) {
+                              var newWorkload = Workload(
+                                workloadID: null,
+                                subject: tempName,
+                                workloadName: "$tempName workload $counter",
+                                workloadNumber: counter,
+                                workloadDifficulty: tempDifficulty,
+                                workloadDate: "NONE",
+                                complete: 0,
+                              );
 
+                              // Add workload instance to database
+                              await DatabaseHelper.instance.insertWorkload(newWorkload);
+                            }
+                          }
                           })
                     ]))),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => CramApp()));
-
           },
           label: Text('Done'),
           icon: Icon(Icons.done),
