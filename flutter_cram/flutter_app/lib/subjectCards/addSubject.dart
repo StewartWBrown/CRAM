@@ -270,7 +270,7 @@ class _AddSubjectState extends State<AddSubject> {
                                 workloadName: "$tempName workload $counter",
                                 workloadNumber: counter,
                                 workloadDifficulty: tempDifficulty,
-                                workloadDate: null,
+                                workloadDate: "NONE",
                                 complete: 0,
                               );
 
@@ -278,8 +278,6 @@ class _AddSubjectState extends State<AddSubject> {
                               await DatabaseHelper.instance.insertWorkload(newWorkload);
                             }
                           }
-
-
                           })
                     ]))),
         floatingActionButton: FloatingActionButton.extended(

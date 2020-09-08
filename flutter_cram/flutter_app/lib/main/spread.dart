@@ -62,6 +62,12 @@ class Spread {
           }
         }
 
+        while(workloads[workPosition].complete==1){
+          workloads[workPosition].workloadDate = "NONE";
+          updateWl(workloads[workPosition], null);
+          workPosition += 1;
+        }
+
         workloads[workPosition].workloadDate = dateToStore.toString();
 
         //UPDATE DATE INTO WORKLOADS TABLE HERE
@@ -221,18 +227,26 @@ class Spread {
       if(wl.complete == 0 && wl.subject == subject.name){
         i += 1.0;
       }
+      if(wl.complete == 1){
+        print(wl.workloadName);
+        print("there is a 1!!!!!");
+      }
     }
     return i-1.0;
   }
 
+  //UPDATE DATE INTO WORKLOADS TABLE HERE
   updateWl(Workload wl, DateTime date) {
-    //UPDATE DATE INTO WORKLOADS TABLE HERE
+    String newDate = "NONE";
+    if(date != null){
+      newDate = date.toString();
+    }
     var updatedWorkload = Workload(
       workloadID : wl.workloadID,
       subject : wl.subject,
       workloadName : wl.workloadName,
       workloadNumber : wl.workloadNumber,
-      workloadDate : date.toString(),
+      workloadDate : newDate,
       workloadDifficulty : wl.workloadDifficulty,
       complete : wl.complete,
     );
