@@ -84,6 +84,11 @@ class _CalendarState extends State<Calendar> {
                                   _selectedEvents = events;
                                 });
                               }
+                              else{
+                                setState(() {
+                                  _selectedEvents = [];
+                                });
+                              }
                             },
                             builders: CalendarBuilders(
                             ),
