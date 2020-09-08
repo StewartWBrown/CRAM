@@ -127,8 +127,6 @@ class _CalendarState extends State<Calendar> {
 Map<DateTime, Map<String, List<Workload>>> downloadCalendar(List<Workload> workloads){
   Map<DateTime, Map<String, List<Workload>>> calendar = Map();
   for(Workload wl in workloads){
-    print(wl.workloadName);
-    print(wl.workloadDate);
     if (wl.workloadDate != "NONE"){
       DateTime date = DateTime.parse(wl.workloadDate);
       calendar.putIfAbsent(date, () => Map<String, List<Workload>>());

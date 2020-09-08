@@ -62,9 +62,8 @@ class Spread {
           }
         }
 
+        //find next available workload that is NOT completed and assign it to dateToStore.
         while(workloads[workPosition].complete==1){
-          workloads[workPosition].workloadDate = "NONE";
-          updateWl(workloads[workPosition], null);
           workPosition += 1;
         }
 
@@ -84,6 +83,13 @@ class Spread {
     calendar = secondarySpread(calendar, subjects, workloads);
     calendar = secondarySpread(calendar, subjects, workloads);
     calendar = secondarySpread(calendar, subjects, workloads);
+
+    //Set date of complete workloads to NONE
+    for(Workload wl in workloads){
+      if(wl.complete == 1){
+        updateWl(wl, null);
+      }
+    }
 
 //    //PRETTY PRINT FOR TESTING ------------------------------------------------------------------------
 //    for (DateTime date in calendar.keys) {
@@ -226,10 +232,6 @@ class Spread {
     for(Workload wl in workloads){
       if(wl.complete == 0 && wl.subject == subject.name){
         i += 1.0;
-      }
-      if(wl.complete == 1){
-        print(wl.workloadName);
-        print("there is a 1!!!!!");
       }
     }
     return i-1.0;

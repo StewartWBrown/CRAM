@@ -206,10 +206,8 @@ class DatabaseHelper{
 
     // make a list of any subjects being asked for in the database
     List queryResult = await db.rawQuery('SELECT * FROM $_subjectTableName WHERE $columnSubjectName="$subjectToFind"');
-    print("ahhhhhhhhhhhh");
     // Check if query list result is empty. if yes then return false if not then return to true
     bool result = queryResult.isEmpty ? false : true ;
-    print(result);
     return result;
   }
 }
