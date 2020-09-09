@@ -94,6 +94,7 @@ class _CalendarState extends State<Calendar> {
                             ),
                           ),
                           ... _selectedEvents.map((event) => ListTile(
+                            leading: Icon(Icons.album),
                             title: Text(event.workloadName),
                             onTap: (){
                               _expandWorkload = ExpandWorkload(event);
