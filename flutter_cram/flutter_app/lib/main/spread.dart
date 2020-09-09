@@ -28,7 +28,8 @@ class Spread {
         startDate = DateTime(now.year, now.month, now.day);
       }
 
-      int totalDays = endDate.difference(startDate).inDays;//if skip date within startDate and endDate, decrease studyTime (days) by 1 day
+      //if skip date within startDate and endDate, decrease studyTime (days) by 1 day
+      int totalDays = endDate.difference(startDate).inDays;
       for (DateTime date in skipDates) {
         if (date.isAfter(startDate) && date.isBefore(endDate)) {
           totalDays -= 1;
@@ -59,16 +60,18 @@ class Spread {
         }
         if (dateToStore.isAfter(endDate)) {
           while (skipDates.contains(dateToStore) || dateToStore.isAfter(endDate)) {
-            dateToStore = startDate.subtract(new Duration(days: 1));
+            dateToStore = dateToStore.subtract(new Duration(days: 1));
           }
         }
 
-        print("remaining wl no: " + remainingWlNo.toString());
-        print("i: " + i.toString());
-        print("work pos:" + workPosition.toString());
-        print("max work pos: " + (initialWorkPos+remainingWlNo).toString());
-        print("workload: " + workloads[workPosition].workloadName);
-        print("\n");
+
+//        print("remaining wl no: " + remainingWlNo.toString());
+//        print("i: " + i.toString());
+//        print("work pos: " + workPosition.toString());
+//        print("max work pos: " + (initialWorkPos+remainingWlNo).toString());
+//        print("workload: " + workloads[workPosition].workloadName);
+//        print("date to store: " + dateToStore.toString());
+//        print("\n");
 
         //find next available workload that is NOT completed and assign it to dateToStore.
         while(workloads[workPosition].complete==1){
@@ -127,11 +130,11 @@ class Spread {
 
   }
 
+  //secondary spreading - taking difficulty into account
   Map<DateTime, Map<String, List<Workload>>> secondarySpread(Map<DateTime, Map<String, List<Workload>>> calendar, List<Subject> subjects, List<Workload> workloads) {
-    //secondary spreading - taking difficulty into account
 
     int prevDifficulty = 0;
-    DateTime prevDate = null;
+    DateTime prevDate;
     for (DateTime date in calendar.keys) {
       int currentDifficulty = 0;
       for (String subject in calendar[date].keys) {
@@ -144,6 +147,15 @@ class Spread {
       //workloads in the current date to move back to previous date
       if (currentDifficulty - prevDifficulty > 1 && prevDate != null) {
         Map<String, List<Workload>> wlToMove = findWlToMove(calendar[date], ((currentDifficulty - prevDifficulty) / 2).floor(), prevDate, subjects);
+
+//        //print test
+//        for(String key in wlToMove.keys){
+//          print(key + " moving back");
+//          for(Workload wl in wlToMove[key]){
+//            print(wl.workloadName);
+//          }
+//          print("_______________");
+//        }
 
         for (String subj in wlToMove.keys) {
           for (Workload wl in wlToMove[subj]) {
@@ -167,8 +179,19 @@ class Spread {
         }
       }
 
+      //if previous date is weighted 2 or more in difficulty than current date, use wlToMove method to decide which
+      //workloads in the previous date to move forward to current date
       if (prevDifficulty - currentDifficulty > 1) {
         Map<String, List<Workload>> wlToMove = findWlToMove(calendar[prevDate], ((prevDifficulty - currentDifficulty) / 2).floor(), date, subjects);
+
+//        //print test
+//        for(String key in wlToMove.keys){
+//          print(key + " moving forward");
+//          for(Workload wl in wlToMove[key]){
+//            print(wl.workloadName);
+//          }
+//          print("_______________");
+//        }
 
         for (String subj in wlToMove.keys) {
           for (Workload wl in wlToMove[subj]) {
@@ -196,6 +219,7 @@ class Spread {
     return calendar;
   }
 
+  //find workloads to be moved from one date to another
   Map<String, List<Workload>> findWlToMove(Map<String, List<Workload>> workload, int difficulty, DateTime currentDate, List<Subject> subjects) {
     Map<String, List<Workload>> wlToMove = Map();
     List<Workload> finalWl;
@@ -230,12 +254,12 @@ class Spread {
             wlToMove = Map();
             wlToMove[subject] = finalWl;
             return wlToMove;
-          } else if (wl.workloadDifficulty < difficulty &&
-              currentDifficultyTotal < difficulty - wl.workloadDifficulty) {
+          }
+          else if (wl.workloadDifficulty < difficulty && currentDifficultyTotal < difficulty - wl.workloadDifficulty) {
             if (wlToMove.containsKey(subject)) {
               wlToMove[subject].add(wl);
-            } else {
-              finalWl = [wl];
+            }
+            else {finalWl = [wl];
               wlToMove[subject] = finalWl;
             }
             currentDifficultyTotal += wl.workloadDifficulty;
@@ -246,6 +270,7 @@ class Spread {
     return wlToMove;
   }
 
+  //find remaining number of workloads yet to be completed
   double findRemainingWlNo(workloads, Subject subject){
     double i = 0.0;
     for(Workload wl in workloads){
