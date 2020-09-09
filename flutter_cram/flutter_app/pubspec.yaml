@@ -28,6 +28,7 @@ dependencies:
   intl:
   sqflite:
   path_provider:
+  flutter_speed_dial: ^1.2.5
 
 
 
