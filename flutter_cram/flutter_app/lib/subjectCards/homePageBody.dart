@@ -42,7 +42,19 @@ class _HomePageBodyState extends State<HomePageBody> {
 //                print("HERE ARE THE WORKLOADS");
 //                print(workloads);
                 if (subjects.isEmpty) {
-                  return Text("Enter a subject bitch");
+                  return Scaffold(
+                    floatingActionButton: FloatingActionButton.extended(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => AddSubject()),
+                        );
+                      },
+                      label: Text('Add Subject'),
+                      icon: Icon(Icons.add),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
                 }
                 else {
                   return Scaffold(

@@ -17,6 +17,7 @@ class Spread {
     //initially, spread workloads for subject between remaining study dates given
     Map<DateTime, Map<String, List<Workload>>> calendar = SplayTreeMap();
     int workPosition = 0;
+    int initialWorkPos = 0;
     for (Subject subject in subjects) {
       DateTime startDate = DateTime.parse(subject.startDate);
       DateTime endDate = DateTime.parse(subject.endDate);
@@ -50,7 +51,7 @@ class Spread {
 
       //Finds evenly spread out values between 0.0 and total available days.
       //startDate + the floor of each value is the date a workload is to be completed
-      for (double i = 0.0; i <= totalDays + 0.001; i += totalDays / remainingWlNo) {
+      for (double i = 0.0; (i <= totalDays + 0.001); i += totalDays / remainingWlNo) {
         dateToStore = startDate.add(new Duration(days: (i + skipValue).floor()));
         while (skipDates.contains(dateToStore)) {
           skipValue += 1.0;
@@ -62,9 +63,21 @@ class Spread {
           }
         }
 
+        print("remaining wl no: " + remainingWlNo.toString());
+        print("i: " + i.toString());
+        print("work pos:" + workPosition.toString());
+        print("max work pos: " + (initialWorkPos+remainingWlNo).toString());
+        print("workload: " + workloads[workPosition].workloadName);
+        print("\n");
+
         //find next available workload that is NOT completed and assign it to dateToStore.
         while(workloads[workPosition].complete==1){
           workPosition += 1;
+
+          //prevent the loop from breaking
+          if(workPosition>initialWorkPos+remainingWlNo){
+            break;
+          }
         }
 
         workloads[workPosition].workloadDate = dateToStore.toString();
@@ -77,7 +90,13 @@ class Spread {
         calendar[dateToStore][subject.name].add(workloads[workPosition]);
 
         workPosition += 1;
+
+        //prevent the loop from breaking
+        if(workPosition>initialWorkPos+remainingWlNo){
+          break;
+        }
       }
+      initialWorkPos = workPosition;
     }
 
     calendar = secondarySpread(calendar, subjects, workloads);
