@@ -20,10 +20,6 @@ class _HomePageBodyState extends State<HomePageBody> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-
-
-
       body: FutureBuilder(
           future: Future.wait([subjects, workloads]),
           builder: (context, snapshot) {

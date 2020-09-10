@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/calendarDisplay/completedWorkloads.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../subjectCards/addSubject.dart';
 import '../main/mainScreen.dart';
@@ -21,6 +23,7 @@ class _CalendarState extends State<Calendar> {
   List<Workload> _selectedEvents;
   Future<List<Workload>> _workloads;
   ExpandWorkload _expandWorkload;
+  CompletedWorkloads _completedWorkloads;
 
   @override
   void initState() {
@@ -33,18 +36,6 @@ class _CalendarState extends State<Calendar> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-//            Navigator.push(
-//              context,
-//              MaterialPageRoute(builder: (context) => AddSubject()),
-//            );
-        },
-        label: Text('Manage study'),
-        icon: Icon(Icons.edit_attributes),
-        backgroundColor: Colors.orange,
-      ),
-
       body: FutureBuilder(
         future: _workloads,
         builder: (context, snapshot) {
@@ -61,6 +52,36 @@ class _CalendarState extends State<Calendar> {
               _events = createEvents();
 
               return Scaffold(
+                  floatingActionButton: SpeedDial(
+                    animatedIcon: AnimatedIcons.menu_close,
+                    animatedIconTheme: IconThemeData(size: 22),
+                    backgroundColor: Color(0xFF801E48),
+                    visible: true,
+                    curve: Curves.bounceIn,
+                    children: [
+                      // FAB 1
+                      SpeedDialChild(
+                          child: Icon(Icons.add),
+                          backgroundColor: Color(0xFF801E48),
+                          onTap: () {
+
+                            _completedWorkloads = CompletedWorkloads(workloads);
+                            showDialog(context: context,
+                              barrierDismissible: true,
+                              builder: (BuildContext context) {
+                                return _completedWorkloads;
+                              },
+                            );
+
+                          },
+                          label: 'Completed Workloads',
+                          labelStyle: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                              fontSize: 16.0),
+                          labelBackgroundColor: Color(0xFF801E48)),
+                    ],
+                  ),
                   body: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
