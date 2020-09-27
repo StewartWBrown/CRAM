@@ -105,6 +105,8 @@ class Spread {
     calendar = secondarySpread(calendar, subjects, workloads);
     calendar = secondarySpread(calendar, subjects, workloads);
     calendar = secondarySpread(calendar, subjects, workloads);
+    calendar = secondarySpread(calendar, subjects, workloads);
+
 
     //Set date of complete workloads to NONE
     for(Workload wl in workloads){
@@ -146,7 +148,7 @@ class Spread {
       //if current date is weighted 2 or more in difficulty than previous date, use wlToMove method to decide which
       //workloads in the current date to move back to previous date
       if (currentDifficulty - prevDifficulty > 1 && prevDate != null) {
-        Map<String, List<Workload>> wlToMove = findWlToMove(calendar[date], ((currentDifficulty - prevDifficulty) / 2).floor(), prevDate, subjects);
+        Map<String, List<Workload>> wlToMove = findWlToMove(calendar[date], ((currentDifficulty - prevDifficulty) / 2).ceil(), prevDate, subjects);
 
 //        //print test
 //        for(String key in wlToMove.keys){
@@ -182,7 +184,7 @@ class Spread {
       //if previous date is weighted 2 or more in difficulty than current date, use wlToMove method to decide which
       //workloads in the previous date to move forward to current date
       if (prevDifficulty - currentDifficulty > 1) {
-        Map<String, List<Workload>> wlToMove = findWlToMove(calendar[prevDate], ((prevDifficulty - currentDifficulty) / 2).floor(), date, subjects);
+        Map<String, List<Workload>> wlToMove = findWlToMove(calendar[prevDate], ((prevDifficulty - currentDifficulty) / 2).ceil(), date, subjects);
 
 //        //print test
 //        for(String key in wlToMove.keys){

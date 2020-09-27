@@ -34,6 +34,7 @@ class SubjectInfo extends StatelessWidget{
             ),
           ),
 
+          //difficulty circle
           Align(
             alignment: Alignment.topCenter,
             child:
@@ -49,6 +50,7 @@ class SubjectInfo extends StatelessWidget{
               ),
               padding: EdgeInsets.all(0.0),
               shape: CircleBorder(),
+              onPressed: () {},
             ),
           ),
 

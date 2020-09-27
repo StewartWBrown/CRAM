@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/subjectCards/editSubject.dart';
 import 'package:flutter_app/subjectCards/subjectInfo.dart';
+import 'package:flutter_app/subjectCards/subjectWorkloads.dart';
 import 'package:intl/intl.dart';
 import 'deleteSubject.dart';
 import 'addSubject.dart';
@@ -79,6 +80,7 @@ class ExpandSubjectCard extends StatelessWidget{
                     ),
                     padding: EdgeInsets.all(0.0),
                     shape: CircleBorder(),
+                    onPressed: () {},
                   ),
                 ),
               ),
@@ -117,7 +119,16 @@ class ExpandSubjectCard extends StatelessWidget{
 
               //workloads button
               RawMaterialButton(
-                onPressed: () {},
+                onPressed: () {
+                  var showWorkloads = SubjectWorkloads(subject, diffColor);
+                  showDialog(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (BuildContext context){
+                      return showWorkloads;
+                    },
+                  );
+                },
                 elevation: 40.0,
                 fillColor: Colors.white,
                 child: Icon(
