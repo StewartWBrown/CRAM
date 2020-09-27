@@ -136,7 +136,7 @@ class _CalendarState extends State<Calendar> {
                             Column(children: <Widget>[
                               ... _selectedEvents.map((event) => ListTile(
                                 leading: Icon(Icons.album),
-                                title: Text(event.workloadName),
+                                title: event.complete == 0 ? Text(event.workloadName) : Text(event.workloadName, style: TextStyle(decoration: TextDecoration.lineThrough)),
                                 onTap: (){
                                   _expandWorkload = ExpandWorkload(event);
                                   showDialog(context: context,
