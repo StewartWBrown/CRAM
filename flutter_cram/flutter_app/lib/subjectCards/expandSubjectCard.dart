@@ -18,19 +18,80 @@ class ExpandSubjectCard extends StatelessWidget{
     var formattedExamDate = DateTime.parse(subject.examDate);
 
     return AlertDialog(
-        title: Text(subject.name),
 
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text("Number of workloads: " + subject.workloads.toString()),
-            Text("\nSubject Difficulty: " + subject.difficulty.toString()),
-            Text("\n \nDate to begin studying: " + new DateFormat.yMMMd().format(formattedStartDate)),
-            Text("\nDate to finish studying: " + new DateFormat.yMMMd().format(formattedEndDate)),
-            Text("\nExam Date: " + new DateFormat.yMMMd().format(formattedExamDate)),
-          ],
-        ),
+        content:
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+
+              //name and difficulty at top
+              Stack(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      subject.name,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 40.0,
+                      ),
+                    ),
+                  ),
+
+                  Align(
+                    alignment: Alignment.topRight,
+                    child:
+                      RawMaterialButton(
+                        fillColor: Colors.white,
+                        child:
+                          Text(
+                            subject.difficulty.toString(),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 25.0,
+                            ),
+                          ),
+                        padding: EdgeInsets.all(0.0),
+                        shape: CircleBorder(),
+                      ),
+                  ),
+                ],
+              ),
+
+              SizedBox(height: 30),
+
+              //exam info button
+              RawMaterialButton(
+                onPressed: () {},
+                elevation: 40.0,
+                fillColor: Colors.white,
+                child: Icon(
+                  Icons.calendar_today,
+                  size: 80.0,
+                ),
+                padding: EdgeInsets.all(25.0),
+                shape: CircleBorder(),
+              ),
+              Text("Exam Info"),
+
+              SizedBox(height: 30),
+
+              //workloads button
+              RawMaterialButton(
+                onPressed: () {},
+                elevation: 40.0,
+                fillColor: Colors.white,
+                child: Icon(
+                  Icons.library_books,
+                  size: 80.0,
+                ),
+                padding: EdgeInsets.all(25.0),
+                shape: CircleBorder(),
+              ),
+              Text("Workloads"),
+            ],
+          ),
 
       actions: <Widget>[
         // Line to redirect to subject half full idk if that works
@@ -63,6 +124,8 @@ class ExpandSubjectCard extends StatelessWidget{
             );
           },
         )
+
+
       ],
         elevation: 24.0,
         backgroundColor: Colors.blue,
