@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/subjectCards/editSubject.dart';
+import 'package:flutter_app/subjectCards/subjectInfo.dart';
+import 'package:flutter_app/subjectCards/subjectWorkloads.dart';
 import 'package:intl/intl.dart';
 import 'deleteSubject.dart';
 import 'addSubject.dart';
@@ -8,6 +10,7 @@ import '../model/subject.dart';
 
 class ExpandSubjectCard extends StatelessWidget{
   final Subject subject;
+  Color diffColor;
 
   ExpandSubjectCard(this.subject);
 
@@ -16,6 +19,27 @@ class ExpandSubjectCard extends StatelessWidget{
     var formattedStartDate = DateTime.parse(subject.startDate);
     var formattedEndDate = DateTime.parse(subject.endDate);
     var formattedExamDate = DateTime.parse(subject.examDate);
+
+    switch(subject.difficulty){
+      case 1: {
+        diffColor = Colors.green;
+      }
+      break;
+
+      case 2: {
+        diffColor = Colors.orange;
+      }
+      break;
+
+      case 3:{
+        diffColor = Colors.red;
+      }
+      break;
+
+      default:{
+        diffColor = Colors.white;
+      }
+    }
 
     return AlertDialog(
 
@@ -26,44 +50,55 @@ class ExpandSubjectCard extends StatelessWidget{
             children: <Widget>[
 
               //name and difficulty at top
-              Stack(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      subject.name,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 40.0,
-                      ),
+              Container(
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Text(
+                    subject.name,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 40.0,
                     ),
                   ),
+                ),
+              ),
 
-                  Align(
-                    alignment: Alignment.topRight,
+              Container(
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child:
+                  RawMaterialButton(
+                    fillColor: diffColor,
                     child:
-                      RawMaterialButton(
-                        fillColor: Colors.white,
-                        child:
-                          Text(
-                            subject.difficulty.toString(),
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25.0,
-                            ),
-                          ),
-                        padding: EdgeInsets.all(0.0),
-                        shape: CircleBorder(),
+                    Text(
+                      subject.difficulty.toString(),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25.0,
                       ),
+                    ),
+                    padding: EdgeInsets.all(0.0),
+                    shape: CircleBorder(),
+                    onPressed: () {},
                   ),
-                ],
+                ),
               ),
 
               SizedBox(height: 30),
 
               //exam info button
               RawMaterialButton(
-                onPressed: () {},
+                onPressed: () {
+                  var subjectInfo = SubjectInfo(subject, diffColor);
+                  showDialog(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (BuildContext context){
+                      return subjectInfo;
+                    },
+                  );
+                },
                 elevation: 40.0,
                 fillColor: Colors.white,
                 child: Icon(
@@ -73,13 +108,27 @@ class ExpandSubjectCard extends StatelessWidget{
                 padding: EdgeInsets.all(25.0),
                 shape: CircleBorder(),
               ),
-              Text("Exam Info"),
+              Text(
+                "Exam Info",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
 
               SizedBox(height: 30),
 
               //workloads button
               RawMaterialButton(
-                onPressed: () {},
+                onPressed: () {
+                  var showWorkloads = SubjectWorkloads(subject, diffColor);
+                  showDialog(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (BuildContext context){
+                      return showWorkloads;
+                    },
+                  );
+                },
                 elevation: 40.0,
                 fillColor: Colors.white,
                 child: Icon(
@@ -89,7 +138,12 @@ class ExpandSubjectCard extends StatelessWidget{
                 padding: EdgeInsets.all(25.0),
                 shape: CircleBorder(),
               ),
-              Text("Workloads"),
+              Text(
+                "Workloads",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ],
           ),
 

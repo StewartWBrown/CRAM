@@ -24,6 +24,7 @@ class _CalendarState extends State<Calendar> {
   Future<List<Workload>> _workloads;
   ExpandWorkload _expandWorkload;
   CompletedWorkloads _completedWorkloads;
+  bool _initial;
 
   @override
   void initState() {
@@ -31,6 +32,7 @@ class _CalendarState extends State<Calendar> {
     _workloads = updateWorkloadList();
     _controller = CalendarController();
     _selectedEvents = [];
+    _initial = true;
   }
 
   @override
@@ -99,6 +101,7 @@ class _CalendarState extends State<Calendar> {
                               formatButtonVisible: false,
                             ),
                             onDaySelected: (date, events){
+                              _initial = false;
                               mostRecentlyVisitedDay = date;
                               if(events.isNotEmpty) {
                                 setState(() {
@@ -114,19 +117,38 @@ class _CalendarState extends State<Calendar> {
                             builders: CalendarBuilders(
                             ),
                           ),
-                          ... _selectedEvents.map((event) => ListTile(
-                            leading: Icon(Icons.album),
-                            title: Text(event.workloadName),
-                            onTap: (){
-                              _expandWorkload = ExpandWorkload(event);
-                              showDialog(context: context,
-                                barrierDismissible: true,
-                                builder: (BuildContext context) {
-                                  return _expandWorkload;
+
+                          //if initial state ask user to select a date, else display current date's events
+                          _initial == true ?
+                            Align(
+                              alignment: Alignment.center,
+                              child: Container(
+                                child:
+                                Text(
+                                  "PLEASE SELECT A DATE!",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 30.0,
+                                  ),
+                                ),
+                              ),
+                            ) :
+                            Column(
+                              children: <Widget>[
+                              ... _selectedEvents.map((event) => ListTile(
+                                leading: Icon(Icons.album),
+                                title: event.complete == 0 ? Text(event.workloadName) : Text(event.workloadName, style: TextStyle(decoration: TextDecoration.lineThrough)),
+                                onTap: (){
+                                  _expandWorkload = ExpandWorkload(event);
+                                  showDialog(context: context,
+                                    barrierDismissible: true,
+                                    builder: (BuildContext context) {
+                                      return _expandWorkload;
+                                    },
+                                  );
                                 },
-                              );
-                            },
-                          )),
+                              )),
+                            ],),
                         ],
                       )
                   )
@@ -135,8 +157,6 @@ class _CalendarState extends State<Calendar> {
         }
         ),
     );
-
-
   }
 
   Map<DateTime, List<Workload>> createEvents(){
