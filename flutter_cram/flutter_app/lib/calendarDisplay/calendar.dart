@@ -84,74 +84,84 @@ class _CalendarState extends State<Calendar> {
                           labelBackgroundColor: Color(0xFF801E48)),
                     ],
                   ),
-                  body: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          TableCalendar (
-                            initialSelectedDay: mostRecentlyVisitedDay,
-                            startingDayOfWeek: StartingDayOfWeek.monday,
-                            initialCalendarFormat: CalendarFormat.week,
-                            events: _events,
-                            calendarController: _controller,
-                            calendarStyle: CalendarStyle(
-                              todayColor: Colors.orange,
-                            ),
-                            headerStyle: HeaderStyle(
-                              formatButtonVisible: false,
-                            ),
-                            onDaySelected: (date, events){
-                              _initial = false;
-                              mostRecentlyVisitedDay = date;
-                              if(events.isNotEmpty) {
-                                setState(() {
-                                  _selectedEvents = events;
-                                });
-                              }
-                              else{
-                                setState(() {
-                                  _selectedEvents = [];
-                                });
-                              }
-                            },
-                            builders: CalendarBuilders(
+                  body: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      TableCalendar (
+                        initialSelectedDay: mostRecentlyVisitedDay,
+                        startingDayOfWeek: StartingDayOfWeek.monday,
+                        initialCalendarFormat: CalendarFormat.week,
+                        events: _events,
+                        calendarController: _controller,
+                        calendarStyle: CalendarStyle(
+                          todayColor: Colors.orange,
+                        ),
+                        headerStyle: HeaderStyle(
+                          formatButtonVisible: false,
+                        ),
+                        onDaySelected: (date, events){
+                          _initial = false;
+                          mostRecentlyVisitedDay = date;
+                          if(events.isNotEmpty) {
+                            setState(() {
+                              _selectedEvents = events;
+                            });
+                          }
+                          else{
+                            setState(() {
+                              _selectedEvents = [];
+                            });
+                          }
+                        },
+                        builders: CalendarBuilders(
+                        ),
+                      ),
+
+                      //if initial state, ask user to select a date, else display current date's events
+                      _initial == true ?
+                        Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            child:
+                            Text(
+                              "PLEASE SELECT A DATE!",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 30.0,
+                              ),
                             ),
                           ),
+                        ) :
 
-                          //if initial state ask user to select a date, else display current date's events
-                          _initial == true ?
-                            Align(
-                              alignment: Alignment.center,
-                              child: Container(
-                                child:
-                                Text(
-                                  "PLEASE SELECT A DATE!",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 30.0,
+                        Expanded(
+                          child: new Container(
+                            child: new CustomScrollView(
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: false,
+                              slivers: <Widget>[
+                                new SliverPadding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 24.0),
+                                  sliver: new SliverList(
+                                    delegate: new SliverChildBuilderDelegate(
+                                          (context, index) {
+                                        return Container(
+                                          height: 50,
+                                          alignment: Alignment.center,
+                                          color: Colors.orangeAccent,
+                                          child: Text(_selectedEvents[index].workloadName),
+                                        );
+                                      },
+                                      childCount: _selectedEvents.length,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ) :
-                            Column(
-                              children: <Widget>[
-                              ... _selectedEvents.map((event) => ListTile(
-                                leading: Icon(Icons.album),
-                                title: event.complete == 0 ? Text(event.workloadName) : Text(event.workloadName, style: TextStyle(decoration: TextDecoration.lineThrough)),
-                                onTap: (){
-                                  _expandWorkload = ExpandWorkload(event);
-                                  showDialog(context: context,
-                                    barrierDismissible: true,
-                                    builder: (BuildContext context) {
-                                      return _expandWorkload;
-                                    },
-                                  );
-                                },
-                              )),
-                            ],),
-                        ],
-                      )
-                  )
+                              ],
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
               );
           }
         }

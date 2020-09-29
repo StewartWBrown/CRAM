@@ -51,8 +51,8 @@ class _DashboardState extends State<DashboardBody> {
                               fontWeight: FontWeight.w500,
                               color: Colors.white,
                               fontSize: 16.0),
-                          labelBackgroundColor: Color(0xFF801E48)),
-
+                          labelBackgroundColor: Color(0xFF801E48)
+                      ),
                     ],
                   ),
                 );
