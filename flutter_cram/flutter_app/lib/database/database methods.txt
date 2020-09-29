@@ -1,0 +1,113 @@
+The database Handling Guide
+
+There are three tables within the database, one for subjects, one for workloads and one for skipped days.
+
+Each database has its own methods which can be called anywhere in the program by using
+
+databasehelper.instance.~TASK~
+
+The methods for the database are different for each table within the database
+
+
+THE EXECUTION OF THE DATABASE WORKS AS FOLLOWS:
+
+Check to see if a database exists, if it does not then it is the users first time opening the app.
+
+Database is created with three tables:
+
+Subject table:
+Subject name (Primary Key)
+Number of workloads
+Difficulty
+Start date
+End date
+Exam date
+
+Workload Table:
+Workload ID (Primary key, increments automatically with every new workload creation)
+Subject name (Foreign key, associated to subject in subject table)
+Workload name
+Workload Number
+Workload Date
+Workload Difficulty
+Completed
+
+Skip days table:
+Days of the week
+Skip (0 for not skip, 1 for skip)
+
+
+Then, the skip days table is filled with days of the week monday-sunday and all are set to 0.
+
+_______________________________________________________________________
+SUBJECTS TABLE:
+
+///////////////////////////////////////////////////////////////////////
+INSERT SUBJECT: await DatabaseHelper.instance.insertSubject(newSubject);
+
+Insert subject takes a subject object, converts it to a map and adds it to the subject table
+
+////////////////////////////////////////////////////////////////////////
+QUERY ALL SUBJECTS: await DatabaseHelper.instance.queryAllSubjects();
+
+Returns a list of all the subjects in the subject table
+
+//////////////////////////////////////////////////////////////////////////
+UPDATE SUBJECT: await DatabaseHelper.instance.updateSubject(subject);
+
+Updates a subject when passed in a subject object which has different values than the one stored in the table
+
+/////////////////////////////////////////////////////////////////////////
+DELETE SUBJECT: await DatabaseHelper.instance.deleteSubject(name);
+
+Deletes a subject when passed in a string containing a name of the subject to be deleted
+
+////////////////////////////////////////////////////////////////////////
+CHECK IS SUBJECT EXISTS: await DatabaseHelper.instance.isDuplicate(name);
+
+Returns a boolean in the case that a subject already exists in the table
+
+_____________________________________________________________________________________
+
+WORKLOADS TABLE:
+
+////////////////////////////////////////////////////////////////////////////
+INSERT WORKLOAD: await DatabaseHelper.instance.insertWorkload(newWorkload);
+
+Insert workload takes a workload object, converts it to a map and adds it to the workload table
+////////////////////////////////////////////////////////////////////////////
+
+QUERY ALL WORKLOADS: await DatabaseHelper.instance.queryAllWorkloads();
+
+Returns a list of all workloads in the workloads table
+
+/////////////////////////////////////////////////////////////////////////////
+
+UPDATE WORKLOAD: await DatabaseHelper.instance.updateWorkload(workload);
+
+Update the row in the workload table, based on whatever the workload ID is.
+
+///////////////////////////////////////////////////////////////////////////////
+
+DELETE WORKLOAD BY SUBJECT: await DatabaseHelper.instance.deleteWorkloadBySubject(subject);
+
+given a string of a subject name, deletes workload from the workload table associated to a subject
+
+////////////////////////////////////////////////////////////////////////////////
+
+RETURN WORKLOAD FOR SUBJECT: await DatabaseHelper.instance.returnWorkloadsForSubject(subject);
+
+Given a string of a subject name, returns all workloads associated to that subject in a list.
+
+______________________________________________________________________________________________________
+
+SKIP DAYS TABLE
+
+the skip days table keeps track of the days the user has selected they cannot work, the boolean is stored as
+an integer: initially at 0. 0 meaning do not skip, 1 meaning skip.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+CHANGE WHETHER A DAY IS SKIPPED OR NOT: await DatabaseHelper.instance.skipDay(day, skip);
+
+when passed in the day and what the skip value is being changed to (0, 1), the skipDay database is updated.
+////////////////////////////////////////////////////////////////////////////////////////////////////////

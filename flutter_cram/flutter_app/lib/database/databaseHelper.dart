@@ -3,10 +3,9 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-
-
 import '../model/subject.dart';
 import '../model/workload.dart';
+
 
 class DatabaseHelper{
 
@@ -14,6 +13,7 @@ class DatabaseHelper{
   static final _dbVersion = 1;
   static final _subjectTableName = 'subjects';
   static final _workloadTableName = 'workloads';
+  static final _daysTableName = 'skipDays';
 
   // Column names of Subjects table
   static final columnSubjectName= 'SubjectName';
@@ -32,6 +32,10 @@ class DatabaseHelper{
   static final columnWorkloadDifficulty ='workloadDifficulty';
   static final columnCompleted = 'complete';
 
+  // column names of skip dates table
+
+  static final columnDay = '_days';
+  static final columnSkip = 'skip';
 
   // Making a singleton class
   DatabaseHelper._privateConstructor();
@@ -81,6 +85,28 @@ class DatabaseHelper{
       )
       '''
     );
+
+    await db.execute(
+        '''
+      CREATE TABLE $_daysTableName(
+      $columnDay TEXT PRIMARY KEY,
+      $columnSkip INTEGER
+      )
+      '''
+    );
+
+    fillDayDatabase(db);
+
+  }
+
+  Future fillDayDatabase(Database db) async{
+    await db.insert(_daysTableName, {columnDay : "Monday", columnSkip : 0});
+    await db.insert(_daysTableName, {columnDay : "Tuesday", columnSkip : 0});
+    await db.insert(_daysTableName, {columnDay : "Wednesday", columnSkip : 0});
+    await db.insert(_daysTableName, {columnDay : "Thursday", columnSkip : 0});
+    await db.insert(_daysTableName, {columnDay : "Friday", columnSkip : 0});
+    await db.insert(_daysTableName, {columnDay : "Saturday", columnSkip : 0});
+    await db.insert(_daysTableName, {columnDay : "Sunday", columnSkip : 0});
   }
 
   // Insert a row into each table
@@ -173,6 +199,18 @@ class DatabaseHelper{
     );
   }
 
+  // Update day to skip or not skip
+  Future<void> skipDay(String day, int skip) async{
+    // get reference to the database
+    final db = await instance.database;
+
+    await db.update(
+      _daysTableName,
+        {columnDay : day, columnSkip : skip},
+      where: "$columnDay = ?",
+    );
+  }
+
   // Delete Item from the database
 
   // Delete subject form the subject table
@@ -199,7 +237,7 @@ class DatabaseHelper{
     );
   }
 
-  // Check if the subject is in the database already (used before addition of suject to table)
+  // Check if the subject is in the database already (used before addition of subject to table)
   Future<bool> isDuplicate(String subjectToFind) async{
     // get a reference to the database
     Database db = await instance.database;
@@ -210,4 +248,15 @@ class DatabaseHelper{
     bool result = queryResult.isEmpty ? false : true ;
     return result;
   }
+
+  Future<List> returnWorkloadsForSubject(String subjectToReturn) async{
+    // get a reference to the database
+    Database db = await instance.database;
+
+    // make a list of any subjects being asked for in the database
+    List queryResult = await db.rawQuery('SELECT * FROM $_workloadTableName WHERE $columnSubName="$subjectToReturn"');
+
+    return queryResult;
+  }
+
 }
