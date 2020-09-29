@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/calendarDisplay/completedWorkloads.dart';
+import 'package:flutter_app/calendarDisplay/skipDates.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../subjectCards/addSubject.dart';
@@ -77,6 +78,27 @@ class _CalendarState extends State<Calendar> {
 
                           },
                           label: 'Completed Workloads',
+                          labelStyle: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                              fontSize: 16.0),
+                          labelBackgroundColor: Color(0xFF801E48)
+                      ),
+                      // FAB 2
+                      SpeedDialChild(
+                          child: Icon(Icons.skip_next),
+                          backgroundColor: Color(0xFF801E48),
+                          onTap: () {
+                            var skipDates = SkipDates();
+                            showDialog(context: context,
+                              barrierDismissible: true,
+                              builder: (BuildContext context) {
+                                return skipDates;
+                              },
+                            );
+
+                          },
+                          label: 'Skip Days',
                           labelStyle: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Colors.white,

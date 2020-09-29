@@ -65,7 +65,7 @@ class _ExpandWorkloadState extends State<ExpandWorkload> {
           onPressed: () {
             updateWl(widget.workload, isComplete);
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => MainScreen(1)));
+                MaterialPageRoute(builder: (context) => MainScreen(2)));
           },
         )
       ],
