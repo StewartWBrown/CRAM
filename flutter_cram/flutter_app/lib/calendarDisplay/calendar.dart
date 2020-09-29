@@ -145,11 +145,24 @@ class _CalendarState extends State<Calendar> {
                                   sliver: new SliverList(
                                     delegate: new SliverChildBuilderDelegate(
                                           (context, index) {
-                                        return Container(
-                                          height: 50,
-                                          alignment: Alignment.center,
-                                          color: Colors.orangeAccent,
-                                          child: Text(_selectedEvents[index].workloadName),
+                                        return GestureDetector(
+                                          onTap: (){
+                                            var expandWorkload = ExpandWorkload(_selectedEvents[index]);
+
+                                            showDialog(
+                                              context: context,
+                                              barrierDismissible: true,
+                                              builder: (BuildContext context){
+                                                return expandWorkload;
+                                              },
+                                            );
+                                          },
+                                          child: Container(
+                                            height: 50,
+                                            alignment: Alignment.center,
+                                            color: Colors.orangeAccent,
+                                            child: Text(_selectedEvents[index].workloadName),
+                                          ),
                                         );
                                       },
                                       childCount: _selectedEvents.length,
