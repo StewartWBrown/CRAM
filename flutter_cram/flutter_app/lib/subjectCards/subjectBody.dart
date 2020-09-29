@@ -7,12 +7,12 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'addSubject.dart';
 import 'subjectRow.dart';
 
-class HomePageBody extends StatefulWidget {
+class SubjectBody extends StatefulWidget {
   @override
-  _HomePageBodyState createState() => _HomePageBodyState();
+  _SubjectBodyState createState() => _SubjectBodyState();
 }
 
-class _HomePageBodyState extends State<HomePageBody> {
+class _SubjectBodyState extends State<SubjectBody> {
 
   Future<List<Subject>> subjects = updateSubjectList();
   Future<List<Workload>> workloads = updateWorkloadList();
