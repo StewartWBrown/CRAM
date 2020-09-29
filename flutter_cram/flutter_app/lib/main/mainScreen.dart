@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import '../subjectCards/addSubject.dart';
-import 'spread.dart';
-import '../subjectCards/homePageBody.dart';
-import '../model/subject.dart';
-import '../model/workload.dart';
+import 'package:flutter_app/dashboard/dashboardBody.dart';
+import '../subjectCards/subjectBody.dart';
 import '../calendarDisplay/calendar.dart';
 
 DateTime mostRecentlyVisitedDay = DateTime.now();
 
 class MainScreen extends StatelessWidget {
 
+  String pageTitle;
   int selectedPage;
   MainScreen(this.selectedPage);
 
@@ -17,21 +15,22 @@ class MainScreen extends StatelessWidget {
     return MaterialApp(
       home: DefaultTabController(
         initialIndex: selectedPage,
-        length: 2,
+        length: 3,
         child: Scaffold(
           resizeToAvoidBottomPadding: false,
           body: new NestedScrollView(
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 new SliverAppBar(
-                  title: new Text("CRAM APP"),
+                  title: new Text("Workloads"),
                   pinned: true,
                   floating: true,
                   forceElevated: innerBoxIsScrolled,
                   bottom: new TabBar(
                     tabs: <Tab>[
-                      new Tab(text: "SUBJECTS"),
-                      new Tab(text: "CALENDAR"),
+                      new Tab(icon: Icon(Icons.view_list)),
+                      new Tab(icon: Icon(Icons.home)),
+                      new Tab(icon: Icon(Icons.calendar_today)),
                     ],
                   ),
                 ),
@@ -39,7 +38,8 @@ class MainScreen extends StatelessWidget {
             },
             body: new TabBarView(
               children: <Widget>[
-                new HomePageBody(),
+                new SubjectBody(),
+                new DashboardBody(),
                 new Calendar(),
               ],
             ),

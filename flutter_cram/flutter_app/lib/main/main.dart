@@ -10,7 +10,7 @@ void main(){
 class CramApp extends StatelessWidget{
   Widget build(BuildContext context){
     return MaterialApp(
-      title: 'CRAM App',
+      title: 'CRAM APP',
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
