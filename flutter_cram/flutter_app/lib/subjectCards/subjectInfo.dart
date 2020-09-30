@@ -128,6 +128,31 @@ class SubjectInfo extends StatelessWidget{
               ),
             ),
           ),
+
+          SizedBox(height: 30),
+
+          //no of workloads
+          Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              "No. Of Workloads:",
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 15.0,
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              subject.workloads.toString(),
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontSize: 35.0,
+              ),
+            ),
+          ),
         ],
       ),
 
