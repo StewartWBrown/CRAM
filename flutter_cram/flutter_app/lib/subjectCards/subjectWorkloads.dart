@@ -27,14 +27,48 @@ class _SubjectWorkloadsState extends State<SubjectWorkloads> {
         borderRadius: BorderRadius.all(Radius.circular(32.0)),
       ),
 
-      content: FutureBuilder(
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+        //subject name
+        Text(
+        widget.subject.name,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 40.0,
+        ),
+      ),
+
+      //difficulty circle
+      Align(
+        alignment: Alignment.topCenter,
+        child:
+        RawMaterialButton(
+          fillColor: widget.diffColor,
+          child:
+          Text(
+            widget.subject.difficulty.toString(),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 25.0,
+            ),
+          ),
+          padding: EdgeInsets.all(0.0),
+          shape: CircleBorder(),
+          onPressed: () {},
+        ),
+      ),
+        FutureBuilder(
           future: _workloads,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return CircularProgressIndicator();
             }
             else{
-              print(snapshot.toString());
+              List<Workload> _workloads = snapshot.data ??  [];
+              return Text(_workloads[0].workloadName);
             }
 
             return Container(
@@ -42,13 +76,46 @@ class _SubjectWorkloadsState extends State<SubjectWorkloads> {
             );
           }
       ),
-
+  ],
+    ),
     );
+
   }
 }
 
 /**
+    mainAxisSize: MainAxisSize.min,
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: <Widget>[
+    //subject name
+    Text(
+    widget.subject.name,
+    textAlign: TextAlign.center,
+    style: TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 40.0,
+    ),
+    ),
 
+    //difficulty circle
+    Align(
+    alignment: Alignment.topCenter,
+    child:
+    RawMaterialButton(
+    fillColor: widget.diffColor,
+    child:
+    Text(
+    widget.subject.difficulty.toString(),
+    style: TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 25.0,
+    ),
+    ),
+    padding: EdgeInsets.all(0.0),
+    shape: CircleBorder(),
+    onPressed: () {},
+    ),
+    ),
 
 
     FutureBuilder(
