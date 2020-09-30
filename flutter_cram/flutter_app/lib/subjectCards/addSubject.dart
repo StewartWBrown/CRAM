@@ -283,7 +283,7 @@ class _AddSubjectState extends State<AddSubject> {
                     ]))),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => MainScreen(0)));
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => MainScreen()));
           },
           label: Text('Done'),
           icon: Icon(Icons.done),

@@ -10,20 +10,26 @@ class DashboardBody extends StatefulWidget {
   _DashboardState createState() => _DashboardState();
 }
 
-class _DashboardState extends State<DashboardBody> {
+class _DashboardState extends State<DashboardBody> with AutomaticKeepAliveClientMixin<DashboardBody>{
 
   String currentDate = new DateFormat.d().format(new DateTime.now()).toString();
   String currentMonth = new DateFormat.MMMM().format(new DateTime.now()).toString();
-  Future<List<Subject>> subjects = updateSubjectList();
-  Future<List<Workload>> workloads = updateWorkloadList();
+  Future<List<Subject>> subjects;
+  Future<List<Workload>> workloads;
 
   @override
-  void dispose() {
-    super.dispose();
+  bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    super.initState();
+    subjects = updateSubjectList();
+    workloads = updateWorkloadList();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return FutureBuilder(
         future: Future.wait([subjects, workloads]),
         builder: (context, snapshot) {

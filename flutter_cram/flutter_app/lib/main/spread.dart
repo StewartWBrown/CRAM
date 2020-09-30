@@ -107,15 +107,7 @@ class Spread {
     calendar = secondarySpread(calendar, subjects, workloads);
     calendar = secondarySpread(calendar, subjects, workloads);
 
-
-    //Set date of complete workloads to NONE
-    for(Workload wl in workloads){
-      if(wl.complete == 1){
-        updateWl(wl, null);
-      }
-    }
-
-//    //PRETTY PRINT FOR TESTING ------------------------------------------------------------------------
+    //PRETTY PRINT FOR TESTING ------------------------------------------------------------------------
 //    for (DateTime date in calendar.keys) {
 //      int weight = 0;
 //      print(date);
@@ -129,6 +121,13 @@ class Spread {
 //      print(
 //          "_______________________________________________________________________");
 //    }
+
+    //Set date of complete workloads to NONE
+    for(Workload wl in workloads){
+      if(wl.complete == 1){
+        updateWl(wl, null);
+      }
+    }
 
   }
 

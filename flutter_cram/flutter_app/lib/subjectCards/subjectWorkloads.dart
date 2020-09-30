@@ -116,7 +116,7 @@ class _SubjectWorkloadsState extends State<SubjectWorkloads> {
                                     height: 50,
                                     alignment: Alignment.center,
                                     color: Colors.orangeAccent,
-                                    child: Text(dateFormatter(incompleteWl[index].workloadDate) + " - " + incompleteWl[index].workloadName),
+                                    child: Text(incompleteWl[index].workloadName),
                                   ),
                                 );
                               },

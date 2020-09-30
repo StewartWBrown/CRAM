@@ -12,18 +12,24 @@ class SubjectBody extends StatefulWidget {
   _SubjectBodyState createState() => _SubjectBodyState();
 }
 
-class _SubjectBodyState extends State<SubjectBody> {
+class _SubjectBodyState extends State<SubjectBody> with AutomaticKeepAliveClientMixin<SubjectBody>{
 
-  Future<List<Subject>> subjects = updateSubjectList();
-  Future<List<Workload>> workloads = updateWorkloadList();
+  Future<List<Subject>> subjects;
+  Future<List<Workload>> workloads;
 
   @override
-  void dispose() {
-    super.dispose();
+  bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    super.initState();
+    subjects = updateSubjectList();
+    workloads = updateWorkloadList();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: FutureBuilder(
           future: Future.wait([subjects, workloads]),
