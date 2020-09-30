@@ -32,3 +32,8 @@ Future<List<Workload>> updateWorkloadList()async{
   var tempList = DatabaseHelper.instance.queryAllWorkloads();
   return tempList;
 }
+
+Future<List<Workload>> workloadListBySubject(String subjectName)async{
+  var tempList = DatabaseHelper.instance.returnWorkloadsForSubject(subjectName);
+  return tempList;
+}
