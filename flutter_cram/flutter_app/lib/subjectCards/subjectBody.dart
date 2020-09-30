@@ -18,6 +18,11 @@ class _SubjectBodyState extends State<SubjectBody> {
   Future<List<Workload>> workloads = updateWorkloadList();
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
@@ -30,6 +35,8 @@ class _SubjectBodyState extends State<SubjectBody> {
                     child: CircularProgressIndicator()
                 );
               default:
+                currentPage = 0;
+
                 List<Subject> subjects = snapshot.data[0] ??  [];
                 List<Workload> workloads = snapshot.data[1] ??  [];
 

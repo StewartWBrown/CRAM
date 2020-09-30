@@ -4,6 +4,7 @@ import '../subjectCards/subjectBody.dart';
 import '../calendarDisplay/calendar.dart';
 
 DateTime mostRecentlyVisitedDay = DateTime.now();
+int currentPage;
 
 class MainScreen extends StatelessWidget {
 
@@ -22,7 +23,7 @@ class MainScreen extends StatelessWidget {
             headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 new SliverAppBar(
-                  title: new Text("Workloads"),
+                  title: Text("Workloads"),
                   pinned: true,
                   floating: true,
                   forceElevated: innerBoxIsScrolled,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/main/mainScreen.dart';
 import 'package:flutter_app/model/subject.dart';
 import 'package:flutter_app/model/workload.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -17,6 +18,11 @@ class _DashboardState extends State<DashboardBody> {
   Future<List<Workload>> workloads = updateWorkloadList();
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: Future.wait([subjects, workloads]),
@@ -28,6 +34,8 @@ class _DashboardState extends State<DashboardBody> {
                   child: CircularProgressIndicator()
               );
             default:
+              currentPage = 1;
+
               List<Subject> subjects = snapshot.data[0] ?? [];
               List<Workload> workloads = snapshot.data[1] ?? [];
 

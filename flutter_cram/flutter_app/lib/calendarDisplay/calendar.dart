@@ -37,6 +37,11 @@ class _CalendarState extends State<Calendar> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context){
     return Scaffold(
       body: FutureBuilder(
@@ -49,6 +54,8 @@ class _CalendarState extends State<Calendar> {
                   child: CircularProgressIndicator()
               );
             default:
+              currentPage = 2;
+
               List<Workload> workloads = snapshot.data ??  [];
 
               _calendar = downloadCalendar(workloads);

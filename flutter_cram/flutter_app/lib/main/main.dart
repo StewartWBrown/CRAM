@@ -14,7 +14,7 @@ class CramApp extends StatelessWidget{
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
-      home: MainScreen(0),
+      home: MainScreen(1),
     );
 
 

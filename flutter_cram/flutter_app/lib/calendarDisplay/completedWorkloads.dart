@@ -37,19 +37,47 @@ class _CompletedWorkloadsState extends State<CompletedWorkloads> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-        ... completedWorkloads.map((event) => ListTile(
-          leading: Icon(Icons.album),
-          title: Text(event.workloadName),
-          onTap: (){
-            _expandWorkload = ExpandWorkload(event);
-            showDialog(context: context,
-              barrierDismissible: true,
-              builder: (BuildContext context) {
-                return _expandWorkload;
-              },
-            );
-          },
-          )),
+
+          Container(
+            height: 300.0,
+            width: 300.0,
+            child: new CustomScrollView(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: false,
+              slivers: <Widget>[
+                new SliverPadding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 24.0),
+                  sliver: new SliverList(
+                    delegate: new SliverChildBuilderDelegate(
+                          (context, index) {
+                        return GestureDetector(
+                          onTap: (){
+                            var expandWorkload = ExpandWorkload(completedWorkloads[index]);
+                            showDialog(
+                              context: context,
+                              barrierDismissible: true,
+                              builder: (BuildContext context){
+                                return expandWorkload;
+                              },
+                            );
+                          },
+                          child:
+                          Container(
+                            height: 50,
+                            alignment: Alignment.center,
+                            color: Colors.orangeAccent,
+                            child: Text(completedWorkloads[index].workloadName),
+                          ),
+                        );
+                      },
+                      childCount: completedWorkloads.length,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
 
