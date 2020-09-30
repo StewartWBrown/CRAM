@@ -37,11 +37,6 @@ class _CalendarState extends State<Calendar> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context){
     return Scaffold(
       body: FutureBuilder(

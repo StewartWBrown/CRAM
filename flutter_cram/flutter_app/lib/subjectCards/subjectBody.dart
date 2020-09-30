@@ -18,11 +18,6 @@ class _SubjectBodyState extends State<SubjectBody> {
   Future<List<Workload>> workloads = updateWorkloadList();
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(

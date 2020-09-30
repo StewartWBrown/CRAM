@@ -64,7 +64,7 @@ class _ExpandWorkloadState extends State<ExpandWorkload> {
           icon: Icon(Icons.done_outline),
           onPressed: () {
             updateWl(widget.workload, isComplete);
-            Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen(currentPage)));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
           },
         )
       ],

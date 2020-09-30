@@ -18,11 +18,6 @@ class _DashboardState extends State<DashboardBody> {
   Future<List<Workload>> workloads = updateWorkloadList();
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: Future.wait([subjects, workloads]),
