@@ -23,12 +23,18 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin{
 
   MyTabs _myHandler ;
   TabController _controller ;
+  Widget index0;
+  Widget index1;
+  Widget index2;
 
   void initState() {
     super.initState();
     _controller = new TabController(length: 3, vsync: this, initialIndex: currentPage);
-    _myHandler = _tabs[1];
+    _myHandler = _tabs[currentPage];
     _controller.addListener(_handleSelected);
+    index0 = SubjectBody();
+    index1 = DashboardBody();
+    index2 = Calendar();
   }
   void _handleSelected() {
     setState(() {
@@ -65,9 +71,9 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin{
             body: new TabBarView(
               controller: _controller,
               children: <Widget>[
-                new SubjectBody(),
-                new DashboardBody(),
-                new Calendar(),
+                index0,
+                index1,
+                index2,
               ],
             ),
           ),

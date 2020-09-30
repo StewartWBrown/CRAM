@@ -18,6 +18,9 @@ class _DashboardState extends State<DashboardBody> with AutomaticKeepAliveClient
   Future<List<Workload>> workloads;
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   void initState() {
     super.initState();
     subjects = updateSubjectList();
@@ -125,8 +128,4 @@ class _DashboardState extends State<DashboardBody> with AutomaticKeepAliveClient
     );
 
   }
-
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
 }

@@ -115,20 +115,20 @@ class Spread {
       }
     }
 
-//    //PRETTY PRINT FOR TESTING ------------------------------------------------------------------------
-//    for (DateTime date in calendar.keys) {
-//      int weight = 0;
-//      print(date);
-//      for (String subj in calendar[date].keys) {
-//        for (Workload wl in calendar[date][subj]) {
-//          print(subj + ": " + wl.workloadName + wl.workloadDate);
-//          weight += wl.workloadDifficulty;
-//        }
-//      }
-//      print("Weight: " + weight.toString());
-//      print(
-//          "_______________________________________________________________________");
-//    }
+    //PRETTY PRINT FOR TESTING ------------------------------------------------------------------------
+    for (DateTime date in calendar.keys) {
+      int weight = 0;
+      print(date);
+      for (String subj in calendar[date].keys) {
+        for (Workload wl in calendar[date][subj]) {
+          print(subj + ": " + wl.workloadName + wl.workloadDate);
+          weight += wl.workloadDifficulty;
+        }
+      }
+      print("Weight: " + weight.toString());
+      print(
+          "_______________________________________________________________________");
+    }
 
   }
 

@@ -28,6 +28,9 @@ class _CalendarState extends State<Calendar> with AutomaticKeepAliveClientMixin{
   bool _initial;
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   void initState() {
     super.initState();
     _workloads = updateWorkloadList();
@@ -226,10 +229,6 @@ class _CalendarState extends State<Calendar> with AutomaticKeepAliveClientMixin{
     }
     return events;
   }
-
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
 
 }
 
