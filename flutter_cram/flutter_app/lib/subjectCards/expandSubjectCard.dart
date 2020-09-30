@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/subjectCards/editSubject.dart';
 import 'package:flutter_app/subjectCards/subjectInfo.dart';
 import 'package:flutter_app/subjectCards/subjectWorkloads.dart';
-import 'package:intl/intl.dart';
 import 'deleteSubject.dart';
-import 'addSubject.dart';
 import '../model/subject.dart';
 
 class ExpandSubjectCard extends StatelessWidget{

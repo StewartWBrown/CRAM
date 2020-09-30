@@ -1,3 +1,4 @@
+import 'package:flutter_app/calendarDisplay/expandWorkload.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -31,36 +32,37 @@ class _SubjectWorkloadsState extends State<SubjectWorkloads> {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-        //subject name
-        Text(
-        widget.subject.name,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 40.0,
-        ),
-      ),
-
-      //difficulty circle
-      Align(
-        alignment: Alignment.topCenter,
-        child:
-        RawMaterialButton(
-          fillColor: widget.diffColor,
-          child:
+          //subject name
           Text(
-            widget.subject.difficulty.toString(),
+            widget.subject.name,
+            textAlign: TextAlign.center,
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 25.0,
+              fontSize: 40.0,
             ),
           ),
-          padding: EdgeInsets.all(0.0),
-          shape: CircleBorder(),
-          onPressed: () {},
-        ),
-      ),
-        FutureBuilder(
+
+          //difficulty circle
+          Align(
+            alignment: Alignment.topCenter,
+            child:
+            RawMaterialButton(
+              fillColor: widget.diffColor,
+              child:
+              Text(
+                widget.subject.difficulty.toString(),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25.0,
+                ),
+              ),
+              padding: EdgeInsets.all(0.0),
+              shape: CircleBorder(),
+              onPressed: () {},
+            ),
+          ),
+
+          FutureBuilder(
           future: _workloads,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -68,84 +70,135 @@ class _SubjectWorkloadsState extends State<SubjectWorkloads> {
             }
             else{
               List<Workload> _workloads = snapshot.data ??  [];
-              return Text(_workloads[0].workloadName);
+
+              List incompleteWl = checkIfComplete(_workloads, 0);
+              List completeWl = checkIfComplete(_workloads, 1);
+              return Column(
+                children: <Widget>[
+
+                  SizedBox(height: 10),
+
+                  Text(
+                    "Still to do",
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      fontSize: 20,
+                    ),
+                  ),
+
+                  Container(
+                    height: 300.0,
+                    width: 300.0,
+                    child: new CustomScrollView(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: false,
+                      slivers: <Widget>[
+                        new SliverPadding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 24.0),
+                          sliver: new SliverList(
+                            delegate: new SliverChildBuilderDelegate(
+                                  (context, index) {
+                                return GestureDetector(
+                                  onTap: (){
+                                    var expandWorkload = ExpandWorkload(incompleteWl[index]);
+                                    showDialog(
+                                      context: context,
+                                      barrierDismissible: true,
+                                      builder: (BuildContext context){
+                                        return expandWorkload;
+                                      },
+                                    );
+                                  },
+                                  child:
+                                  Container(
+                                    height: 50,
+                                    alignment: Alignment.center,
+                                    color: Colors.orangeAccent,
+                                    child: Text(incompleteWl[index].workloadName),
+                                  ),
+                                );
+                              },
+                              childCount: incompleteWl.length,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(height: 10),
+
+                  Text(
+                    "Completed",
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      fontSize: 20,
+                    ),
+                  ),
+
+                  Container(
+                    height: 300.0,
+                    width: 300.0,
+                    child: new CustomScrollView(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: false,
+                      slivers: <Widget>[
+                        new SliverPadding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 24.0),
+                          sliver: new SliverList(
+                            delegate: new SliverChildBuilderDelegate(
+                                  (context, index) {
+                                return GestureDetector(
+                                  onTap: (){
+                                    var expandWorkload = ExpandWorkload(completeWl[index]);
+                                    showDialog(
+                                      context: context,
+                                      barrierDismissible: true,
+                                      builder: (BuildContext context){
+                                        return expandWorkload;
+                                      },
+                                    );
+                                  },
+                                  child:
+                                  Container(
+                                    height: 50,
+                                    alignment: Alignment.center,
+                                    color: Colors.orangeAccent,
+                                    child: Text(
+                                      completeWl[index].workloadName,
+                                      style: TextStyle(
+                                        decoration: TextDecoration.lineThrough,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                              childCount: completeWl.length,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                ],
+              );
             }
-
-            return Container(
-
-            );
-          }
+          }),
+        ],
       ),
-  ],
-    ),
     );
-
   }
 }
 
-/**
-    mainAxisSize: MainAxisSize.min,
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: <Widget>[
-    //subject name
-    Text(
-    widget.subject.name,
-    textAlign: TextAlign.center,
-    style: TextStyle(
-    fontWeight: FontWeight.bold,
-    fontSize: 40.0,
-    ),
-    ),
-
-    //difficulty circle
-    Align(
-    alignment: Alignment.topCenter,
-    child:
-    RawMaterialButton(
-    fillColor: widget.diffColor,
-    child:
-    Text(
-    widget.subject.difficulty.toString(),
-    style: TextStyle(
-    fontWeight: FontWeight.bold,
-    fontSize: 25.0,
-    ),
-    ),
-    padding: EdgeInsets.all(0.0),
-    shape: CircleBorder(),
-    onPressed: () {},
-    ),
-    ),
-
-
-    FutureBuilder(
-    future: _workloads,
-    builder: (context, snapshot) {
-    switch (snapshot.connectionState) {
-    case ConnectionState.none:
-    case ConnectionState.waiting:
-    return Center(
-    child: CircularProgressIndicator()
-    );
-    default:
-    if(snapshot.hasData){
-    List<Workload> _workloads = snapshot.data ?? [];
-    print(_workloads);
+List checkIfComplete(List workloads, int isComplete){
+  List finalList = [];
+  for(Workload wl in workloads){
+    if(wl.complete == isComplete){
+      finalList.add(wl);
     }
-    else if(snapshot.hasError){
-    print("AHHHHHHHHH");
-    }
-
-    return Container(
-
-    );
-    }
-    }
-    ),
-    ],
-    ),
-    );
-    }
-    }
-
- **/
+  }
+  return finalList;
+}
