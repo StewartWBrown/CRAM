@@ -107,27 +107,26 @@ class Spread {
     calendar = secondarySpread(calendar, subjects, workloads);
     calendar = secondarySpread(calendar, subjects, workloads);
 
+    //PRETTY PRINT FOR TESTING ------------------------------------------------------------------------
+//    for (DateTime date in calendar.keys) {
+//      int weight = 0;
+//      print(date);
+//      for (String subj in calendar[date].keys) {
+//        for (Workload wl in calendar[date][subj]) {
+//          print(subj + ": " + wl.workloadName + wl.workloadDate);
+//          weight += wl.workloadDifficulty;
+//        }
+//      }
+//      print("Weight: " + weight.toString());
+//      print(
+//          "_______________________________________________________________________");
+//    }
 
     //Set date of complete workloads to NONE
     for(Workload wl in workloads){
       if(wl.complete == 1){
         updateWl(wl, null);
       }
-    }
-
-    //PRETTY PRINT FOR TESTING ------------------------------------------------------------------------
-    for (DateTime date in calendar.keys) {
-      int weight = 0;
-      print(date);
-      for (String subj in calendar[date].keys) {
-        for (Workload wl in calendar[date][subj]) {
-          print(subj + ": " + wl.workloadName + wl.workloadDate);
-          weight += wl.workloadDifficulty;
-        }
-      }
-      print("Weight: " + weight.toString());
-      print(
-          "_______________________________________________________________________");
     }
 
   }
