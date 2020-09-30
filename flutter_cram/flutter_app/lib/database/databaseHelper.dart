@@ -249,14 +249,24 @@ class DatabaseHelper{
     return result;
   }
 
-  Future<List> returnWorkloadsForSubject(String subjectToReturn) async{
+  Future<List<Workload>> returnWorkloadsForSubject(String subjectToReturn) async{
     // get a reference to the database
     Database db = await instance.database;
 
     // make a list of any subjects being asked for in the database
     List queryResult = await db.rawQuery('SELECT * FROM $_workloadTableName WHERE $columnSubName="$subjectToReturn"');
 
-    return queryResult;
+    return List.generate(queryResult.length, (i) {
+      return Workload(
+        workloadID: queryResult[i]['_workloadID'],
+        subject: queryResult[i]['subject'],
+        workloadName: queryResult[i]['workloadName'],
+        workloadNumber: queryResult[i]['workloadNumber'],
+        workloadDate: queryResult[i]['workloadDate'],
+        workloadDifficulty: queryResult[i]['workloadDifficulty'],
+        complete: queryResult[i]['complete'],
+      );
+    });
   }
 
 }

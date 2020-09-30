@@ -183,7 +183,14 @@ class _CalendarState extends State<Calendar> {
                                             height: 50,
                                             alignment: Alignment.center,
                                             color: Colors.orangeAccent,
-                                            child: Text(_selectedEvents[index].workloadName),
+                                            child: _selectedEvents[index].complete == 0 ?
+                                            Text(_selectedEvents[index].workloadName) :
+                                            Text(
+                                              _selectedEvents[index].workloadName,
+                                              style: TextStyle(
+                                                decoration: TextDecoration.lineThrough,
+                                              ),
+                                            ),
                                           ),
                                         );
                                       },
