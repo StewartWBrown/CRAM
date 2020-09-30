@@ -1,4 +1,5 @@
 import 'package:flutter_app/calendarDisplay/expandWorkload.dart';
+import 'package:flutter_app/subjectCards/subjectInfo.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -115,7 +116,7 @@ class _SubjectWorkloadsState extends State<SubjectWorkloads> {
                                     height: 50,
                                     alignment: Alignment.center,
                                     color: Colors.orangeAccent,
-                                    child: Text(incompleteWl[index].workloadName),
+                                    child: Text(dateFormatter(incompleteWl[index].workloadDate) + " - " + incompleteWl[index].workloadName),
                                   ),
                                 );
                               },
