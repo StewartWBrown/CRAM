@@ -17,7 +17,7 @@ class Calendar extends StatefulWidget{
   _CalendarState createState() => _CalendarState();
 }
 
-class _CalendarState extends State<Calendar> with AutomaticKeepAliveClientMixin{
+class _CalendarState extends State<Calendar>{
   CalendarController _controller;
   Map<DateTime, Map<String, List<Workload>>> _calendar;
   Map<DateTime, List<Workload>> _events;
@@ -26,9 +26,6 @@ class _CalendarState extends State<Calendar> with AutomaticKeepAliveClientMixin{
   ExpandWorkload _expandWorkload;
   CompletedWorkloads _completedWorkloads;
   bool _initial;
-
-  @override
-  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -41,7 +38,6 @@ class _CalendarState extends State<Calendar> with AutomaticKeepAliveClientMixin{
 
   @override
   Widget build(BuildContext context){
-    super.build(context);
     return Scaffold(
       body: FutureBuilder(
         future: _workloads,
