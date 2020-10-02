@@ -19,10 +19,20 @@ class SubjectRow extends StatelessWidget {
           vertical: 16.0
       ),
       alignment: FractionalOffset.centerLeft,
+      child: RawMaterialButton(
+        elevation: 0.0,
+        fillColor: Colors.white,
+        child: Icon(
+          Icons.pregnant_woman,
+          size: 40.0,
+        ),
+        padding: EdgeInsets.all(25.0),
+        shape: CircleBorder(),
+      ),
     );
 
     final subjectCardContent = new Container(
-      margin: new EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+      margin: new EdgeInsets.fromLTRB(76.0, 16.0, 16.0, 16.0),
       constraints: new BoxConstraints.expand(),
       child: new Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,10 +67,11 @@ class SubjectRow extends StatelessWidget {
       child: new Container(
         child: subjectCardContent,
         height: 124.0,
+        margin: new EdgeInsets.only(left: 46.0),
         decoration: new BoxDecoration(
           color: new Color(0xFF18aff5),
           shape: BoxShape.rectangle,
-          borderRadius: new BorderRadius.circular(4.0),
+          borderRadius: new BorderRadius.circular(8.0),
           boxShadow: <BoxShadow>[
             new BoxShadow(
               color: Colors.blueGrey,
