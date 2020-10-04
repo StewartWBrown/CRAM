@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/main/mainScreen.dart';
 import 'package:flutter_app/model/subject.dart';
 import 'package:intl/intl.dart';
 import '../database/databaseHelper.dart';
@@ -273,13 +274,13 @@ class _EditSubjectState extends State<EditSubject> {
             if(tempName == subject.name){
               print("Went this way");
               await DatabaseHelper.instance.updateSubject(updatedSubject);
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => CramApp()));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => MainScreen()));
             }
             else {
               await DatabaseHelper.instance.deleteSubject(subject.name);
               await DatabaseHelper.instance.insertSubject(updatedSubject);
               Navigator.pushReplacement(context, MaterialPageRoute(
-                  builder: (BuildContext context) => CramApp()));
+                  builder: (BuildContext context) => MainScreen()));
             }
           },
         )

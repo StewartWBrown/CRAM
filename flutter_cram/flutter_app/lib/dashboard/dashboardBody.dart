@@ -41,8 +41,6 @@ class _DashboardState extends State<DashboardBody> with AutomaticKeepAliveClient
                   child: CircularProgressIndicator()
               );
             default:
-              currentPage = 1;
-
               List<Subject> subjects = snapshot.data[0] ?? [];
               List<Workload> workloads = snapshot.data[1] ?? [];
 

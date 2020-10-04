@@ -41,8 +41,6 @@ class _SubjectBodyState extends State<SubjectBody> with AutomaticKeepAliveClient
                     child: CircularProgressIndicator()
                 );
               default:
-                currentPage = 0;
-
                 List<Subject> subjects = snapshot.data[0] ??  [];
                 List<Workload> workloads = snapshot.data[1] ??  [];
 
