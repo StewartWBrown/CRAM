@@ -50,8 +50,6 @@ class _CalendarState extends State<Calendar>{
                   child: CircularProgressIndicator()
               );
             default:
-              currentPage = 2;
-
               List<Workload> workloads = snapshot.data ??  [];
 
               _calendar = downloadCalendar(workloads);

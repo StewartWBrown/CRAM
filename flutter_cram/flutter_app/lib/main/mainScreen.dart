@@ -39,6 +39,8 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin{
   void _handleSelected() {
     setState(() {
       _myHandler= _tabs[_controller.index];
+      currentPage = _controller.index;
+      print(currentPage);
     });
   }
 
