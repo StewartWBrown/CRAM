@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/main/mainScreen.dart';
 import 'package:flutter_app/model/subject.dart';
 import 'package:flutter_app/model/workload.dart';
+import 'package:flutter_app/subjectCards/workloadRow.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:intl/intl.dart';
 
@@ -94,6 +95,7 @@ class _DashboardState extends State<DashboardBody> with AutomaticKeepAliveClient
 
                           Expanded(
                             child: new Container(
+                              color: new Color(0xFF0c6f96),
                               child: new CustomScrollView(
                                 scrollDirection: Axis.vertical,
                                 shrinkWrap: false,
@@ -103,14 +105,8 @@ class _DashboardState extends State<DashboardBody> with AutomaticKeepAliveClient
                                         vertical: 24.0),
                                     sliver: new SliverList(
                                       delegate: new SliverChildBuilderDelegate(
-                                            (context, index) {
-                                          return Container(
-                                            height: 50,
-                                            alignment: Alignment.center,
-                                            color: Colors.orangeAccent,
-                                            child: Text(workloads[index].workloadName),
-                                          );
-                                        },
+                                            (context, index) =>
+                                        new WorkloadRow(workloads[index]),
                                         childCount: workloads.length,
                                       ),
                                     ),

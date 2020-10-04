@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/calendarDisplay/completedWorkloads.dart';
 import 'package:flutter_app/calendarDisplay/skipDates.dart';
+import 'package:flutter_app/subjectCards/workloadRow.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../subjectCards/addSubject.dart';
@@ -159,6 +160,7 @@ class _CalendarState extends State<Calendar>{
 
                         Expanded(
                           child: new Container(
+                            color: new Color(0xFF0c6f96),
                             child: new CustomScrollView(
                               scrollDirection: Axis.vertical,
                               shrinkWrap: false,
@@ -168,34 +170,8 @@ class _CalendarState extends State<Calendar>{
                                       vertical: 24.0),
                                   sliver: new SliverList(
                                     delegate: new SliverChildBuilderDelegate(
-                                          (context, index) {
-                                        return GestureDetector(
-                                          onTap: (){
-                                            var expandWorkload = ExpandWorkload(_selectedEvents[index]);
-
-                                            showDialog(
-                                              context: context,
-                                              barrierDismissible: true,
-                                              builder: (BuildContext context){
-                                                return expandWorkload;
-                                              },
-                                            );
-                                          },
-                                          child: Container(
-                                            height: 50,
-                                            alignment: Alignment.center,
-                                            color: Colors.orangeAccent,
-                                            child: _selectedEvents[index].complete == 0 ?
-                                            Text(_selectedEvents[index].workloadName) :
-                                            Text(
-                                              _selectedEvents[index].workloadName,
-                                              style: TextStyle(
-                                                decoration: TextDecoration.lineThrough,
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      },
+                                          (context, index) =>
+                                      new WorkloadRow(_selectedEvents[index]),
                                       childCount: _selectedEvents.length,
                                     ),
                                   ),
