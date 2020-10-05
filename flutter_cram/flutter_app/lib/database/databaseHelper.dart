@@ -171,7 +171,17 @@ class DatabaseHelper{
     });
   }
 
-  // Update row in the database
+  // Query the skip days table for current values
+  Future<List> queryAllSkipDays() async{
+    final Database db = await instance.database;
+
+    // Query the table for all the values
+    final List<Map<String, dynamic>> maps = await db.query(_daysTableName);
+
+    return List.generate(maps.length, (i){
+      return maps[i]['skip'];
+    });
+  }
 
   // Update row in the subject table
   Future<void> updateSubject(Subject subject) async{
