@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/main/mainScreen.dart';
 import 'package:flutter_app/model/subject.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_app/database/databaseHelper.dart';
 import '../model/workload.dart';
 import '../main/main.dart';
 import 'duplicateSubject.dart';
+import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 
 class AddSubject extends StatefulWidget {
   Subject subject;
@@ -32,6 +34,12 @@ class _AddSubjectState extends State<AddSubject> {
   String startDate;
   String endDate;
   String examDate;
+  ColorSwatch _mainColour = Colors.blue;
+  Color _shadeColour = Colors.blue[800];
+  ColorSwatch _tempMainColour;
+  Color _tempShadeColour;
+
+  String tempIcon;
 
   DateTime startPicker;
   DateTime endPicker;
@@ -125,6 +133,18 @@ class _AddSubjectState extends State<AddSubject> {
     );
   }
 
+  Widget _buildColour(BuildContext context){
+    return MaterialColorPicker(
+        onColorChange: (Color color) {
+          // Handle color changes
+        },
+        onMainColorChange: (ColorSwatch color) {
+          // Handle main color changes
+        },
+        selectedColor: Colors.red
+    );
+  }
+
   Future<Null> _selectStartDate(BuildContext context) async {
     final DateTime _selDate = await showDatePicker(
         context: context,
@@ -155,6 +175,45 @@ class _AddSubjectState extends State<AddSubject> {
     }
   }
 
+  void _openDialog(String title, Widget content) {
+    showDialog(context: context,
+      builder: (_) {
+        return AlertDialog(
+          title: Text(title),
+          content:content,
+          actions: [
+          FlatButton(
+          child: Text('CANCEL'),
+          onPressed: () => Navigator.pop(context),
+        ),
+          FlatButton(
+            child: Text('SUBMIT'),
+            onPressed: () {
+            Navigator.of(context).pop();
+            setState(() => _mainColour = _tempMainColour);
+           setState(() => _shadeColour = _tempShadeColour);
+           }
+
+        ),
+        ],
+          );
+      },
+    );
+  }
+
+    void _openColourPicker() async{
+      _openDialog("Colour Picker",
+      Container(height:250,
+      child:
+      MaterialColorPicker(
+        selectedColor: _shadeColour,
+        onColorChange: (color) => setState(() => _tempShadeColour = color),
+        onMainColorChange: (color) => setState(() => _tempMainColour = color),
+        onBack: () => print("Back button pressed"),
+      )
+      ),
+      );
+    }
 
   Future<Null> _selectExamDate(BuildContext context) async {
     final DateTime _selDate = await showDatePicker(
@@ -169,6 +228,7 @@ class _AddSubjectState extends State<AddSubject> {
       });
     }
   }
+
 
 
   @override
@@ -225,6 +285,12 @@ class _AddSubjectState extends State<AddSubject> {
                             },
                             icon: Icon(Icons.calendar_today))
                       ]),
+
+                      const SizedBox(height: 32.0),
+                      OutlineButton(
+                        onPressed: _openColourPicker,
+                        child: const Text('Show color picker'),
+                      ),
 
                       //SizedBox(height: 100),
                       RaisedButton(

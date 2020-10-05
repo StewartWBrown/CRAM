@@ -22,6 +22,9 @@ class DatabaseHelper{
   static final columnStartDate = 'startDate';
   static final columnEndDate = 'endDate';
   static final columnExamDate = 'examDate';
+  static final columnColour = 'colour';
+  static final columnIcon = 'icon';
+  static final columnExtraInfo = 'extraInfo';
 
   // column names of workloads table
   static final columnWorkloadID= '_workloadID';
@@ -67,7 +70,10 @@ class DatabaseHelper{
       $columnDifficulty INTEGER , 
       $columnStartDate TEXT , 
       $columnEndDate TEXT , 
-      $columnExamDate TEXT)
+      $columnExamDate TEXT,
+      $columnColour TEXT, 
+      $columnIcon TEXT, 
+      $columnExtraInfo TEXT)
       '''
     );
 
@@ -147,6 +153,9 @@ class DatabaseHelper{
         startDate: maps[i]['startDate'],
         endDate: maps[i]['endDate'],
         examDate: maps[i]['examDate'],
+        colour: maps[i]['colour'],
+        icon: maps[i]['icon'],
+        extraInfo: maps[i]['extraInfo']
       );
     });
   }
