@@ -218,6 +218,7 @@ class DatabaseHelper{
       _daysTableName,
         {columnDay : day, columnSkip : skip},
       where: "$columnDay = ?",
+      whereArgs: [day],
     );
   }
 
