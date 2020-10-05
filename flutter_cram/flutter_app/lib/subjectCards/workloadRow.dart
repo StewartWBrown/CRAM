@@ -6,13 +6,16 @@ import 'package:intl/intl.dart';
 class WorkloadRow extends StatelessWidget {
 
   final Workload workload;
+  var dateFormExamDate;
 
   WorkloadRow(this.workload);
 
   @override
   Widget build(BuildContext context) {
 
-    var dateFormExamDate = DateTime.parse(workload.workloadDate);
+    if(workload.workloadDate != "NONE") {
+      dateFormExamDate = DateTime.parse(workload.workloadDate);
+    }
 
     final workloadThumbnail = new Container(
       margin: new EdgeInsets.symmetric(
@@ -47,7 +50,7 @@ class WorkloadRow extends StatelessWidget {
               ),
             ),
           new Container(height: 10.0),
-          workload.complete == 0 ? Text(new DateFormat.yMMMd().format(dateFormExamDate)) :
+          workload.complete == 0 ? Text(workload.workloadDate == "NONE" ? "NO DATE" : new DateFormat.yMMMd().format(dateFormExamDate)) :
             Text("COMPLETE"),
           new Container(
               margin: new EdgeInsets.symmetric(vertical: 8.0),
