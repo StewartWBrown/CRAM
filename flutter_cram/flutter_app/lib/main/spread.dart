@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter_app/database/databaseHelper.dart';
+import 'package:flutter_app/main/futureArea.dart';
 import 'package:flutter_app/model/subject.dart';
 import 'package:flutter_app/model/workload.dart';
 
@@ -102,25 +103,25 @@ class Spread {
       initialWorkPos = workPosition;
     }
 
-    calendar = secondarySpread(calendar, subjects, workloads);
-    calendar = secondarySpread(calendar, subjects, workloads);
-    calendar = secondarySpread(calendar, subjects, workloads);
-    calendar = secondarySpread(calendar, subjects, workloads);
-
     //PRETTY PRINT FOR TESTING ------------------------------------------------------------------------
-//    for (DateTime date in calendar.keys) {
-//      int weight = 0;
-//      print(date);
-//      for (String subj in calendar[date].keys) {
-//        for (Workload wl in calendar[date][subj]) {
-//          print(subj + ": " + wl.workloadName + wl.workloadDate);
-//          weight += wl.workloadDifficulty;
-//        }
-//      }
-//      print("Weight: " + weight.toString());
-//      print(
-//          "_______________________________________________________________________");
-//    }
+    for (DateTime date in calendar.keys) {
+      int weight = 0;
+      print(date);
+      for (String subj in calendar[date].keys) {
+        for (Workload wl in calendar[date][subj]) {
+          print(subj + ": " + wl.workloadName + " - " + wl.workloadDate);
+          weight += wl.workloadDifficulty;
+        }
+      }
+      print("Weight: " + weight.toString());
+      print(
+          "_______________________________________________________________________");
+    }
+
+    calendar = secondarySpread(calendar, subjects, workloads);
+    calendar = secondarySpread(calendar, subjects, workloads);
+    calendar = secondarySpread(calendar, subjects, workloads);
+    calendar = secondarySpread(calendar, subjects, workloads);
 
     //Set date of complete workloads to NONE
     for(Workload wl in workloads){
@@ -288,6 +289,16 @@ class Spread {
     if(date != null){
       newDate = date.toString();
     }
+
+    //update local workloads list
+    for(Workload localWl in localWorkloads){
+      if(localWl.workloadID == wl.workloadID){
+        localWl.workloadDate = newDate;
+        break;
+      }
+    }
+
+    //update workloads database table
     var updatedWorkload = Workload(
       workloadID : wl.workloadID,
       subject : wl.subject,

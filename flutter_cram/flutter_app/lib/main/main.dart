@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'futureArea.dart';
 import 'mainScreen.dart';
 void main(){
 
@@ -14,7 +15,7 @@ class CramApp extends StatelessWidget{
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
-      home: MainScreen(),
+      home: FutureArea(),
     );
 
 

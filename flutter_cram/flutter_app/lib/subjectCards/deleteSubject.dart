@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/main/futureArea.dart';
+import 'package:flutter_app/model/workload.dart';
 import 'addSubject.dart';
 import '../model/subject.dart';
 import 'expandSubjectCard.dart';
@@ -32,8 +34,12 @@ class DeleteSubject extends StatelessWidget{
             style: TextStyle(color: Colors.red),
           ),
           onPressed: (){
+            //delete from database
             DatabaseHelper.instance.deleteSubject(subject.name);
             DatabaseHelper.instance.deleteWorkloadBySubject(subject.name);
+
+            //delete from local lists
+            localSubjects.remove(subject);
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => CramApp()));
           },
         )
@@ -50,3 +56,12 @@ class DeleteSubject extends StatelessWidget{
 
 }
 
+deleteWorkloadsFromLocal(Subject s){
+  List<Workload> cloneWl = List<Workload>.from(localWorkloads);
+
+  for (Workload wl in localWorkloads){
+    if(wl.subject == s.name){
+      localWorkloads.remove(wl);
+    }
+  }
+}

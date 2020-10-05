@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/dashboard/dashboardBody.dart';
 import '../subjectCards/subjectBody.dart';
 import '../calendarDisplay/calendar.dart';
+import 'futureArea.dart';
 
 DateTime mostRecentlyVisitedDay = DateTime.now();
 int currentPage = 1;

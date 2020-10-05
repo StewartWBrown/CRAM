@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/main/futureArea.dart';
 import 'package:flutter_app/main/mainScreen.dart';
 import 'package:flutter_app/model/subject.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_app/database/databaseHelper.dart';
 import '../model/workload.dart';
-import '../main/main.dart';
 import 'duplicateSubject.dart';
 
 class AddSubject extends StatefulWidget {
@@ -258,13 +258,14 @@ class _AddSubjectState extends State<AddSubject> {
                           }
                           else {
                             // Add subject object to database
-                            await DatabaseHelper.instance.insertSubject(
-                                newSubject);
+                            await DatabaseHelper.instance.insertSubject(newSubject);
+
+                            // Add subject to local Subject list
+                            localSubjects.add(newSubject);
 
                             // Create workload object for each workload to be created
                             // the for loop is ugly here (starting at 1 instead of 0) because the workload number should start from 1
-                            for (var counter = 1; counter <
-                                tempWorkloads + 1; counter++) {
+                            for (var counter = 1; counter < tempWorkloads + 1; counter++) {
                               var newWorkload = Workload(
                                 workloadID: null,
                                 subject: tempName,
@@ -277,6 +278,7 @@ class _AddSubjectState extends State<AddSubject> {
 
                               // Add workload instance to database
                               await DatabaseHelper.instance.insertWorkload(newWorkload);
+                              localWorkloads.add(newWorkload);
                             }
                           }
                           })
