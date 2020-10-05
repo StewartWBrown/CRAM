@@ -43,7 +43,6 @@ class _SkipDatesState extends State<SkipDates>{
               );
             default:
               List skipValues = snapshot.data ?? [];
-              print(skipValues);
 
               mon = skipValues[0];
               tue = skipValues[1];
@@ -108,9 +107,14 @@ class _SkipDatesState extends State<SkipDates>{
                       //Tuesday
                       RawMaterialButton(
                         onPressed: () {
+                          setState(() {
+                            int x = (tue == 0 ? 1 : 0);
+                            DatabaseHelper.instance.skipDay("Tuesday", x);
+                            skipValues[1] = x;
+                          });
                         },
                         elevation: 40.0,
-                        fillColor: Colors.white,
+                        fillColor: tue == 0 ? Colors.white : Colors. red,
                         child: Text(
                           "TUE",
                           style: TextStyle(
@@ -126,9 +130,14 @@ class _SkipDatesState extends State<SkipDates>{
                       //Wednesday
                       RawMaterialButton(
                         onPressed: () {
+                          setState(() {
+                            int x = (wed == 0 ? 1 : 0);
+                            DatabaseHelper.instance.skipDay("Wednesday", x);
+                            skipValues[2] = x;
+                          });
                         },
                         elevation: 40.0,
-                        fillColor: Colors.white,
+                        fillColor: wed == 0 ? Colors.white : Colors. red,
                         child: Text(
                           "WED",
                           style: TextStyle(
@@ -144,9 +153,14 @@ class _SkipDatesState extends State<SkipDates>{
                       //Thursday
                       RawMaterialButton(
                         onPressed: () {
+                          setState(() {
+                            int x = (thu == 0 ? 1 : 0);
+                            DatabaseHelper.instance.skipDay("Thursday", x);
+                            skipValues[3] = x;
+                          });
                         },
                         elevation: 40.0,
-                        fillColor: Colors.white,
+                        fillColor: thu == 0 ? Colors.white : Colors. red,
                         child: Text(
                           "THU",
                           style: TextStyle(
@@ -169,9 +183,14 @@ class _SkipDatesState extends State<SkipDates>{
                       //Friday
                       RawMaterialButton(
                         onPressed: () {
+                          setState(() {
+                            int x = (fri == 0 ? 1 : 0);
+                            DatabaseHelper.instance.skipDay("Friday", x);
+                            skipValues[4] = x;
+                          });
                         },
                         elevation: 40.0,
-                        fillColor: Colors.white,
+                        fillColor: fri == 0 ? Colors.white : Colors. red,
                         child: Text(
                           "FRI",
                           style: TextStyle(
@@ -187,9 +206,14 @@ class _SkipDatesState extends State<SkipDates>{
                       //Saturday
                       RawMaterialButton(
                         onPressed: () {
+                          setState(() {
+                            int x = (sat == 0 ? 1 : 0);
+                            DatabaseHelper.instance.skipDay("Saturday", x);
+                            skipValues[5] = x;
+                          });
                         },
                         elevation: 40.0,
-                        fillColor: Colors.white,
+                        fillColor: sat == 0 ? Colors.white : Colors. red,
                         child: Text(
                           "SAT",
                           style: TextStyle(
@@ -205,9 +229,14 @@ class _SkipDatesState extends State<SkipDates>{
                       //Sunday
                       RawMaterialButton(
                         onPressed: () {
+                          setState(() {
+                            int x = (sun == 0 ? 1 : 0);
+                            DatabaseHelper.instance.skipDay("Sunday", x);
+                            skipValues[6] = x;
+                          });
                         },
                         elevation: 40.0,
-                        fillColor: Colors.white,
+                        fillColor: sun == 0 ? Colors.white : Colors. red,
                         child: Text(
                           "SUN",
                           style: TextStyle(
