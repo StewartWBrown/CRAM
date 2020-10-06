@@ -184,14 +184,13 @@ class _AddSubjectState extends State<AddSubject> {
           actions: [
           FlatButton(
           child: Text('CANCEL'),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.of(context, rootNavigator: true).pop('dialog')
         ),
           FlatButton(
             child: Text('SUBMIT'),
-            onPressed: () {
-            Navigator.of(context).pop();
+            onPressed: () {Navigator.of(context, rootNavigator: true).pop('dialog');
             setState(() => _mainColour = _tempMainColour);
-           setState(() => _shadeColour = _tempShadeColour);
+            setState(() => _shadeColour = _tempShadeColour);
            }
 
         ),
@@ -285,12 +284,27 @@ class _AddSubjectState extends State<AddSubject> {
                             },
                             icon: Icon(Icons.calendar_today))
                       ]),
-
-                      const SizedBox(height: 32.0),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: _shadeColour,
+                            radius: 35.0,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(width: 32.0),
                       OutlineButton(
                         onPressed: _openColourPicker,
-                        child: const Text('Show color picker'),
+                        child: const Text('Pick subject colour'),
                       ),
+                    ],
+                  ),
+
+
 
                       //SizedBox(height: 100),
                       RaisedButton(
@@ -300,7 +314,8 @@ class _AddSubjectState extends State<AddSubject> {
                               return;
                             }
                             _formKey.currentState.save();
-
+                            print(_mainColour);
+                            print(_shadeColour);
                             // Create subject object
                           var newSubject = Subject(
                             name: tempName,
