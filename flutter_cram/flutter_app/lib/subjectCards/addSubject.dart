@@ -316,6 +316,7 @@ class _AddSubjectState extends State<AddSubject> {
                             _formKey.currentState.save();
                             print(_mainColour);
                             print(_shadeColour);
+
                             // Create subject object
                           var newSubject = Subject(
                             name: tempName,
@@ -324,6 +325,7 @@ class _AddSubjectState extends State<AddSubject> {
                             startDate: startPicker.toString(),
                             endDate: endPicker.toString(),
                             examDate: examPicker.toString(),
+                            colour: _shadeColour.toString(),
                           );
 
                           if(await DatabaseHelper.instance.isDuplicate(tempName)){

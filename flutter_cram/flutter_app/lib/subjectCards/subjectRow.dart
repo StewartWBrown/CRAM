@@ -13,6 +13,9 @@ class SubjectRow extends StatelessWidget {
   Widget build(BuildContext context) {
 
     var dateFormExamDate = DateTime.parse(subject.examDate);
+    String colourValueString = subject.colour.split('(0x')[1].split(')')[0];
+    int value = int.parse(colourValueString, radix: 16);
+    Color subjectColour = new Color(value);
 
     final subjectThumbnail = new Container(
       margin: new EdgeInsets.symmetric(
@@ -45,7 +48,7 @@ class SubjectRow extends StatelessWidget {
               margin: new EdgeInsets.symmetric(vertical: 8.0),
               height: 2.0,
               width: 18.0,
-              color: new Color(0xff00c6ff)
+              color: new Color(0xff00c6ff),
           ),
 
             ],
@@ -69,13 +72,13 @@ class SubjectRow extends StatelessWidget {
         height: 124.0,
         margin: new EdgeInsets.only(left: 46.0),
         decoration: new BoxDecoration(
-          color: new Color(0xFF18aff5),
+          color: subjectColour,
           shape: BoxShape.rectangle,
           borderRadius: new BorderRadius.circular(8.0),
           boxShadow: <BoxShadow>[
             new BoxShadow(
-              color: Colors.blueGrey,
-              blurRadius: 10.0,
+              color: Colors.black,
+              blurRadius: 5.0,
               offset: new Offset(0.0, 10.0),
             ),
           ],
