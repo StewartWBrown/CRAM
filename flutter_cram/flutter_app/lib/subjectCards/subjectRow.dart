@@ -17,6 +17,8 @@ class SubjectRow extends StatelessWidget {
     int value = int.parse(colourValueString, radix: 16);
     Color subjectColour = new Color(value);
 
+    IconData subjectIcon = IconData(subject.icon, fontFamily: 'MaterialIcons');
+
     final subjectThumbnail = new Container(
       margin: new EdgeInsets.symmetric(
           vertical: 16.0
@@ -26,9 +28,9 @@ class SubjectRow extends StatelessWidget {
         elevation: 0.0,
         fillColor: Colors.white,
         child: Icon(
-          Icons.pregnant_woman,
-          size: 40.0,
-        ),
+         subjectIcon,
+         size: 40.0,
+      ),
         padding: EdgeInsets.all(25.0),
         shape: CircleBorder(),
       ),

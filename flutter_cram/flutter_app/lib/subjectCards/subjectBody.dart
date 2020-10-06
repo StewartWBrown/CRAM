@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/main/spread.dart';
 import 'package:flutter_app/model/subject.dart';
 import 'package:flutter_app/model/workload.dart';
-import 'package:flutter_app/main/mainScreen.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'addSubject.dart';
 import 'subjectRow.dart';

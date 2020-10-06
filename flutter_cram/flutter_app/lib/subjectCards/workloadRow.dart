@@ -1,18 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/calendarDisplay/expandWorkload.dart';
+import 'package:flutter_app/database/databaseHelper.dart';
+import 'package:flutter_app/model/subject.dart';
 import 'package:flutter_app/model/workload.dart';
 import 'package:intl/intl.dart';
 
 class WorkloadRow extends StatelessWidget {
 
   final Workload workload;
+  final Subject subject;
 
-  WorkloadRow(this.workload);
+  var dateFormExamDate;
+  
+  WorkloadRow(this.workload, this.subject);
 
   @override
   Widget build(BuildContext context) {
+    if(workload.workloadDate != "NONE") {
+      dateFormExamDate = DateTime.parse(workload.workloadDate);
+    }
 
-    var dateFormExamDate = DateTime.parse(workload.workloadDate);
+
+
+    // Subject subject = DatabaseHelper.instance.
+    String colourValueString = subject.colour.split('(0x')[1].split(')')[0];
+    int value = int.parse(colourValueString, radix: 16);
+    Color subjectColour = new Color(value);
+
+    IconData subjectIcon = IconData(subject.icon, fontFamily: 'MaterialIcons');
+
 
     final workloadThumbnail = new Container(
       margin: new EdgeInsets.symmetric(
@@ -23,7 +39,7 @@ class WorkloadRow extends StatelessWidget {
         elevation: 0.0,
         fillColor: Colors.white,
         child: Icon(
-          Icons.pregnant_woman,
+          subjectIcon,
           size: 30.0,
         ),
         padding: EdgeInsets.all(20.0),
@@ -47,7 +63,7 @@ class WorkloadRow extends StatelessWidget {
               ),
             ),
           new Container(height: 10.0),
-          workload.complete == 0 ? Text(new DateFormat.yMMMd().format(dateFormExamDate)) :
+          workload.complete == 0 ? Text(workload.workloadDate == "NONE" ? "NO DATE" : new DateFormat.yMMMd().format(dateFormExamDate)):
             Text("COMPLETE"),
           new Container(
               margin: new EdgeInsets.symmetric(vertical: 8.0),
@@ -77,12 +93,12 @@ class WorkloadRow extends StatelessWidget {
           height: 124.0,
           margin: new EdgeInsets.only(left: 46.0),
           decoration: new BoxDecoration(
-            color: Colors.orange,
+            color: subjectColour,
             shape: BoxShape.rectangle,
             borderRadius: new BorderRadius.circular(8.0),
             boxShadow: <BoxShadow>[
               new BoxShadow(
-                color: Colors.blueGrey,
+                color: subjectColour,
                 blurRadius: 10.0,
                 offset: new Offset(0.0, 10.0),
               ),

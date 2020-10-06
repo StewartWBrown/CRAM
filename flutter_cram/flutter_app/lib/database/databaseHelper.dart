@@ -72,7 +72,7 @@ class DatabaseHelper{
       $columnEndDate TEXT , 
       $columnExamDate TEXT,
       $columnColour TEXT, 
-      $columnIcon TEXT, 
+      $columnIcon INTEGER, 
       $columnExtraInfo TEXT)
       '''
     );
@@ -276,6 +276,26 @@ class DatabaseHelper{
         complete: queryResult[i]['complete'],
       );
     });
+  }
+
+  Future<Subject> returnSubjectForWorkload(String subjectToReturn) async{
+    // get a reference to the database
+    Database db = await instance.database;
+
+    // make a list of any subjects being asked for in the database
+    List queryResult = await db.rawQuery('SELECT * FROM $_subjectTableName WHERE $columnSubjectName="$subjectToReturn"');
+
+      return Subject(
+          name: queryResult[0]['SubjectName'],
+          workloads: queryResult[0]['NumberOfWorkloads'],
+          difficulty: queryResult[0]['Difficulty'],
+          startDate: queryResult[0]['startDate'],
+            endDate: queryResult[0]['endDate'],
+          examDate: queryResult[0]['examDate'],
+          colour: queryResult[0]['colour'],
+          icon: queryResult[0]['icon'],
+          extraInfo: queryResult[0]['extraInfo']
+      );
   }
 
 }

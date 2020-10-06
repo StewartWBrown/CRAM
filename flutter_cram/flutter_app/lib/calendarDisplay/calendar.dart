@@ -18,12 +18,23 @@ class Calendar extends StatefulWidget{
   _CalendarState createState() => _CalendarState();
 }
 
+Subject getSubject(String subjectName, List<Subject> subjectList){
+  for (var i=0; i<subjectList.length; i++) {
+    if(subjectList[i].name == subjectName){
+      return subjectList[i];
+    }
+  }
+  return null;
+}
+
+
 class _CalendarState extends State<Calendar>{
   CalendarController _controller;
   Map<DateTime, Map<String, List<Workload>>> _calendar;
   Map<DateTime, List<Workload>> _events;
   List<Workload> _selectedEvents;
   Future<List<Workload>> _workloads;
+  Future<List<Subject>> _subjects;
   ExpandWorkload _expandWorkload;
   CompletedWorkloads _completedWorkloads;
   bool _initial;
@@ -32,6 +43,7 @@ class _CalendarState extends State<Calendar>{
   void initState() {
     super.initState();
     _workloads = updateWorkloadList();
+    _subjects = updateSubjectList();
     _controller = CalendarController();
     _selectedEvents = [];
     _initial = true;
@@ -41,7 +53,7 @@ class _CalendarState extends State<Calendar>{
   Widget build(BuildContext context){
     return Scaffold(
       body: FutureBuilder(
-        future: _workloads,
+        future: Future.wait([_subjects, _workloads]),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
@@ -50,7 +62,8 @@ class _CalendarState extends State<Calendar>{
                   child: CircularProgressIndicator()
               );
             default:
-              List<Workload> workloads = snapshot.data ??  [];
+              List<Subject> subjects = snapshot.data[0] ?? [];
+              List<Workload> workloads = snapshot.data[1] ?? [];
 
               _calendar = downloadCalendar(workloads);
               _events = createEvents();
@@ -169,7 +182,7 @@ class _CalendarState extends State<Calendar>{
                                   sliver: new SliverList(
                                     delegate: new SliverChildBuilderDelegate(
                                           (context, index) =>
-                                      new WorkloadRow(_selectedEvents[index]),
+                                      new WorkloadRow(_selectedEvents[index], getSubject(_selectedEvents[index].subject, subjects)),
                                       childCount: _selectedEvents.length,
                                     ),
                                   ),

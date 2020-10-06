@@ -5,9 +5,9 @@ import 'package:flutter_app/model/subject.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_app/database/databaseHelper.dart';
 import '../model/workload.dart';
-import '../main/main.dart';
 import 'duplicateSubject.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
+import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 
 class AddSubject extends StatefulWidget {
   Subject subject;
@@ -39,7 +39,8 @@ class _AddSubjectState extends State<AddSubject> {
   ColorSwatch _tempMainColour;
   Color _tempShadeColour;
 
-  String tempIcon;
+  Icon iconToDisplay;
+  int iconToStore;
 
   DateTime startPicker;
   DateTime endPicker;
@@ -160,6 +161,12 @@ class _AddSubjectState extends State<AddSubject> {
         }
   }
 
+  _pickIcon() async {
+    IconData icon = await FlutterIconPicker.showIconPicker(context, iconPackMode: IconPack.material);
+    iconToStore = icon.codePoint;
+    iconToDisplay = Icon(icon);
+    setState((){});
+  }
 
   Future<Null> _selectEndDate(BuildContext context) async {
     final DateTime _selDate = await showDatePicker(
@@ -304,6 +311,23 @@ class _AddSubjectState extends State<AddSubject> {
                     ],
                   ),
 
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      AnimatedSwitcher(
+                          duration: Duration(milliseconds: 500),
+                          child: iconToDisplay != null ? iconToDisplay : Container()
+                      ),
+                      SizedBox(width: 60),
+                      OutlineButton(
+                        onPressed: _pickIcon,
+                        child: Text('Pick subject Icon'),
+                      ),
+
+                  ],
+                ),
+
 
 
                       //SizedBox(height: 100),
@@ -314,8 +338,6 @@ class _AddSubjectState extends State<AddSubject> {
                               return;
                             }
                             _formKey.currentState.save();
-                            print(_mainColour);
-                            print(_shadeColour);
 
                             // Create subject object
                           var newSubject = Subject(
@@ -326,6 +348,7 @@ class _AddSubjectState extends State<AddSubject> {
                             endDate: endPicker.toString(),
                             examDate: examPicker.toString(),
                             colour: _shadeColour.toString(),
+                            icon: iconToStore,
                           );
 
                           if(await DatabaseHelper.instance.isDuplicate(tempName)){

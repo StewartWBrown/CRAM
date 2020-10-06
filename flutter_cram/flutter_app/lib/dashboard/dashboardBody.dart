@@ -11,6 +11,15 @@ class DashboardBody extends StatefulWidget {
   _DashboardState createState() => _DashboardState();
 }
 
+Subject getSubject(String subjectName, List<Subject> subjectList){
+  for (var i=0; i<subjectList.length; i++) {
+    if(subjectList[i].name == subjectName){
+      return subjectList[i];
+    }
+  }
+  return null;
+}
+
 class _DashboardState extends State<DashboardBody> with AutomaticKeepAliveClientMixin<DashboardBody>{
 
   String currentDate = new DateFormat.d().format(new DateTime.now()).toString();
@@ -31,6 +40,7 @@ class _DashboardState extends State<DashboardBody> with AutomaticKeepAliveClient
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
     return FutureBuilder(
         future: Future.wait([subjects, workloads]),
         builder: (context, snapshot) {
@@ -43,6 +53,7 @@ class _DashboardState extends State<DashboardBody> with AutomaticKeepAliveClient
             default:
               List<Subject> subjects = snapshot.data[0] ?? [];
               List<Workload> workloads = snapshot.data[1] ?? [];
+
 
               if (subjects.isEmpty) {
                 return Scaffold(
@@ -104,7 +115,7 @@ class _DashboardState extends State<DashboardBody> with AutomaticKeepAliveClient
                                     sliver: new SliverList(
                                       delegate: new SliverChildBuilderDelegate(
                                             (context, index) =>
-                                        new WorkloadRow(workloads[index]),
+                                        new WorkloadRow(workloads[index], getSubject(workloads[index].subject, subjects) ),
                                         childCount: workloads.length,
                                       ),
                                     ),

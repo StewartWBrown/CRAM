@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'addSubject.dart';
 import '../model/subject.dart';
-import 'expandSubjectCard.dart';
 import 'package:flutter_app/database/databaseHelper.dart';
 import '../main/main.dart';
 

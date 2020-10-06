@@ -8,7 +8,7 @@ class Subject {
   final String endDate;
   final String examDate;
   final String colour;
-  final String icon;
+  final int icon;
   final String extraInfo;
 
   Subject(
