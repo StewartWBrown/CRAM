@@ -1,11 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/main/mainScreen.dart';
 import 'package:flutter_app/model/subject.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_app/database/databaseHelper.dart';
 import '../model/workload.dart';
-import '../main/main.dart';
 import 'duplicateSubject.dart';
+import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
+import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 
 class AddSubject extends StatefulWidget {
   Subject subject;
@@ -32,6 +34,13 @@ class _AddSubjectState extends State<AddSubject> {
   String startDate;
   String endDate;
   String examDate;
+  ColorSwatch _mainColour = Colors.blue;
+  Color _shadeColour = Colors.blue[800];
+  ColorSwatch _tempMainColour;
+  Color _tempShadeColour;
+
+  Icon iconToDisplay;
+  int iconToStore;
 
   DateTime startPicker;
   DateTime endPicker;
@@ -125,6 +134,18 @@ class _AddSubjectState extends State<AddSubject> {
     );
   }
 
+  Widget _buildColour(BuildContext context){
+    return MaterialColorPicker(
+        onColorChange: (Color color) {
+          // Handle color changes
+        },
+        onMainColorChange: (ColorSwatch color) {
+          // Handle main color changes
+        },
+        selectedColor: Colors.red
+    );
+  }
+
   Future<Null> _selectStartDate(BuildContext context) async {
     final DateTime _selDate = await showDatePicker(
         context: context,
@@ -140,6 +161,12 @@ class _AddSubjectState extends State<AddSubject> {
         }
   }
 
+  _pickIcon() async {
+    IconData icon = await FlutterIconPicker.showIconPicker(context, iconPackMode: IconPack.material);
+    iconToStore = icon.codePoint;
+    iconToDisplay = Icon(icon);
+    setState((){});
+  }
 
   Future<Null> _selectEndDate(BuildContext context) async {
     final DateTime _selDate = await showDatePicker(
@@ -155,6 +182,44 @@ class _AddSubjectState extends State<AddSubject> {
     }
   }
 
+  void _openDialog(String title, Widget content) {
+    showDialog(context: context,
+      builder: (_) {
+        return AlertDialog(
+          title: Text(title),
+          content:content,
+          actions: [
+          FlatButton(
+          child: Text('CANCEL'),
+          onPressed: () => Navigator.of(context, rootNavigator: true).pop('dialog')
+        ),
+          FlatButton(
+            child: Text('SUBMIT'),
+            onPressed: () {Navigator.of(context, rootNavigator: true).pop('dialog');
+            setState(() => _mainColour = _tempMainColour);
+            setState(() => _shadeColour = _tempShadeColour);
+           }
+
+        ),
+        ],
+          );
+      },
+    );
+  }
+
+    void _openColourPicker() async{
+      _openDialog("Colour Picker",
+      Container(height:250,
+      child:
+      MaterialColorPicker(
+        selectedColor: _shadeColour,
+        onColorChange: (color) => setState(() => _tempShadeColour = color),
+        onMainColorChange: (color) => setState(() => _tempMainColour = color),
+        onBack: () => print("Back button pressed"),
+      )
+      ),
+      );
+    }
 
   Future<Null> _selectExamDate(BuildContext context) async {
     final DateTime _selDate = await showDatePicker(
@@ -169,6 +234,7 @@ class _AddSubjectState extends State<AddSubject> {
       });
     }
   }
+
 
 
   @override
@@ -225,6 +291,44 @@ class _AddSubjectState extends State<AddSubject> {
                             },
                             icon: Icon(Icons.calendar_today))
                       ]),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: _shadeColour,
+                            radius: 35.0,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(width: 32.0),
+                      OutlineButton(
+                        onPressed: _openColourPicker,
+                        child: const Text('Pick subject colour'),
+                      ),
+                    ],
+                  ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      AnimatedSwitcher(
+                          duration: Duration(milliseconds: 500),
+                          child: iconToDisplay != null ? iconToDisplay : Container()
+                      ),
+                      SizedBox(width: 60),
+                      OutlineButton(
+                        onPressed: _pickIcon,
+                        child: Text('Pick subject Icon'),
+                      ),
+
+                  ],
+                ),
+
+
 
                       //SizedBox(height: 100),
                       RaisedButton(
@@ -243,6 +347,8 @@ class _AddSubjectState extends State<AddSubject> {
                             startDate: startPicker.toString(),
                             endDate: endPicker.toString(),
                             examDate: examPicker.toString(),
+                            colour: _shadeColour.toString(),
+                            icon: iconToStore,
                           );
 
                           if(await DatabaseHelper.instance.isDuplicate(tempName)){

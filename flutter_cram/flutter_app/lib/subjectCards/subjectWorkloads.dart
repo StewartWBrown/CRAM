@@ -1,9 +1,6 @@
 import 'package:flutter_app/calendarDisplay/expandWorkload.dart';
-import 'package:flutter_app/subjectCards/subjectInfo.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/database/databaseHelper.dart';
 import 'package:flutter_app/model/subject.dart';
 import 'package:flutter_app/model/workload.dart';
 

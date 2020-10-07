@@ -4,7 +4,7 @@ import 'package:flutter_app/main/mainScreen.dart';
 import 'package:flutter_app/model/subject.dart';
 import 'package:intl/intl.dart';
 import '../database/databaseHelper.dart';
-import '../main/main.dart';
+
 
 import 'expandSubjectCard.dart';
 
@@ -63,7 +63,7 @@ class _EditSubjectState extends State<EditSubject> {
       tempStartDate = startDate;
       endDate = new DateFormat.yMMMd().format(endPicker);
       tempEndDate = endDate;
-      endDate = new DateFormat.yMMMd().format(examPicker);;
+      endDate = new DateFormat.yMMMd().format(examPicker);
       tempExamDate = examDate;
 
       nameChange= false;

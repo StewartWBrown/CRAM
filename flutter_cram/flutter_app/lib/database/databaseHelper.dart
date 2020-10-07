@@ -22,6 +22,9 @@ class DatabaseHelper{
   static final columnStartDate = 'startDate';
   static final columnEndDate = 'endDate';
   static final columnExamDate = 'examDate';
+  static final columnColour = 'colour';
+  static final columnIcon = 'icon';
+  static final columnExtraInfo = 'extraInfo';
 
   // column names of workloads table
   static final columnWorkloadID= '_workloadID';
@@ -67,7 +70,10 @@ class DatabaseHelper{
       $columnDifficulty INTEGER , 
       $columnStartDate TEXT , 
       $columnEndDate TEXT , 
-      $columnExamDate TEXT)
+      $columnExamDate TEXT,
+      $columnColour TEXT, 
+      $columnIcon INTEGER, 
+      $columnExtraInfo TEXT)
       '''
     );
 
@@ -147,6 +153,9 @@ class DatabaseHelper{
         startDate: maps[i]['startDate'],
         endDate: maps[i]['endDate'],
         examDate: maps[i]['examDate'],
+        colour: maps[i]['colour'],
+        icon: maps[i]['icon'],
+        extraInfo: maps[i]['extraInfo']
       );
     });
   }
@@ -278,6 +287,26 @@ class DatabaseHelper{
         complete: queryResult[i]['complete'],
       );
     });
+  }
+
+  Future<Subject> returnSubjectForWorkload(String subjectToReturn) async{
+    // get a reference to the database
+    Database db = await instance.database;
+
+    // make a list of any subjects being asked for in the database
+    List queryResult = await db.rawQuery('SELECT * FROM $_subjectTableName WHERE $columnSubjectName="$subjectToReturn"');
+
+      return Subject(
+          name: queryResult[0]['SubjectName'],
+          workloads: queryResult[0]['NumberOfWorkloads'],
+          difficulty: queryResult[0]['Difficulty'],
+          startDate: queryResult[0]['startDate'],
+            endDate: queryResult[0]['endDate'],
+          examDate: queryResult[0]['examDate'],
+          colour: queryResult[0]['colour'],
+          icon: queryResult[0]['icon'],
+          extraInfo: queryResult[0]['extraInfo']
+      );
   }
 
 }

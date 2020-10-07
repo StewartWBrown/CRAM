@@ -29,6 +29,8 @@ dependencies:
   sqflite:
   path_provider:
   flutter_speed_dial: ^1.2.5
+  flutter_material_color_picker: ^1.0.5
+  flutter_iconpicker: ^2.1.5
 
 
 
