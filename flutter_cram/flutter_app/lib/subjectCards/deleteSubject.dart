@@ -4,7 +4,6 @@ import 'package:flutter_app/main/mainScreen.dart';
 import 'package:flutter_app/model/workload.dart';
 import 'addSubject.dart';
 import '../model/subject.dart';
-import 'expandSubjectCard.dart';
 import 'package:flutter_app/database/databaseHelper.dart';
 import '../main/main.dart';
 

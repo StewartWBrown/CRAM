@@ -9,6 +9,15 @@ class DashboardBody extends StatefulWidget {
   _DashboardState createState() => _DashboardState();
 }
 
+Subject getSubject(String subjectName, List<Subject> subjectList){
+  for (var i=0; i<subjectList.length; i++) {
+    if(subjectList[i].name == subjectName){
+      return subjectList[i];
+    }
+  }
+  return null;
+}
+
 class _DashboardState extends State<DashboardBody>{
 
   String currentDate = new DateFormat.d().format(new DateTime.now()).toString();
@@ -68,21 +77,26 @@ class _DashboardState extends State<DashboardBody>{
                   ),
                 ),
 
-                Expanded(
-                  child: new Container(
-                    color: new Color(0xFF0c6f96),
-                    child: new CustomScrollView(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: false,
-                      slivers: <Widget>[
-                        new SliverPadding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 24.0),
-                          sliver: new SliverList(
-                            delegate: new SliverChildBuilderDelegate(
-                                  (context, index) =>
-                              new WorkloadRow(localWorkloads[index]),
-                              childCount: localWorkloads.length,
+                          Expanded(
+                            child: new Container(
+                              color: new Color(0xFF0c6f96),
+                              child: new CustomScrollView(
+                                scrollDirection: Axis.vertical,
+                                shrinkWrap: false,
+                                slivers: <Widget>[
+                                  new SliverPadding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 24.0),
+                                    sliver: new SliverList(
+                                      delegate: new SliverChildBuilderDelegate(
+                                            (context, index) =>
+                                        new WorkloadRow(workloads[index], getSubject(workloads[index].subject, subjects) ),
+                                        childCount: workloads.length,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),

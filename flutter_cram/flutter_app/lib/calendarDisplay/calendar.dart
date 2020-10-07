@@ -16,6 +16,16 @@ class Calendar extends StatefulWidget{
   _CalendarState createState() => _CalendarState();
 }
 
+Subject getSubject(String subjectName, List<Subject> subjectList){
+  for (var i=0; i<subjectList.length; i++) {
+    if(subjectList[i].name == subjectName){
+      return subjectList[i];
+    }
+  }
+  return null;
+}
+
+
 class _CalendarState extends State<Calendar>{
   CalendarController _controller;
   Map<DateTime, Map<String, List<Workload>>> _calendar;
