@@ -130,6 +130,42 @@ class _CalendarState extends State<Calendar>{
               }
             },
             builders: CalendarBuilders(
+              markersBuilder: (context, date, events, holidays) {
+                final children = <Widget>[];
+
+                if (events.isNotEmpty) {
+                  children.add(
+                    Positioned(
+                      right: 1,
+                      bottom: 1,
+                      child: _buildEventsMarker(date, events),
+                    ),
+                  );
+                }
+
+                if (holidays.isNotEmpty) {
+                  children.add(
+                    Positioned(
+                      right: -2,
+                      top: -2,
+                      child: _buildHolidaysMarker(),
+                    ),
+                  );
+                }
+
+                return children;
+              },
+
+//              singleMarkerBuilder: (context, date, event){
+//                int diffTotal = 0;
+//                for(String subj in _calendar[date].keys){
+//                  for(Workload wl in _calendar[date][subj]){
+//                    diffTotal += wl.workloadDifficulty;
+//                  }
+//                }
+//
+//                return Text(diffTotal.toString());
+//              }
             ),
           ),
 
@@ -138,6 +174,7 @@ class _CalendarState extends State<Calendar>{
           Align(
             alignment: Alignment.center,
             child: Container(
+              color: Colors.blue,
               child:
               Text(
                 "PLEASE SELECT A DATE!",
@@ -173,6 +210,42 @@ class _CalendarState extends State<Calendar>{
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildEventsMarker(DateTime date, List events) {
+    int diffTotal = 0;
+    for(Workload wl in events){
+      diffTotal += wl.workloadDifficulty;
+    }
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: _controller.isSelected(date)
+            ? Colors.brown[500]
+            : _controller.isToday(date) ? Colors.brown[300] : Colors.blue[400],
+      ),
+      width: 16.0,
+      height: 16.0,
+      child: Center(
+        child: Text(
+          diffTotal.toString(),
+          style: TextStyle().copyWith(
+            color: Colors.white,
+            fontSize: 12.0,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHolidaysMarker() {
+    return Icon(
+      Icons.add_box,
+      size: 20.0,
+      color: Colors.blueGrey[800],
     );
   }
 
