@@ -11,6 +11,7 @@ import 'mainScreen.dart';
 List<Subject> localSubjects;
 List<Workload> localWorkloads;
 List localSkipDays;
+int wlID;
 
 class FutureArea extends StatelessWidget{
 
@@ -39,25 +40,31 @@ class FutureArea extends StatelessWidget{
             default:
               List<Subject> subjects = snapshot.data[0] ?? [];
               List<Workload> workloads = snapshot.data[1] ?? [];
-              print("FUTURE WORKLOADS: ");
-              for(Workload wl in workloads){
-                print(wl.workloadName + " - " + wl.workloadDate);
-              }
               List skipDays = snapshot.data[2] ?? [];
 
               subjects.isNotEmpty ? localSubjects = subjects : localSubjects = [];
               workloads.isNotEmpty ? localWorkloads = workloads : localWorkloads = [];
               localSkipDays = skipDays;
 
-//              for (Workload wl in workloads){
-//                print(wl.workloadName);
-//              }
-//
-//              print("local:");
-//
-//              for (Workload wl in localWorkloads){
-//                print(wl.workloadName);
-//              }
+              workloads.isNotEmpty ? wlID = workloads.last.workloadID + 1 : wlID = 0;
+
+              print(wlID);
+
+              print("subjects:");
+              for(Subject s in subjects){
+                print(s.name);
+              }
+
+              print("database:");
+              for (Workload wl in workloads){
+                print(wl.workloadName);
+              }
+
+              print("local:");
+
+              for (Workload wl in localWorkloads){
+                print(wl.workloadName);
+              }
 
               return Column(
                 children: <Widget>[

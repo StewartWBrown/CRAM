@@ -306,7 +306,7 @@ class Spread {
 
     //update local workloads list
     for(Workload localWl in localWorkloads){
-      if(localWl.workloadID == wl.workloadID){
+      if(localWl.workloadName == wl.workloadName){
         localWl.workloadDate = newDate;
         break;
       }

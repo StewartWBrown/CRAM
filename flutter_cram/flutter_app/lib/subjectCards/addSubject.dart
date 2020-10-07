@@ -36,7 +36,6 @@ class _AddSubjectState extends State<AddSubject> {
   DateTime startPicker;
   DateTime endPicker;
   DateTime examPicker;
-  Future<List<Workload>> workloads = updateWorkloadList();
 
   int isDuplicate;
 
@@ -276,18 +275,29 @@ class _AddSubjectState extends State<AddSubject> {
                                 complete: 0,
                               );
 
+                              var newLocalWorkload = Workload(
+                                workloadID: wlID,
+                                subject: tempName,
+                                workloadName: "$tempName workload $counter",
+                                workloadNumber: counter,
+                                workloadDifficulty: tempDifficulty,
+                                workloadDate: "NONE",
+                                complete: 0,
+                              );
+
                               // Add workload instance to database
+                              print("db: " + newWorkload.workloadName);
+                              print("local: " + newLocalWorkload.workloadName);
+
                               await DatabaseHelper.instance.insertWorkload(newWorkload);
-                              localWorkloads.add(newWorkload);
+                              localWorkloads.add(newLocalWorkload);
+                              wlID += 1;
                             }
                           }
                           })
                     ]))),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            for(Workload wl in localWorkloads){
-              print(wl.workloadName);
-            }
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => MainScreen()));
           },
           label: Text('Done'),
