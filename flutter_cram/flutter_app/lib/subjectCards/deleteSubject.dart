@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/main/futureArea.dart';
+import 'package:flutter_app/main/mainScreen.dart';
 import 'package:flutter_app/model/workload.dart';
 import 'addSubject.dart';
 import '../model/subject.dart';
@@ -40,7 +41,9 @@ class DeleteSubject extends StatelessWidget{
 
             //delete from local lists
             localSubjects.remove(subject);
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => CramApp()));
+            deleteWorkloadsFromLocal(subject);
+
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => MainScreen()));
           },
         )
 
@@ -59,9 +62,9 @@ class DeleteSubject extends StatelessWidget{
 deleteWorkloadsFromLocal(Subject s){
   List<Workload> cloneWl = List<Workload>.from(localWorkloads);
 
-  for (Workload wl in localWorkloads){
-    if(wl.subject == s.name){
-      localWorkloads.remove(wl);
+  for(int i=localWorkloads.length-1; i>=0; i--){
+    if(cloneWl[i].subject == s.name){
+      localWorkloads.remove(localWorkloads[i]);
     }
   }
 }

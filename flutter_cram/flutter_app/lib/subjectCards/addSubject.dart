@@ -285,6 +285,9 @@ class _AddSubjectState extends State<AddSubject> {
                     ]))),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
+            for(Workload wl in localWorkloads){
+              print(wl.workloadName);
+            }
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => MainScreen()));
           },
           label: Text('Done'),

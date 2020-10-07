@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/main/futureArea.dart';
+import 'package:flutter_app/main/mainScreen.dart';
 import 'package:flutter_app/main/spread.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'addSubject.dart';
@@ -10,10 +11,7 @@ class SubjectBody extends StatefulWidget {
   _SubjectBodyState createState() => _SubjectBodyState();
 }
 
-class _SubjectBodyState extends State<SubjectBody> with AutomaticKeepAliveClientMixin<SubjectBody>{
-
-  @override
-  bool get wantKeepAlive => true;
+class _SubjectBodyState extends State<SubjectBody>{
 
   @override
   void initState() {
@@ -22,7 +20,6 @@ class _SubjectBodyState extends State<SubjectBody> with AutomaticKeepAliveClient
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     if (localSubjects.isEmpty) {
       return Scaffold(
         floatingActionButton: FloatingActionButton.extended(
@@ -69,6 +66,7 @@ class _SubjectBodyState extends State<SubjectBody> with AutomaticKeepAliveClient
                   backgroundColor: Color(0xFF801E48),
                   onTap: () {
                     Spread().spread(localSubjects, localWorkloads, List());
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => MainScreen()));
                   },
                   label: 'Spread Workloads',
                   labelStyle: TextStyle(

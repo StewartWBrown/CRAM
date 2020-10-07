@@ -9,13 +9,10 @@ class DashboardBody extends StatefulWidget {
   _DashboardState createState() => _DashboardState();
 }
 
-class _DashboardState extends State<DashboardBody> with AutomaticKeepAliveClientMixin<DashboardBody>{
+class _DashboardState extends State<DashboardBody>{
 
   String currentDate = new DateFormat.d().format(new DateTime.now()).toString();
   String currentMonth = new DateFormat.MMMM().format(new DateTime.now()).toString();
-
-  @override
-  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -24,7 +21,6 @@ class _DashboardState extends State<DashboardBody> with AutomaticKeepAliveClient
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     if (localSubjects.isEmpty) {
       return Scaffold(
         // Action Button at bottom

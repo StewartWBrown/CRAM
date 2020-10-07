@@ -39,11 +39,25 @@ class FutureArea extends StatelessWidget{
             default:
               List<Subject> subjects = snapshot.data[0] ?? [];
               List<Workload> workloads = snapshot.data[1] ?? [];
+              print("FUTURE WORKLOADS: ");
+              for(Workload wl in workloads){
+                print(wl.workloadName + " - " + wl.workloadDate);
+              }
               List skipDays = snapshot.data[2] ?? [];
 
               subjects.isNotEmpty ? localSubjects = subjects : localSubjects = [];
               workloads.isNotEmpty ? localWorkloads = workloads : localWorkloads = [];
               localSkipDays = skipDays;
+
+//              for (Workload wl in workloads){
+//                print(wl.workloadName);
+//              }
+//
+//              print("local:");
+//
+//              for (Workload wl in localWorkloads){
+//                print(wl.workloadName);
+//              }
 
               return Column(
                 children: <Widget>[
