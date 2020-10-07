@@ -10,6 +10,7 @@ class WorkloadRow extends StatelessWidget {
   final Workload workload;
   final Subject subject;
 
+
   var dateFormExamDate;
   
   WorkloadRow(this.workload, this.subject);
@@ -63,7 +64,9 @@ class WorkloadRow extends StatelessWidget {
               ),
             ),
           new Container(height: 10.0),
+
           workload.complete == 0 ? Text(workload.workloadDate == "NONE" ? "NO DATE" : new DateFormat.yMMMd().format(dateFormExamDate)):
+
             Text("COMPLETE"),
           new Container(
               margin: new EdgeInsets.symmetric(vertical: 8.0),
