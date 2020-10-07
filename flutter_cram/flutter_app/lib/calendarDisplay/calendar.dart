@@ -2,14 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/calendarDisplay/completedWorkloads.dart';
 import 'package:flutter_app/calendarDisplay/skipDates.dart';
+import 'package:flutter_app/main/futureArea.dart';
 import 'package:flutter_app/subjectCards/workloadRow.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:table_calendar/table_calendar.dart';
-import '../subjectCards/addSubject.dart';
 import '../main/mainScreen.dart';
-import '../model/subject.dart';
 import '../model/workload.dart';
-import 'expandWorkload.dart';
 
 
 class Calendar extends StatefulWidget{
@@ -33,17 +31,12 @@ class _CalendarState extends State<Calendar>{
   Map<DateTime, Map<String, List<Workload>>> _calendar;
   Map<DateTime, List<Workload>> _events;
   List<Workload> _selectedEvents;
-  Future<List<Workload>> _workloads;
-  Future<List<Subject>> _subjects;
-  ExpandWorkload _expandWorkload;
   CompletedWorkloads _completedWorkloads;
   bool _initial;
 
   @override
   void initState() {
     super.initState();
-    _workloads = updateWorkloadList();
-    _subjects = updateSubjectList();
     _controller = CalendarController();
     _selectedEvents = [];
     _initial = true;
@@ -51,152 +44,134 @@ class _CalendarState extends State<Calendar>{
 
   @override
   Widget build(BuildContext context){
+    _calendar = downloadCalendar(localWorkloads);
+    _events = createEvents();
+
     return Scaffold(
-      body: FutureBuilder(
-        future: Future.wait([_subjects, _workloads]),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-            case ConnectionState.waiting:
-              return Center(
-                  child: CircularProgressIndicator()
-              );
-            default:
-              List<Subject> subjects = snapshot.data[0] ?? [];
-              List<Workload> workloads = snapshot.data[1] ?? [];
+      floatingActionButton: SpeedDial(
+        animatedIcon: AnimatedIcons.menu_close,
+        animatedIconTheme: IconThemeData(size: 22),
+        backgroundColor: Color(0xFF801E48),
+        visible: true,
+        curve: Curves.bounceIn,
+        children: [
+          // FAB 1
+          SpeedDialChild(
+              child: Icon(Icons.add),
+              backgroundColor: Color(0xFF801E48),
+              onTap: () {
 
-              _calendar = downloadCalendar(workloads);
-              _events = createEvents();
+                _completedWorkloads = CompletedWorkloads(localWorkloads);
+                showDialog(context: context,
+                  barrierDismissible: true,
+                  builder: (BuildContext context) {
+                    return _completedWorkloads;
+                  },
+                );
 
-              return Scaffold(
-                  floatingActionButton: SpeedDial(
-                    animatedIcon: AnimatedIcons.menu_close,
-                    animatedIconTheme: IconThemeData(size: 22),
-                    backgroundColor: Color(0xFF801E48),
-                    visible: true,
-                    curve: Curves.bounceIn,
-                    children: [
-                      // FAB 1
-                      SpeedDialChild(
-                          child: Icon(Icons.add),
-                          backgroundColor: Color(0xFF801E48),
-                          onTap: () {
+              },
+              label: 'Completed Workloads',
+              labelStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                  fontSize: 16.0),
+              labelBackgroundColor: Color(0xFF801E48)
+          ),
+          // FAB 2
+          SpeedDialChild(
+              child: Icon(Icons.skip_next),
+              backgroundColor: Color(0xFF801E48),
+              onTap: () {
+                var skipDates = SkipDates();
+                showDialog(context: context,
+                  barrierDismissible: true,
+                  builder: (BuildContext context) {
+                    return skipDates;
+                  },
+                );
 
-                            _completedWorkloads = CompletedWorkloads(workloads);
-                            showDialog(context: context,
-                              barrierDismissible: true,
-                              builder: (BuildContext context) {
-                                return _completedWorkloads;
-                              },
-                            );
+              },
+              label: 'Skip Days',
+              labelStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                  fontSize: 16.0),
+              labelBackgroundColor: Color(0xFF801E48)),
+        ],
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          TableCalendar (
+            initialSelectedDay: mostRecentlyVisitedDay,
+            startingDayOfWeek: StartingDayOfWeek.monday,
+            initialCalendarFormat: CalendarFormat.week,
+            events: _events,
+            calendarController: _controller,
+            calendarStyle: CalendarStyle(
+              todayColor: Colors.orange,
+            ),
+            headerStyle: HeaderStyle(
+              formatButtonVisible: false,
+            ),
+            onDaySelected: (date, events){
+              _initial = false;
+              mostRecentlyVisitedDay = date;
+              if(events.isNotEmpty) {
+                setState(() {
+                  _selectedEvents = events;
+                });
+              }
+              else{
+                setState(() {
+                  _selectedEvents = [];
+                });
+              }
+            },
+            builders: CalendarBuilders(
+            ),
+          ),
 
-                          },
-                          label: 'Completed Workloads',
-                          labelStyle: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                              fontSize: 16.0),
-                          labelBackgroundColor: Color(0xFF801E48)
+          //if initial state, ask user to select a date, else display current date's events
+          _initial == true ?
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              child:
+              Text(
+                "PLEASE SELECT A DATE!",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30.0,
+                ),
+              ),
+            ),
+          ) :
+
+          Expanded(
+            child: new Container(
+              color: new Color(0xFF0c6f96),
+              child: new CustomScrollView(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: false,
+                slivers: <Widget>[
+                  new SliverPadding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 24.0),
+                    sliver: new SliverList(
+                      delegate: new SliverChildBuilderDelegate(
+                            (context, index) =>
+                        new WorkloadRow(_selectedEvents[index]),
+                        childCount: _selectedEvents.length,
                       ),
-                      // FAB 2
-                      SpeedDialChild(
-                          child: Icon(Icons.skip_next),
-                          backgroundColor: Color(0xFF801E48),
-                          onTap: () {
-                            var skipDates = SkipDates();
-                            showDialog(context: context,
-                              barrierDismissible: true,
-                              builder: (BuildContext context) {
-                                return skipDates;
-                              },
-                            );
-
-                          },
-                          label: 'Skip Days',
-                          labelStyle: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                              fontSize: 16.0),
-                          labelBackgroundColor: Color(0xFF801E48)),
-                    ],
+                    ),
                   ),
-                  body: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      TableCalendar (
-                        initialSelectedDay: mostRecentlyVisitedDay,
-                        startingDayOfWeek: StartingDayOfWeek.monday,
-                        initialCalendarFormat: CalendarFormat.week,
-                        events: _events,
-                        calendarController: _controller,
-                        calendarStyle: CalendarStyle(
-                          todayColor: Colors.orange,
-                        ),
-                        headerStyle: HeaderStyle(
-                          formatButtonVisible: false,
-                        ),
-                        onDaySelected: (date, events){
-                          _initial = false;
-                          mostRecentlyVisitedDay = date;
-                          if(events.isNotEmpty) {
-                            setState(() {
-                              _selectedEvents = events;
-                            });
-                          }
-                          else{
-                            setState(() {
-                              _selectedEvents = [];
-                            });
-                          }
-                        },
-                        builders: CalendarBuilders(
-                        ),
-                      ),
-
-                      //if initial state, ask user to select a date, else display current date's events
-                      _initial == true ?
-                        Align(
-                          alignment: Alignment.center,
-                          child: Container(
-                            child:
-                            Text(
-                              "PLEASE SELECT A DATE!",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 30.0,
-                              ),
-                            ),
-                          ),
-                        ) :
-
-                        Expanded(
-                          child: new Container(
-                            color: new Color(0xFF0c6f96),
-                            child: new CustomScrollView(
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: false,
-                              slivers: <Widget>[
-                                new SliverPadding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 24.0),
-                                  sliver: new SliverList(
-                                    delegate: new SliverChildBuilderDelegate(
-                                          (context, index) =>
-                                      new WorkloadRow(_selectedEvents[index], getSubject(_selectedEvents[index].subject, subjects)),
-                                      childCount: _selectedEvents.length,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                    ],
-                  ),
-              );
-          }
-        }
-        ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

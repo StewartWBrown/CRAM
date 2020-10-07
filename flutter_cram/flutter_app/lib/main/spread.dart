@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter_app/database/databaseHelper.dart';
+import 'package:flutter_app/main/futureArea.dart';
 import 'package:flutter_app/model/subject.dart';
 import 'package:flutter_app/model/workload.dart';
 
@@ -47,31 +48,27 @@ class Spread {
         if(!skipDates.contains(dateToStore)){
           calendar.putIfAbsent(dateToStore, () => Map<String, List<Workload>>());
         }
-        dateToStore = dateToStore.add(Duration(days: 1));
+//        dateToStore = dateToStore.add(Duration(days: 1));
+        dateToStore = DateTime(dateToStore.year, dateToStore.month, dateToStore.day+1);
+
       }
 
       //Finds evenly spread out values between 0.0 and total available days.
       //startDate + the floor of each value is the date a workload is to be completed
       for (double i = 0.0; (i <= totalDays + 0.001); i += totalDays / remainingWlNo) {
-        dateToStore = startDate.add(new Duration(days: (i + skipValue).floor()));
+//        dateToStore = startDate.add(new Duration(days: (i + skipValue).floor()));
+        dateToStore = DateTime(startDate.year, startDate.month, startDate.day+(i + skipValue).floor());
         while (skipDates.contains(dateToStore)) {
           skipValue += 1.0;
-          dateToStore = startDate.add(new Duration(days: (i + skipValue).floor()));
+//          dateToStore = startDate.add(new Duration(days: (i + skipValue).floor()));
+          dateToStore = DateTime(startDate.year, startDate.month, startDate.day+(i + skipValue).floor());
+
         }
         if (dateToStore.isAfter(endDate)) {
           while (skipDates.contains(dateToStore) || dateToStore.isAfter(endDate)) {
-            dateToStore = dateToStore.subtract(new Duration(days: 1));
+            dateToStore = DateTime(dateToStore.year, dateToStore.month, dateToStore.day-1);
           }
         }
-
-
-//        print("remaining wl no: " + remainingWlNo.toString());
-//        print("i: " + i.toString());
-//        print("work pos: " + workPosition.toString());
-//        print("max work pos: " + (initialWorkPos+remainingWlNo).toString());
-//        print("workload: " + workloads[workPosition].workloadName);
-//        print("date to store: " + dateToStore.toString());
-//        print("\n");
 
         //find next available workload that is NOT completed and assign it to dateToStore.
         while(workloads[workPosition].complete==1){
@@ -82,6 +79,14 @@ class Spread {
             break;
           }
         }
+
+        print("remaining wl no: " + remainingWlNo.toString());
+        print("i: " + i.toString());
+        print("work pos: " + workPosition.toString());
+        print("max work pos: " + (initialWorkPos+remainingWlNo).toString());
+        print("workload: " + workloads[workPosition].workloadName);
+        print("date to store: " + dateToStore.toString());
+        print("\n");
 
         workloads[workPosition].workloadDate = dateToStore.toString();
 
@@ -102,18 +107,13 @@ class Spread {
       initialWorkPos = workPosition;
     }
 
-    calendar = secondarySpread(calendar, subjects, workloads);
-    calendar = secondarySpread(calendar, subjects, workloads);
-    calendar = secondarySpread(calendar, subjects, workloads);
-    calendar = secondarySpread(calendar, subjects, workloads);
-
-    //PRETTY PRINT FOR TESTING ------------------------------------------------------------------------
+//    //PRETTY PRINT FOR TESTING ------------------------------------------------------------------------
 //    for (DateTime date in calendar.keys) {
 //      int weight = 0;
 //      print(date);
 //      for (String subj in calendar[date].keys) {
 //        for (Workload wl in calendar[date][subj]) {
-//          print(subj + ": " + wl.workloadName + wl.workloadDate);
+//          print(subj + ": " + wl.workloadName + " - " + wl.workloadDate);
 //          weight += wl.workloadDifficulty;
 //        }
 //      }
@@ -122,13 +122,17 @@ class Spread {
 //          "_______________________________________________________________________");
 //    }
 
+    calendar = secondarySpread(calendar, subjects, workloads);
+    calendar = secondarySpread(calendar, subjects, workloads);
+    calendar = secondarySpread(calendar, subjects, workloads);
+    calendar = secondarySpread(calendar, subjects, workloads);
+
     //Set date of complete workloads to NONE
     for(Workload wl in workloads){
       if(wl.complete == 1){
         updateWl(wl, null);
       }
     }
-
   }
 
   //secondary spreading - taking difficulty into account
@@ -288,6 +292,7 @@ class Spread {
     if(date != null){
       newDate = date.toString();
     }
+    //update workloads database table
     var updatedWorkload = Workload(
       workloadID : wl.workloadID,
       subject : wl.subject,
@@ -298,5 +303,13 @@ class Spread {
       complete : wl.complete,
     );
     DatabaseHelper.instance.updateWorkload(updatedWorkload);
+
+    //update local workloads list
+    for(Workload localWl in localWorkloads){
+      if(localWl.workloadName == wl.workloadName){
+        localWl.workloadDate = newDate;
+        break;
+      }
+    }
   }
 }

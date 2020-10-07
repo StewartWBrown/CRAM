@@ -1,15 +1,16 @@
 import 'package:flutter_app/database/databaseHelper.dart';
+import 'package:flutter_app/main/futureArea.dart';
 import 'package:flutter_app/main/mainScreen.dart';
 import 'package:flutter_app/model/subject.dart';
 
 class Workload {
-  final int workloadID;
-  final String subject;
-  final String workloadName;
-  final int workloadNumber;
+  int workloadID;
+  String subject;
+  String workloadName;
+  int workloadNumber;
   String workloadDate;
   int workloadDifficulty;
-  final int complete;
+  int complete;
 
   Workload(
       {this.workloadID, this.subject, this.workloadName, this.workloadNumber, this.workloadDate, this.workloadDifficulty, this.complete});

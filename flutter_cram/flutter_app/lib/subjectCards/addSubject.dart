@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/main/futureArea.dart';
 import 'package:flutter_app/main/mainScreen.dart';
 import 'package:flutter_app/model/subject.dart';
 import 'package:intl/intl.dart';
@@ -45,7 +46,6 @@ class _AddSubjectState extends State<AddSubject> {
   DateTime startPicker;
   DateTime endPicker;
   DateTime examPicker;
-  Future<List<Workload>> workloads = updateWorkloadList();
 
   int isDuplicate;
 
@@ -364,13 +364,14 @@ class _AddSubjectState extends State<AddSubject> {
                           }
                           else {
                             // Add subject object to database
-                            await DatabaseHelper.instance.insertSubject(
-                                newSubject);
+                            await DatabaseHelper.instance.insertSubject(newSubject);
+
+                            // Add subject to local Subject list
+                            localSubjects.add(newSubject);
 
                             // Create workload object for each workload to be created
                             // the for loop is ugly here (starting at 1 instead of 0) because the workload number should start from 1
-                            for (var counter = 1; counter <
-                                tempWorkloads + 1; counter++) {
+                            for (var counter = 1; counter < tempWorkloads + 1; counter++) {
                               var newWorkload = Workload(
                                 workloadID: null,
                                 subject: tempName,
@@ -381,8 +382,23 @@ class _AddSubjectState extends State<AddSubject> {
                                 complete: 0,
                               );
 
+                              var newLocalWorkload = Workload(
+                                workloadID: wlID,
+                                subject: tempName,
+                                workloadName: "$tempName workload $counter",
+                                workloadNumber: counter,
+                                workloadDifficulty: tempDifficulty,
+                                workloadDate: "NONE",
+                                complete: 0,
+                              );
+
                               // Add workload instance to database
+                              print("db: " + newWorkload.workloadName);
+                              print("local: " + newLocalWorkload.workloadName);
+
                               await DatabaseHelper.instance.insertWorkload(newWorkload);
+                              localWorkloads.add(newLocalWorkload);
+                              wlID += 1;
                             }
                           }
                           })

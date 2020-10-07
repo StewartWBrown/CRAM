@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/calendarDisplay/calendar.dart';
 import 'package:flutter_app/database/databaseHelper.dart';
+import 'package:flutter_app/main/futureArea.dart';
 import 'package:flutter_app/main/mainScreen.dart';
 import 'package:flutter_app/model/workload.dart';
 
@@ -86,6 +86,14 @@ class _ExpandWorkloadState extends State<ExpandWorkload> {
     }
     else{
       val=1;
+    }
+
+    //UPDATE DATE INTO LOCAL WORKLOADS LIST
+    for(Workload localWl in localWorkloads){
+      if(localWl.workloadID == wl.workloadID){
+        localWl.complete = val;
+        break;
+      }
     }
 
     //UPDATE DATE INTO WORKLOADS TABLE HERE
