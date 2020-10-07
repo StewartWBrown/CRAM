@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/calendarDisplay/expandWorkload.dart';
-import 'package:flutter_app/database/databaseHelper.dart';
 import 'package:flutter_app/model/subject.dart';
 import 'package:flutter_app/model/workload.dart';
 import 'package:intl/intl.dart';

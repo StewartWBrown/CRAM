@@ -80,13 +80,13 @@ class Spread {
           }
         }
 
-        print("remaining wl no: " + remainingWlNo.toString());
-        print("i: " + i.toString());
-        print("work pos: " + workPosition.toString());
-        print("max work pos: " + (initialWorkPos+remainingWlNo).toString());
-        print("workload: " + workloads[workPosition].workloadName);
-        print("date to store: " + dateToStore.toString());
-        print("\n");
+//        print("remaining wl no: " + remainingWlNo.toString());
+//        print("i: " + i.toString());
+//        print("work pos: " + workPosition.toString());
+//        print("max work pos: " + (initialWorkPos+remainingWlNo).toString());
+//        print("workload: " + workloads[workPosition].workloadName);
+//        print("date to store: " + dateToStore.toString());
+//        print("\n");
 
         workloads[workPosition].workloadDate = dateToStore.toString();
 

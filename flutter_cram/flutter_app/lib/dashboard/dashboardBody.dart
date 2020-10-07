@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/main/futureArea.dart';
+import 'package:flutter_app/model/subject.dart';
 import 'package:flutter_app/subjectCards/workloadRow.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:intl/intl.dart';
@@ -90,8 +91,8 @@ class _DashboardState extends State<DashboardBody>{
                                     sliver: new SliverList(
                                       delegate: new SliverChildBuilderDelegate(
                                             (context, index) =>
-                                        new WorkloadRow(workloads[index], getSubject(workloads[index].subject, subjects) ),
-                                        childCount: workloads.length,
+                                        new WorkloadRow(localWorkloads[index], getSubject(localWorkloads[index].subject, localSubjects) ),
+                                        childCount: localWorkloads.length,
                                       ),
                                     ),
                                   ),
@@ -99,14 +100,9 @@ class _DashboardState extends State<DashboardBody>{
                               ),
                             ),
                           ),
+                                ],
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-              ])
       );
-
     }
 
   }

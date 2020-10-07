@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/calendarDisplay/completedWorkloads.dart';
 import 'package:flutter_app/calendarDisplay/skipDates.dart';
 import 'package:flutter_app/main/futureArea.dart';
+import 'package:flutter_app/model/subject.dart';
 import 'package:flutter_app/subjectCards/workloadRow.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -161,7 +162,7 @@ class _CalendarState extends State<Calendar>{
                     sliver: new SliverList(
                       delegate: new SliverChildBuilderDelegate(
                             (context, index) =>
-                        new WorkloadRow(_selectedEvents[index]),
+                        new WorkloadRow(_selectedEvents[index], getSubject(_selectedEvents[index].subject, localSubjects)),
                         childCount: _selectedEvents.length,
                       ),
                     ),

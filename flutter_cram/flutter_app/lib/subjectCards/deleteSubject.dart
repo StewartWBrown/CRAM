@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/main/futureArea.dart';
 import 'package:flutter_app/main/mainScreen.dart';
 import 'package:flutter_app/model/workload.dart';
-import 'addSubject.dart';
 import '../model/subject.dart';
 import 'package:flutter_app/database/databaseHelper.dart';
-import '../main/main.dart';
 
 class DeleteSubject extends StatelessWidget{
   final Subject subject;

@@ -48,24 +48,6 @@ class FutureArea extends StatelessWidget{
 
               workloads.isNotEmpty ? wlID = workloads.last.workloadID + 1 : wlID = 0;
 
-              print(wlID);
-
-              print("subjects:");
-              for(Subject s in subjects){
-                print(s.name);
-              }
-
-              print("database:");
-              for (Workload wl in workloads){
-                print(wl.workloadName);
-              }
-
-              print("local:");
-
-              for (Workload wl in localWorkloads){
-                print(wl.workloadName);
-              }
-
               return Column(
                 children: <Widget>[
                   Text(
